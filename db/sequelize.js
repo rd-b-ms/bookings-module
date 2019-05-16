@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 
 const sequelize = new Sequelize('booking_portal', 'root', 'root', {
   host: 'localhost',
-  dialect: 'mysql'
+  dialect: 'mysql',
 });
 
 const Listing = sequelize.define('listing', {
@@ -10,27 +10,31 @@ const Listing = sequelize.define('listing', {
   listing_id: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
-    primaryKey: true
+    primaryKey: true,
   },
   price: Sequelize.INTEGER,
   num_reviews: Sequelize.INTEGER,
   avg_rating: Sequelize.INTEGER,
   service_fee_pct: Sequelize.INTEGER,
   min_nights: Sequelize.INTEGER,
-  max_guests: Sequelize.INTEGER
+  max_guests: Sequelize.INTEGER,
 });
 
 const Availability = sequelize.define('availability', {
   // attributes
   listing_id: {
     type: Sequelize.INTEGER,
-    references: 'listings',
-    referencesKey: 'listing_id'
+    references: {
+      model: 'listings',
+      key: 'listing_id',
+    },
   },
   from_date: Sequelize.DATE,
-  to_date: Sequelize.DATE
+  to_date: Sequelize.DATE,
 });
 
 Listing.hasMany(Availability);
 
-module.exports = {Listing, Availability};
+sequelize.sync();
+
+module.exports = { Listing, Availability };
