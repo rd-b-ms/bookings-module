@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Calendar from './calendar.jsx';
 
 class BookingPortal extends React.Component {
   constructor(props) {
@@ -7,7 +8,9 @@ class BookingPortal extends React.Component {
   }
 
   render() {
-    return (<div>Booking Portal</div>);
+    return (<div>
+      <Calendar />
+    </div>);
   }
 }
 
