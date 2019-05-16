@@ -1,7 +1,7 @@
 module.exports = {
   env: {
     browser: true,
-    commonjs: true,
+    node: true,
     es6: true,
   },
   extends: 'airbnb',
@@ -14,6 +14,7 @@ module.exports = {
       jsx: true,
     },
     ecmaVersion: 2018,
+    sourceType: 'module',
   },
   plugins: [
     'react',

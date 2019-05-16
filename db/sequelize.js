@@ -35,6 +35,6 @@ const Availability = sequelize.define('availability', {
 
 Listing.hasMany(Availability);
 
-sequelize.sync();
+const sync = sequelize.sync({ force: true });
 
-module.exports = { Listing, Availability };
+module.exports = { sync, Listing, Availability };

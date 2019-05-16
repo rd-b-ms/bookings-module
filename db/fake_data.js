@@ -1,9 +1,20 @@
-import faker from 'faker';
-import db from './sequelize';
+const faker = require('faker');
+const db = require('./sequelize');
 
 const listingData = [];
+const availabilityData = [];
 
-for (let i = 0; i < 101; i + 1) {
+function formatDate(date) {
+  const mm = date.getMonth() + 1;
+  const dd = date.getDate();
+
+  return [date.getFullYear(),
+    (mm > 9 ? '' : '0') + mm,
+    (dd > 9 ? '' : '0') + dd,
+  ].join('-');
+}
+
+for (let i = 0; i < 101; i += 1) {
   const listing = {
     price: faker.random.number({ min: 30, max: 1000 }),
     num_reviews: faker.random.number({ min: 0, max: 300 }),
@@ -15,4 +26,26 @@ for (let i = 0; i < 101; i + 1) {
   listingData.push(listing);
 }
 
-db.Listing.bulkCreate(listingData);
+for (let j = 0; j < 5; j += 1) {
+  const fromDate = faker.date.between('2019-06-01', '2019-12-29');
+  const fromDateTemp = new Date(fromDate.toDateString());
+  fromDateTemp.setDate(fromDateTemp.getDate() + 1);
+  const toDate = faker.date.between(formatDate(fromDateTemp), '2019-12-31');
+  const booking = {
+    listing_id: faker.random.number({ min: 1, max: 101 }),
+    from_date: fromDate,
+    to_date: toDate,
+  };
+  availabilityData.push(booking);
+}
+
+db.sync
+  .then(() => {
+    db.Listing.bulkCreate(listingData);
+  })
+  .then(() => {
+    db.Availability.bulkCreate(availabilityData);
+  })
+  .catch((err) => {
+    throw err;
+  });
