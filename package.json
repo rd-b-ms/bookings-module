@@ -6,10 +6,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon ./server/index.js",
-    "build": "webpack --mode production --watch"
+    "build": "webpack --mode development --watch",
+    "build-prod": "webpack --mode production"
   },
   "lint-staged": {
     "*.js": "eslint",
+    "*.jsx": "eslint",
     "*.css": "stylelint"
   },
   "husky": {

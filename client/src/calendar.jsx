@@ -16,9 +16,7 @@ class Calendar extends React.Component {
     super(props);
     this.state = {
       dateContext: moment(),
-      today: moment(),
     };
-    this.createHeader = this.getHeader.bind(this);
     this.weekdaysShort = moment.weekdaysShort();
     this.months = moment.months();
   }
@@ -68,14 +66,28 @@ class Calendar extends React.Component {
     const bodyTable = [];
 
     for (let i = 0; i < firstDay; i += 1) {
-      bodyArr.push(<td className="blank-day">{' '}</td>);
+      bodyArr.push(<td className="blank-day" key={`blank-day-${i}`}>{' '}</td>);
     }
 
-    for (let j = 1; j <= this.getDaysInMonth; j += 1) {
-      bodyArr.push(<td className="day"><span>{j}</span></td>);
+    for (let j = 1; j <= this.getDaysInMonth(); j += 1) {
+      bodyArr.push(<td className="day" key={`day-${j}`}><span>{j}</span></td>);
     }
 
-    return bodyArr;
+    let row = [];
+    for (let k = 0; k < bodyArr.length; k += 1) {
+      if (k % 7 !== 0) {
+        row.push(bodyArr[k]);
+      } else {
+        const trRow = <tr key={`row-${k}`}>{row}</tr>;
+        bodyTable.push(trRow);
+        row = [bodyArr[k]];
+      }
+      if (k === bodyArr.length - 1) {
+        const trRow = <tr key={`row-${k}`}>{row}</tr>;
+        bodyTable.push(trRow);
+      }
+    }
+    return bodyTable;
   }
 
 
@@ -84,10 +96,11 @@ class Calendar extends React.Component {
       <div className="calendar-container">
         <table className="calendar">
           <thead>
-            <tr className="calendar-header"> </tr>
+            <tr className="calendar-header"><th>May</th></tr>
           </thead>
           <tbody>
-            {this.createHeader()}
+            <tr>{this.createHeader()}</tr>
+            {this.createBody()}
           </tbody>
         </table>
       </div>
