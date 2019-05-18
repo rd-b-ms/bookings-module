@@ -39,7 +39,7 @@ for (let j = 0; j < 5; j += 1) {
   availabilityData.push(booking);
 }
 
-db.sync
+db.sequelize.sync({ force: true })
   .then(() => {
     db.Listing.bulkCreate(listingData);
   })
