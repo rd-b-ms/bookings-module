@@ -19,6 +19,10 @@ const HeaderButton = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  &:hover {
+    border-color: rgb(117, 117, 117);
+  }
 `;
 
 const MonthYearHeader = styled.td`
@@ -49,6 +53,10 @@ const DayGrid = styled.td`
   color: rgb(72, 72, 72);
   width: 40px;
   height: 40px;
+
+  &:hover {
+    background: rgb(228, 231, 231);
+  }
 `;
 
 class Calendar extends React.Component {

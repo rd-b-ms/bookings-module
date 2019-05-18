@@ -8,8 +8,6 @@ class BookingPortal extends React.Component {
     super(props);
     this.state = {
       currentListing: null,
-      fromDate: null,
-      toDate: null,
     };
   }
 
