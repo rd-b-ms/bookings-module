@@ -17,6 +17,7 @@ class Calendar extends React.Component {
     this.weekdaysShort = moment.weekdaysShort();
     this.months = moment.months();
     this.handleRightButtonClick = this.handleRightButtonClick.bind(this);
+    this.handleLeftButtonClick = this.handleLeftButtonClick.bind(this);
   }
 
   getYear() {
@@ -52,9 +53,18 @@ class Calendar extends React.Component {
 
   handleRightButtonClick() {
     const { dateContext } = this.state;
-    console.log('hello');
     const newdataContext = dateContext.add(1, 'M');
-    console.log(newdataContext);
+    this.setState({
+      dateContext: newdataContext,
+    });
+  }
+
+  handleLeftButtonClick() {
+    const { dateContext } = this.state;
+    const newdataContext = dateContext.subtract(1, 'M');
+    this.setState({
+      dateContext: newdataContext,
+    });
   }
 
   createMonthYearHeader() {
@@ -90,16 +100,17 @@ class Calendar extends React.Component {
     for (let k = 0; k < bodyArr.length; k += 1) {
       if (k % 7 !== 0) {
         row.push(bodyArr[k]);
-      } else {
+      }
+
+      if (k % 7 === 0) {
         const trRow = <tr key={`row-${k}`}>{row}</tr>;
         bodyTable.push(trRow);
         row = [bodyArr[k]];
       }
-      if (k === bodyArr.length - 1) {
-        const trRow = <tr key={`row-${k}`}>{row}</tr>;
-        bodyTable.push(trRow);
-      }
     }
+
+    const trRow = <tr key={`row-${bodyArr.length}`}>{row}</tr>;
+    bodyTable.push(trRow);
     return bodyTable;
   }
 
@@ -110,11 +121,11 @@ class Calendar extends React.Component {
         <thead>
           <tr className="calendar-header">
             <td>
-              <HeaderButton>←</HeaderButton>
+              <HeaderButton onClick={this.handleLeftButtonClick}>←</HeaderButton>
             </td>
             {this.createMonthYearHeader()}
             <td>
-              <HeaderButton onClick={alert('123')}>→</HeaderButton>
+              <HeaderButton onClick={this.handleRightButtonClick}>→</HeaderButton>
             </td>
           </tr>
         </thead>
