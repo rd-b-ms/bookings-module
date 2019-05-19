@@ -16,6 +16,7 @@ class Calendar extends React.Component {
     };
     this.weekdaysShort = moment.weekdaysShort();
     this.months = moment.months();
+    this.handleRightButtonClick = this.handleRightButtonClick.bind(this);
   }
 
   getYear() {
@@ -47,6 +48,13 @@ class Calendar extends React.Component {
     const { dateContext } = this.state;
     const firstDay = moment(dateContext).startOf('month').format('d');
     return firstDay;
+  }
+
+  handleRightButtonClick() {
+    const { dateContext } = this.state;
+    console.log('hello');
+    const newdataContext = dateContext.add(1, 'M');
+    console.log(newdataContext);
   }
 
   createMonthYearHeader() {
@@ -106,7 +114,7 @@ class Calendar extends React.Component {
             </td>
             {this.createMonthYearHeader()}
             <td>
-              <HeaderButton>→</HeaderButton>
+              <HeaderButton onClick={alert('123')}>→</HeaderButton>
             </td>
           </tr>
         </thead>
