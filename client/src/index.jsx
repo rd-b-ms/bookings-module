@@ -8,6 +8,7 @@ class BookingPortal extends React.Component {
     super(props);
     this.state = {
       currentListing: null,
+      currentAvailability: null,
     };
   }
 
@@ -23,7 +24,8 @@ class BookingPortal extends React.Component {
       ))
       .then(data => (
         this.setState({
-          currentListing: data
+          currentListing: data[0],
+          currentAvailability: data[1],
         })
       ))
       .catch(err => (
@@ -32,9 +34,10 @@ class BookingPortal extends React.Component {
   }
 
   render() {
+    const { currentAvailability } = this.state;
     return (
       <div>
-        <Calendar />
+        <Calendar availability={currentAvailability} />
       </div>
     );
   }
