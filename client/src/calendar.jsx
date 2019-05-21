@@ -22,6 +22,7 @@ class Calendar extends React.Component {
     this.handleLeftButtonClick = this.handleLeftButtonClick.bind(this);
     this.handleDayClick = this.handleDayClick.bind(this);
     this.handleSelectedDay = this.handleSelectedDay.bind(this);
+    this.checkBookings = this.checkBookings.bind(this);
   }
 
   getYear() {
@@ -136,6 +137,26 @@ class Calendar extends React.Component {
     ));
   }
 
+  checkBookings(day) {
+    const { availability } = this.props;
+    let newDay = day;
+    if (day < 10) {
+      newDay = `0${day}`;
+    }
+    const date = moment(`${this.getYear()}-${this.getMonthNum()}-${newDay}`);
+    if (availability) {
+      for (let i = 0; i < availability.length; i += 1) {
+        const fromDate = moment(availability[i].from_date);
+        const toDate = moment(availability[i].to_date);
+        if (fromDate.valueOf() > date.valueOf() || toDate.valueOf() < date.valueOf()) {
+          console.log(true, fromDate.format('Y-MM-D'), date.format('Y-MM-D'), toDate.format('Y-MM-D'));
+        } else {
+          console.log(false, fromDate.format('Y-MM-D'), date.format('Y-MM-D'), toDate.format('Y-MM-D'));
+        }
+      }
+    }
+  }
+
   createBody() {
     const firstDay = this.firstDayOfMonth();
     const bodyArr = [];
@@ -146,6 +167,7 @@ class Calendar extends React.Component {
     }
 
     for (let j = 1; j <= this.getDaysInMonth(); j += 1) {
+      this.checkBookings(j);
       bodyArr.push(<DayGrid select={this.handleSelectedDay(j)} onClick={() => (this.handleDayClick(j))} className="day" key={`day-${j}`}><span>{j}</span></DayGrid>);
     }
 
