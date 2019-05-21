@@ -81,11 +81,24 @@ class Calendar extends React.Component {
   handleSelectedDay(id) {
     const { fromDate, toDate } = this.state;
     if (fromDate !== null && +fromDate.format('D') === id) {
-      return 1;
+      return {
+        color: 1,
+        hover: 0,
+      };
+    }
+
+    if (fromDate !== null && toDate === null && +fromDate.format('D') < id) {
+      return {
+        color: 0,
+        hover: 1,
+      };
     }
 
     if (toDate !== null && +fromDate.format('D') < id && +toDate.format('D') >= id) {
-      return 1;
+      return {
+        color: 1,
+        hover: 0,
+      };
     }
 
     return 0;
