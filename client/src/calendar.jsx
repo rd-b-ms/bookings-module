@@ -1,11 +1,13 @@
 import React from 'react';
 import moment from 'moment';
+import PropTypes from 'prop-types';
 import {
   CalendarTable,
   HeaderButton,
   MonthYearHeader,
   WeekdayHeader,
   DayGrid,
+  NADayGrid,
 } from './calendarStyles';
 
 class Calendar extends React.Component {
@@ -148,13 +150,12 @@ class Calendar extends React.Component {
       for (let i = 0; i < availability.length; i += 1) {
         const fromDate = moment(availability[i].from_date);
         const toDate = moment(availability[i].to_date);
-        if (fromDate.valueOf() > date.valueOf() || toDate.valueOf() < date.valueOf()) {
-          console.log(true, fromDate.format('Y-MM-D'), date.format('Y-MM-D'), toDate.format('Y-MM-D'));
-        } else {
-          console.log(false, fromDate.format('Y-MM-D'), date.format('Y-MM-D'), toDate.format('Y-MM-D'));
+        if (!(fromDate.valueOf() > date.valueOf() || toDate.valueOf() < date.valueOf())) {
+          return false;
         }
       }
     }
+    return true;
   }
 
   createBody() {
@@ -167,8 +168,11 @@ class Calendar extends React.Component {
     }
 
     for (let j = 1; j <= this.getDaysInMonth(); j += 1) {
-      this.checkBookings(j);
-      bodyArr.push(<DayGrid select={this.handleSelectedDay(j)} onClick={() => (this.handleDayClick(j))} className="day" key={`day-${j}`}><span>{j}</span></DayGrid>);
+      if (this.checkBookings(j)) {
+        bodyArr.push(<DayGrid select={this.handleSelectedDay(j)} onClick={() => (this.handleDayClick(j))} className="day" key={`day-${j}`}><span>{j}</span></DayGrid>);
+      } else {
+        bodyArr.push(<NADayGrid className="booked-day" key={`booked-day-${j}`}><span>{j}</span></NADayGrid>);
+      }
     }
 
     let row = [];
@@ -212,5 +216,9 @@ class Calendar extends React.Component {
     );
   }
 }
+
+Calendar.propTypes = {
+  availability: PropTypes.instanceOf(Array).isRequired,
+};
 
 export default Calendar;
