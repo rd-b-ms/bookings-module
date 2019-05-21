@@ -20,13 +20,6 @@ app.get('/booking', (req, res) => {
     .catch(() => (
       res.sendStatus(500)
     ));
-  // db.Listing.findOne({ where: { listing_id: listingid } })
-  //   .then(result => (
-  //     res.json(result)
-  //   ))
-  //   .catch(() => {
-  //     res.sendStatus(500);
-  //   });
 });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

@@ -1,7 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import qs from 'query-string';
 import Calendar from './calendar';
+import {
+  AppContainer,
+  Price,
+  PriceText,
+} from './indexStyles';
 
 class BookingPortal extends React.Component {
   constructor(props) {
@@ -10,6 +14,8 @@ class BookingPortal extends React.Component {
       currentListing: null,
       currentAvailability: null,
     };
+    this.createPriceDiv = this.createPriceDiv.bind(this);
+    this.createReviewDiv = this.createReviewDiv.bind(this);
   }
 
   componentDidMount() {
@@ -33,12 +39,41 @@ class BookingPortal extends React.Component {
       ));
   }
 
+  createPriceDiv() {
+    const { currentListing } = this.state;
+    if (currentListing) {
+      return (
+        <div>
+          <Price>{`$${currentListing.price}`}</Price>
+          <PriceText> per night</PriceText>
+        </div>
+      );
+    }
+    return null;
+  }
+
+  createReviewDiv() {
+    const { currentListing } = this.state;
+    if (currentListing) {
+      return (
+        <div>
+          <div>{currentListing.num_reviews}</div>
+        </div>
+      );
+    }
+    return null;
+  }
+
   render() {
     const { currentAvailability } = this.state;
     return (
-      <div>
-        <Calendar availability={currentAvailability} />
-      </div>
+      <AppContainer>
+        {this.createPriceDiv()}
+        {/* {this.createReviewDiv()} */}
+        {/* <div>
+          <Calendar availability={currentAvailability} />
+        </div> */}
+      </AppContainer>
     );
   }
 }
