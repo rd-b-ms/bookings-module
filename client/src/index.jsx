@@ -12,7 +12,12 @@ class BookingPortal extends React.Component {
   }
 
   componentDidMount() {
-    fetch('/booking?listingid=2', { method: 'GET' })
+    const params = new URLSearchParams(window.location.search);
+    if (!params.has('listingid')) {
+      window.location.href = '/error';
+      return;
+    }
+    fetch(`/booking?listingid=${params.get('listingid')}`, { method: 'GET' })
       .then(response => (
         response.json()
       ))

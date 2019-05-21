@@ -6,8 +6,8 @@ const port = process.env.PORT || 3003;
 
 const app = express();
 
-app.use(express.static('./client/dist'));
-// app.use('/booking', express.static('./client/dist'));
+app.use(express.static('./client/dist/listing'));
+app.use('/error', express.static('./client/dist/error'));
 app.use(bodyParser.json());
 
 app.get('/booking', (req, res) => {
