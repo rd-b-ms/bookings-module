@@ -46,14 +46,36 @@ const DayGrid = styled.td`
   font-size: 12px;
   font-weight: 700;
   font-family: Roboto, sans-serif;
-  border: 1px solid rgb(228, 231, 231);
+  background: ${(props) => {
+    if (props.select) {
+      return 'rgb(0, 166, 153)';
+    }
+    return 'rgb(255, 255, 255)';
+  }};
+  border: ${(props) => {
+    if (props.select) {
+      return '1px solid rgb(0, 166, 153)';
+    }
+    return '1px solid rgb(228, 231, 231)';
+  }};
   text-align: center;
-  color: rgb(72, 72, 72);
+  color: ${(props) => {
+    if (props.select) {
+      return 'rgb(255, 255, 255)';
+    }
+    return 'rgb(72, 72, 72)';
+  }};
+  pointer-events: ${(props) => {
+    if (props.select) {
+      return 'none';
+    }
+    return 'auto';
+  }};
   width: 40px;
   height: 40px;
 
   &:hover {
-    background: rgb(228, 231, 231);
+    background: ${props => (props.select ? 'rgb(180, 241, 235)' : 'rgb(228, 231, 231)')};
   }
 `;
 
