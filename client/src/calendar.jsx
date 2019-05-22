@@ -153,10 +153,10 @@ class Calendar extends React.Component {
       newDay = `0${day}`;
     }
     const date = moment(`${this.getYear()}-${this.getMonthNum()}-${newDay}`);
+    if (date.valueOf() < today.valueOf()) {
+      return false;
+    }
     for (let i = 0; i < availability.length; i += 1) {
-      if (date.valueOf() < today.valueOf()) {
-        return false;
-      }
       const fromDate = moment(availability[i].from_date);
       const toDate = moment(availability[i].to_date);
       if (!(fromDate.valueOf() > date.valueOf() || toDate.valueOf() < date.valueOf())) {

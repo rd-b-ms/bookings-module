@@ -3,11 +3,12 @@ import styled from 'styled-components';
 const CalendarContainer = styled.div`
   border: 1px solid rgb(228, 231, 231);
   background: rgb(255, 255, 255);
-  height: 330px;
+  padding: 20px 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-top: 5px;
+  border-radius: 3px;
 `;
 
 const CalendarTable = styled.table`
