@@ -11,8 +11,8 @@ class BookingPortal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentListing: null,
-      currentAvailability: null,
+      currentListing: {},
+      currentAvailability: [],
     };
     this.createPriceDiv = this.createPriceDiv.bind(this);
     this.createReviewDiv = this.createReviewDiv.bind(this);
@@ -67,13 +67,13 @@ class BookingPortal extends React.Component {
   render() {
     const { currentAvailability } = this.state;
     return (
-      <AppContainer>
-        {this.createPriceDiv()}
-        {/* {this.createReviewDiv()} */}
-        {/* <div>
+      // <AppContainer>
+      //   {this.createPriceDiv()}
+        // {/* {this.createReviewDiv()} */}
+        <div>
           <Calendar availability={currentAvailability} />
-        </div> */}
-      </AppContainer>
+        </div>
+      // </AppContainer>
     );
   }
 }
