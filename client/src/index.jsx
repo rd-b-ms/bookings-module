@@ -7,6 +7,9 @@ import {
   PriceText,
   NumReviews,
   TopSection,
+  LabelName,
+  DatesSection,
+  InputDate,
 } from './indexStyles';
 
 class BookingPortal extends React.Component {
@@ -18,6 +21,7 @@ class BookingPortal extends React.Component {
     };
     this.createPriceDiv = this.createPriceDiv.bind(this);
     this.createReviewDiv = this.createReviewDiv.bind(this);
+    this.createDateSection = this.createDateSection.bind(this);
   }
 
   componentDidMount() {
@@ -43,7 +47,7 @@ class BookingPortal extends React.Component {
 
   createPriceDiv() {
     const { currentListing } = this.state;
-    if (currentListing) {
+    if (Object.keys(currentListing).length > 0) {
       return (
         <div>
           <Price>{`$${currentListing.price}`}</Price>
@@ -56,10 +60,29 @@ class BookingPortal extends React.Component {
 
   createReviewDiv() {
     const { currentListing } = this.state;
-    if (currentListing) {
+    if (Object.keys(currentListing).length > 0) {
       return (
         <div style={{ paddingTop: '5px' }}>
           <NumReviews>{currentListing.num_reviews}</NumReviews>
+        </div>
+      );
+    }
+    return null;
+  }
+
+  createDateSection() {
+    const { currentListing } = this.state;
+    if (Object.keys(currentListing).length > 0) {
+      return (
+        <div>
+          <label htmlFor="check-in">
+            <LabelName>Dates</LabelName>
+            <DatesSection>
+              <InputDate id="check-in" placeholder="Check-in" />
+              <span>→</span>
+              <InputDate id="check-out" placeholder="Checkout" />
+            </DatesSection>
+          </label>
         </div>
       );
     }
@@ -74,6 +97,9 @@ class BookingPortal extends React.Component {
           {this.createPriceDiv()}
           {this.createReviewDiv()}
         </TopSection>
+        <form>
+          {this.createDateSection()}
+        </form>
         {/* // <div>
         //   <Calendar availability={currentAvailability} />
         // </div> */}

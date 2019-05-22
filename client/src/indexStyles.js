@@ -28,11 +28,39 @@ const NumReviews = styled.div`
   font-weight: 500;
   font-size: 12px
   color: rgb(72, 72, 72);
+  cursor: pointer;
 `;
 
 const TopSection = styled.div`
   border-bottom: 1px solid rgb(228, 231, 231);
   padding: 17px 0px;
+`;
+
+const LabelName = styled.p`
+  font-family: Roboto, sans-serif;
+  font-weight: 500;
+  font-size: 12px
+  color: rgb(72, 72, 72);
+  margin-top: 20px;
+  margin-bottom: 0px;
+`;
+
+const DatesSection = styled.div`
+  font-family: Roboto, sans-serif;
+  border: 1px solid rgb(228, 231, 231);
+  width: 100%;
+  height: 42px;
+`;
+
+const InputDate = styled.input`
+  border: none;
+  font-family: Roboto, sans-serif;
+  font-size: 17px;
+  height: 100%;
+  width: 40%;
+  background: transparent;
+  padding-left: 14px;
+  cursor: pointer;
 `;
 
 export {
@@ -41,4 +69,7 @@ export {
   PriceText,
   NumReviews,
   TopSection,
+  LabelName,
+  DatesSection,
+  InputDate,
 };
