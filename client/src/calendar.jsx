@@ -9,6 +9,10 @@ import {
   DayGrid,
   NADayGrid,
 } from './calendarStyles';
+import {
+  RightArrow,
+  LeftArrow,
+} from './svg';
 
 class Calendar extends React.Component {
   constructor(props) {
@@ -203,11 +207,15 @@ class Calendar extends React.Component {
         <thead>
           <tr className="calendar-header">
             <td>
-              <HeaderButton onClick={this.handleLeftButtonClick}>←</HeaderButton>
+              <HeaderButton onClick={this.handleLeftButtonClick}>
+                <LeftArrow width="19px" fill="rgb(130, 136, 138)" />
+              </HeaderButton>
             </td>
             {this.createMonthYearHeader()}
             <td>
-              <HeaderButton onClick={this.handleRightButtonClick}>→</HeaderButton>
+              <HeaderButton onClick={this.handleRightButtonClick}>
+                <RightArrow width="19px" fill="rgb(130, 136, 138)" />
+              </HeaderButton>
             </td>
           </tr>
         </thead>

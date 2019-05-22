@@ -80,7 +80,7 @@ class BookingPortal extends React.Component {
             <LabelName>Dates</LabelName>
             <DatesSection>
               <InputDate id="check-in" placeholder="Check-in" />
-              <RightArrow />
+              <RightArrow width="28px" fill="rgb(72, 72, 72)" />
               <InputDate id="check-out" placeholder="Checkout" />
             </DatesSection>
           </label>
@@ -101,9 +101,9 @@ class BookingPortal extends React.Component {
         <form>
           {this.createDateSection()}
         </form>
-        {/* // <div>
-        //   <Calendar availability={currentAvailability} />
-        // </div> */}
+        <div>
+          <Calendar availability={currentAvailability} />
+        </div>
       </AppContainer>
     );
   }

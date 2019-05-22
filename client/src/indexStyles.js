@@ -54,6 +54,7 @@ const DatesSection = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  border-radius: 2px;
 `;
 
 const InputDate = styled.input`
