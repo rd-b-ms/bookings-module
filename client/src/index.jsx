@@ -5,6 +5,8 @@ import {
   AppContainer,
   Price,
   PriceText,
+  NumReviews,
+  TopSection,
 } from './indexStyles';
 
 class BookingPortal extends React.Component {
@@ -56,8 +58,8 @@ class BookingPortal extends React.Component {
     const { currentListing } = this.state;
     if (currentListing) {
       return (
-        <div>
-          <div>{currentListing.num_reviews}</div>
+        <div style={{ paddingTop: '5px' }}>
+          <NumReviews>{currentListing.num_reviews}</NumReviews>
         </div>
       );
     }
@@ -67,13 +69,15 @@ class BookingPortal extends React.Component {
   render() {
     const { currentAvailability } = this.state;
     return (
-      // <AppContainer>
-      //   {this.createPriceDiv()}
-        // {/* {this.createReviewDiv()} */}
-        <div>
-          <Calendar availability={currentAvailability} />
-        </div>
-      // </AppContainer>
+      <AppContainer>
+        <TopSection>
+          {this.createPriceDiv()}
+          {this.createReviewDiv()}
+        </TopSection>
+        {/* // <div>
+        //   <Calendar availability={currentAvailability} />
+        // </div> */}
+      </AppContainer>
     );
   }
 }

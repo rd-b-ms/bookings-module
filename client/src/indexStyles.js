@@ -6,7 +6,7 @@ const AppContainer = styled.section`
   height: 355px;
   width: 376px;
   margin: 0 auto;
-  padding: 12px 24px;
+  padding: 0px 24px;
 `;
 
 const Price = styled.span`
@@ -23,8 +23,22 @@ const PriceText = styled.span`
   color: rgb(72, 72, 72);
 `;
 
+const NumReviews = styled.div`
+  font-family: Roboto, sans-serif;
+  font-weight: 500;
+  font-size: 12px
+  color: rgb(72, 72, 72);
+`;
+
+const TopSection = styled.div`
+  border-bottom: 1px solid rgb(228, 231, 231);
+  padding: 17px 0px;
+`;
+
 export {
   AppContainer,
   Price,
   PriceText,
+  NumReviews,
+  TopSection,
 };
