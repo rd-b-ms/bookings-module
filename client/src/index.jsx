@@ -10,6 +10,8 @@ import {
   LabelName,
   DatesSection,
   InputDate,
+  StarOuter,
+  StarInner,
 } from './indexStyles';
 import { RightArrow } from './svg';
 
@@ -61,9 +63,16 @@ class BookingPortal extends React.Component {
 
   createReviewDiv() {
     const { currentListing } = this.state;
+    const pct = currentListing.avg_rating_pct;
+    const starsWidth = pct ? Math.round(pct / 100 * 50) : 0;
     if (Object.keys(currentListing).length > 0) {
       return (
         <div style={{ paddingTop: '5px' }}>
+          <StarOuter color="rgb(228, 231, 231)">
+            <StarInner width={`${starsWidth}px`}>
+              <StarOuter color="rgb(0, 166, 153)" />
+            </StarInner>
+          </StarOuter>
           <NumReviews>{currentListing.num_reviews}</NumReviews>
         </div>
       );
