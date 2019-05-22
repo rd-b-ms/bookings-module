@@ -25,7 +25,7 @@ const Availability = sequelize.define('availability', {
   listing_id: {
     type: Sequelize.INTEGER,
     references: {
-      model: 'listings',
+      model: Listing,
       key: 'listing_id',
     },
   },

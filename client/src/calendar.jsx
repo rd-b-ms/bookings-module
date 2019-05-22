@@ -1,11 +1,13 @@
 import React from 'react';
 import moment from 'moment';
+import PropTypes from 'prop-types';
 import {
   CalendarTable,
   HeaderButton,
   MonthYearHeader,
   WeekdayHeader,
   DayGrid,
+  NADayGrid,
 } from './calendarStyles';
 
 class Calendar extends React.Component {
@@ -22,6 +24,7 @@ class Calendar extends React.Component {
     this.handleLeftButtonClick = this.handleLeftButtonClick.bind(this);
     this.handleDayClick = this.handleDayClick.bind(this);
     this.handleSelectedDay = this.handleSelectedDay.bind(this);
+    this.checkBookings = this.checkBookings.bind(this);
   }
 
   getYear() {
@@ -136,6 +139,25 @@ class Calendar extends React.Component {
     ));
   }
 
+  checkBookings(day) {
+    const { availability } = this.props;
+    let newDay = day;
+    if (day < 10) {
+      newDay = `0${day}`;
+    }
+    const date = moment(`${this.getYear()}-${this.getMonthNum()}-${newDay}`);
+    if (availability) {
+      for (let i = 0; i < availability.length; i += 1) {
+        const fromDate = moment(availability[i].from_date);
+        const toDate = moment(availability[i].to_date);
+        if (!(fromDate.valueOf() > date.valueOf() || toDate.valueOf() < date.valueOf())) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
   createBody() {
     const firstDay = this.firstDayOfMonth();
     const bodyArr = [];
@@ -146,7 +168,11 @@ class Calendar extends React.Component {
     }
 
     for (let j = 1; j <= this.getDaysInMonth(); j += 1) {
-      bodyArr.push(<DayGrid select={this.handleSelectedDay(j)} onClick={() => (this.handleDayClick(j))} className="day" key={`day-${j}`}><span>{j}</span></DayGrid>);
+      if (this.checkBookings(j)) {
+        bodyArr.push(<DayGrid select={this.handleSelectedDay(j)} onClick={() => (this.handleDayClick(j))} className="day" key={`day-${j}`}><span>{j}</span></DayGrid>);
+      } else {
+        bodyArr.push(<NADayGrid className="booked-day" key={`booked-day-${j}`}><span>{j}</span></NADayGrid>);
+      }
     }
 
     let row = [];
@@ -190,5 +216,9 @@ class Calendar extends React.Component {
     );
   }
 }
+
+Calendar.propTypes = {
+  availability: PropTypes.instanceOf(Array).isRequired,
+};
 
 export default Calendar;

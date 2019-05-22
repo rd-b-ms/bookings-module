@@ -41,6 +41,19 @@ const WeekdayHeader = styled.th`
   padding-top: 15px;
 `;
 
+const NADayGrid = styled.td`
+  font-size: 12px;
+  font-weight: 700;
+  font-family: Roboto, sans-serif;
+  background: rgb(255, 255, 255);
+  border: 1px solid rgb(228, 231, 231);
+  text-align: center;
+  color: rgb(216, 216, 216);
+  width: 40px;
+  height: 40px;
+  text-decoration: line-through;
+`;
+
 const DayGrid = styled.td`
   cursor: pointer;
   font-size: 12px;
@@ -86,4 +99,5 @@ export {
   MonthYearHeader,
   WeekdayHeader,
   DayGrid,
+  NADayGrid,
 };

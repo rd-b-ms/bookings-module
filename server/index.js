@@ -12,13 +12,14 @@ app.use(bodyParser.json());
 
 app.get('/booking', (req, res) => {
   const { listingid } = req.query;
-  db.Listing.findOne({ where: { listing_id: listingid } })
+  Promise.all([db.Listing.findOne({ where: { listing_id: listingid } }),
+    db.Availability.findAll({ where: { listing_id: listingid } })])
     .then(result => (
       res.json(result)
     ))
-    .catch(() => {
-      res.sendStatus(500);
-    });
+    .catch(() => (
+      res.sendStatus(500)
+    ));
 });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
