@@ -1,5 +1,16 @@
 import styled from 'styled-components';
 
+const CalendarContainer = styled.div`
+  border: 1px solid rgb(228, 231, 231);
+  background: rgb(255, 255, 255);
+  padding: 20px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 5px;
+  border-radius: 3px;
+`;
+
 const CalendarTable = styled.table`
   border-collapse: collapse;
 `;
@@ -7,8 +18,8 @@ const CalendarTable = styled.table`
 const HeaderButton = styled.div`
   cursor: pointer;
   font-family: Roboto, sans-serif;
-  width: 30px;
-  height: 25px;
+  width: 35px;
+  height: 30px;
   color: rgb(117, 117, 117);
   border: 1px solid rgb(228, 231, 231);
   border-radius: 3px;
@@ -49,8 +60,8 @@ const NADayGrid = styled.td`
   border: 1px solid rgb(228, 231, 231);
   text-align: center;
   color: rgb(216, 216, 216);
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   text-decoration: line-through;
 `;
 
@@ -84,8 +95,8 @@ const DayGrid = styled.td`
     }
     return 'auto';
   }};
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
 
   &:hover {
     background: ${props => (props.select.hover ? 'rgb(180, 241, 235)' : 'rgb(228, 231, 231)')};
@@ -100,4 +111,5 @@ export {
   WeekdayHeader,
   DayGrid,
   NADayGrid,
+  CalendarContainer,
 };

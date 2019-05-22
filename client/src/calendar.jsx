@@ -8,13 +8,19 @@ import {
   WeekdayHeader,
   DayGrid,
   NADayGrid,
+  CalendarContainer,
 } from './calendarStyles';
+import {
+  RightArrow,
+  LeftArrow,
+} from './svg';
 
 class Calendar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       dateContext: moment(),
+      today: moment(),
       fromDate: null,
       toDate: null,
     };
@@ -141,18 +147,20 @@ class Calendar extends React.Component {
 
   checkBookings(day) {
     const { availability } = this.props;
+    const { today } = this.state;
     let newDay = day;
     if (day < 10) {
       newDay = `0${day}`;
     }
     const date = moment(`${this.getYear()}-${this.getMonthNum()}-${newDay}`);
-    if (availability) {
-      for (let i = 0; i < availability.length; i += 1) {
-        const fromDate = moment(availability[i].from_date);
-        const toDate = moment(availability[i].to_date);
-        if (!(fromDate.valueOf() > date.valueOf() || toDate.valueOf() < date.valueOf())) {
-          return false;
-        }
+    if (date.valueOf() < today.valueOf()) {
+      return false;
+    }
+    for (let i = 0; i < availability.length; i += 1) {
+      const fromDate = moment(availability[i].from_date);
+      const toDate = moment(availability[i].to_date);
+      if (!(fromDate.valueOf() > date.valueOf() || toDate.valueOf() < date.valueOf())) {
+        return false;
       }
     }
     return true;
@@ -196,23 +204,29 @@ class Calendar extends React.Component {
 
   render() {
     return (
-      <CalendarTable className="calendar">
-        <thead>
-          <tr className="calendar-header">
-            <td>
-              <HeaderButton onClick={this.handleLeftButtonClick}>←</HeaderButton>
-            </td>
-            {this.createMonthYearHeader()}
-            <td>
-              <HeaderButton onClick={this.handleRightButtonClick}>→</HeaderButton>
-            </td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>{this.createWeekDayHeader()}</tr>
-          {this.createBody()}
-        </tbody>
-      </CalendarTable>
+      <CalendarContainer>
+        <CalendarTable className="calendar">
+          <thead>
+            <tr className="calendar-header">
+              <td>
+                <HeaderButton onClick={this.handleLeftButtonClick}>
+                  <LeftArrow width="19px" fill="rgb(130, 136, 138)" />
+                </HeaderButton>
+              </td>
+              {this.createMonthYearHeader()}
+              <td>
+                <HeaderButton onClick={this.handleRightButtonClick}>
+                  <RightArrow width="19px" fill="rgb(130, 136, 138)" />
+                </HeaderButton>
+              </td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>{this.createWeekDayHeader()}</tr>
+            {this.createBody()}
+          </tbody>
+        </CalendarTable>
+      </CalendarContainer>
     );
   }
 }

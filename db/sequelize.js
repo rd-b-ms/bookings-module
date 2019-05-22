@@ -14,7 +14,7 @@ const Listing = sequelize.define('listing', {
   },
   price: Sequelize.INTEGER,
   num_reviews: Sequelize.INTEGER,
-  avg_rating: Sequelize.INTEGER,
+  avg_rating_pct: Sequelize.INTEGER,
   service_fee_pct: Sequelize.INTEGER,
   min_nights: Sequelize.INTEGER,
   max_guests: Sequelize.INTEGER,

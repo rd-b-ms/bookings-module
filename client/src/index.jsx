@@ -5,17 +5,24 @@ import {
   AppContainer,
   Price,
   PriceText,
+  NumReviews,
+  TopSection,
+  LabelName,
+  DatesSection,
+  InputDate,
 } from './indexStyles';
+import { RightArrow } from './svg';
 
 class BookingPortal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentListing: null,
-      currentAvailability: null,
+      currentListing: {},
+      currentAvailability: [],
     };
     this.createPriceDiv = this.createPriceDiv.bind(this);
     this.createReviewDiv = this.createReviewDiv.bind(this);
+    this.createDateSection = this.createDateSection.bind(this);
   }
 
   componentDidMount() {
@@ -41,7 +48,7 @@ class BookingPortal extends React.Component {
 
   createPriceDiv() {
     const { currentListing } = this.state;
-    if (currentListing) {
+    if (Object.keys(currentListing).length > 0) {
       return (
         <div>
           <Price>{`$${currentListing.price}`}</Price>
@@ -54,10 +61,29 @@ class BookingPortal extends React.Component {
 
   createReviewDiv() {
     const { currentListing } = this.state;
-    if (currentListing) {
+    if (Object.keys(currentListing).length > 0) {
+      return (
+        <div style={{ paddingTop: '5px' }}>
+          <NumReviews>{currentListing.num_reviews}</NumReviews>
+        </div>
+      );
+    }
+    return null;
+  }
+
+  createDateSection() {
+    const { currentListing } = this.state;
+    if (Object.keys(currentListing).length > 0) {
       return (
         <div>
-          <div>{currentListing.num_reviews}</div>
+          <label htmlFor="check-in">
+            <LabelName>Dates</LabelName>
+            <DatesSection>
+              <InputDate id="check-in" placeholder="Check-in" />
+              <RightArrow width="28px" fill="rgb(72, 72, 72)" />
+              <InputDate id="check-out" placeholder="Checkout" />
+            </DatesSection>
+          </label>
         </div>
       );
     }
@@ -68,11 +94,16 @@ class BookingPortal extends React.Component {
     const { currentAvailability } = this.state;
     return (
       <AppContainer>
-        {this.createPriceDiv()}
-        {/* {this.createReviewDiv()} */}
-        {/* <div>
+        <TopSection>
+          {this.createPriceDiv()}
+          {this.createReviewDiv()}
+        </TopSection>
+        <form>
+          {this.createDateSection()}
+        </form>
+        <div>
           <Calendar availability={currentAvailability} />
-        </div> */}
+        </div>
       </AppContainer>
     );
   }
