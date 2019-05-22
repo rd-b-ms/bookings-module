@@ -50,6 +50,10 @@ const DatesSection = styled.div`
   border: 1px solid rgb(228, 231, 231);
   width: 100%;
   height: 42px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const InputDate = styled.input`

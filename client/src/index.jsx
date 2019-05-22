@@ -11,6 +11,7 @@ import {
   DatesSection,
   InputDate,
 } from './indexStyles';
+import { RightArrow } from './svg';
 
 class BookingPortal extends React.Component {
   constructor(props) {
@@ -79,7 +80,7 @@ class BookingPortal extends React.Component {
             <LabelName>Dates</LabelName>
             <DatesSection>
               <InputDate id="check-in" placeholder="Check-in" />
-              <span>→</span>
+              <RightArrow />
               <InputDate id="check-out" placeholder="Checkout" />
             </DatesSection>
           </label>
