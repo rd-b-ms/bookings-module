@@ -86,6 +86,7 @@ const StarOuter = styled.span`
   width: 50px;
   position: relative;
   margin: 0;
+  cursor: pointer;
 `;
 
 const StarInner = styled.span`
