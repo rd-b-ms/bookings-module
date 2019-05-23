@@ -21,10 +21,13 @@ class BookingPortal extends React.Component {
     this.state = {
       currentListing: {},
       currentAvailability: [],
+      inputClick: false,
     };
     this.createPriceDiv = this.createPriceDiv.bind(this);
     this.createReviewDiv = this.createReviewDiv.bind(this);
     this.createDateSection = this.createDateSection.bind(this);
+    this.handleInputDateClick = this.handleInputDateClick.bind(this);
+    this.showCalendar = this.showCalendar.bind(this);
   }
 
   componentDidMount() {
@@ -46,6 +49,28 @@ class BookingPortal extends React.Component {
       .catch(err => (
         console.error(err)
       ));
+  }
+
+  handleInputDateClick() {
+    const { inputClick } = this.state;
+    if (inputClick) {
+      this.setState({
+        inputClick: false,
+      });
+    }
+    if (!inputClick) {
+      this.setState({
+        inputClick: true,
+      });
+    }
+  }
+
+  showCalendar() {
+    const { inputClick, currentAvailability } = this.state;
+    if (inputClick) {
+      return <Calendar availability={currentAvailability} />;
+    }
+    return null;
   }
 
   createPriceDiv() {
@@ -87,9 +112,9 @@ class BookingPortal extends React.Component {
         <div>
           <LabelName>Dates</LabelName>
           <DatesSection>
-            <InputDate id="check-in" placeholder="Check-in" />
+            <InputDate onClick={this.handleInputDateClick}>Check-in</InputDate>
             <RightArrow width="28px" fill="rgb(72, 72, 72)" />
-            <InputDate id="check-out" placeholder="Checkout" />
+            <InputDate onClick={this.handleInputDateClick}>Checkout</InputDate>
           </DatesSection>
         </div>
       );
@@ -98,7 +123,6 @@ class BookingPortal extends React.Component {
   }
 
   render() {
-    const { currentAvailability } = this.state;
     return (
       <AppContainer>
         <TopSection>
@@ -108,9 +132,7 @@ class BookingPortal extends React.Component {
         <form>
           {this.createDateSection()}
         </form>
-        <div>
-          <Calendar availability={currentAvailability} />
-        </div>
+        {this.showCalendar()}
       </AppContainer>
     );
   }

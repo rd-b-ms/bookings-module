@@ -66,15 +66,20 @@ const ReviewsSection = styled.div`
   align-items: center;
 `;
 
-const InputDate = styled.input`
+const InputDate = styled.div`
   border: none;
+  color: rgb(117, 117, 117);
   font-family: Roboto, sans-serif;
   font-size: 17px;
+  font-weight: 300;
   height: 100%;
   width: 40%;
   background: transparent;
   padding-left: 14px;
-  cursor: pointer;
+  cursor: text;
+  display: flex;
+  align-items: center;
+  outline: none;
 `;
 
 const StarOuter = styled.span`

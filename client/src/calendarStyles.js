@@ -5,8 +5,9 @@ const CalendarContainer = styled.div`
   background: rgb(255, 255, 255);
   padding: 30px 0px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between | center;
   margin-top: 5px;
   border-radius: 3px;
 `;
@@ -104,6 +105,27 @@ const DayGrid = styled.td`
   }
 `;
 
+const ClearDatesDiv = styled.div`
+  margin-top: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+`;
+
+const ClearDatesButton = styled.button`
+  margin-right: 15px;
+  border: none;
+  font-family: Roboto, sans-serif;
+  font-size: 14px;
+  color: #008489;
+  cursor: pointer;
+  outline: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
 export {
   CalendarTable,
   HeaderButton,
@@ -112,4 +134,6 @@ export {
   DayGrid,
   NADayGrid,
   CalendarContainer,
+  ClearDatesDiv,
+  ClearDatesButton,
 };

@@ -9,6 +9,8 @@ import {
   DayGrid,
   NADayGrid,
   CalendarContainer,
+  ClearDatesDiv,
+  ClearDatesButton,
 } from './calendarStyles';
 import {
   RightArrow,
@@ -31,6 +33,7 @@ class Calendar extends React.Component {
     this.handleDayClick = this.handleDayClick.bind(this);
     this.handleSelectedDay = this.handleSelectedDay.bind(this);
     this.checkBookings = this.checkBookings.bind(this);
+    this.handleClearDatesClick = this.handleClearDatesClick.bind(this);
   }
 
   getYear() {
@@ -89,25 +92,35 @@ class Calendar extends React.Component {
 
   handleSelectedDay(id) {
     const { fromDate, toDate } = this.state;
-    if (fromDate !== null && +fromDate.format('D') === id) {
-      return {
-        color: 1,
-        hover: 0,
-      };
+    const date = `${this.getYear()}-${this.getMonthNum()}-${id}`;
+    const fdate = fromDate ? fromDate.format('Y-MM-D') : null;
+    const tdate = toDate ? toDate.format('Y-MM-D') : null;
+
+    if (fdate !== null) {
+      if (date === fdate) {
+        return {
+          color: 1,
+          hover: 0,
+        };
+      }
     }
 
-    if (fromDate !== null && toDate === null && +fromDate.format('D') < id) {
-      return {
-        color: 0,
-        hover: 1,
-      };
+    if (fdate !== null && tdate === null) {
+      if (date > fdate) {
+        return {
+          color: 0,
+          hover: 1,
+        };
+      }
     }
 
-    if (toDate !== null && +fromDate.format('D') < id && +toDate.format('D') >= id) {
-      return {
-        color: 1,
-        hover: 0,
-      };
+    if (tdate !== null) {
+      if (fdate < date && tdate >= date) {
+        return {
+          color: 1,
+          hover: 0,
+        };
+      }
     }
 
     return 0;
@@ -127,6 +140,25 @@ class Calendar extends React.Component {
     this.setState({
       dateContext: newdataContext,
     });
+  }
+
+  handleClearDatesClick() {
+    this.setState({
+      fromDate: null,
+      toDate: null,
+    });
+  }
+
+  clearDates() {
+    const { fromDate, toDate } = this.state;
+    if (fromDate || toDate) {
+      return (
+        <ClearDatesDiv>
+          <ClearDatesButton onClick={this.handleClearDatesClick}>Clear dates</ClearDatesButton>
+        </ClearDatesDiv>
+      );
+    }
+    return null;
   }
 
   createMonthYearHeader() {
@@ -226,6 +258,7 @@ class Calendar extends React.Component {
             {this.createBody()}
           </tbody>
         </CalendarTable>
+        {this.clearDates()}
       </CalendarContainer>
     );
   }
