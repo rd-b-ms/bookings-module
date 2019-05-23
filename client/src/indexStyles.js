@@ -3,8 +3,8 @@ import styled from 'styled-components';
 const AppContainer = styled.section`
   font-family: Roboto, sans-serif;
   border: 1px solid rgb(228, 231, 231);
-  height: 355px;
-  width: 376px;
+  height: 376px;
+  width: 355px;
   margin: 0 auto;
   padding: 0px 24px;
 `;

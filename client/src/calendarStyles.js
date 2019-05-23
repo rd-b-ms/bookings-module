@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const CalendarContainer = styled.div`
   border: 1px solid rgb(228, 231, 231);
   background: rgb(255, 255, 255);
-  padding: 20px 20px;
+  padding: 30px 0px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -60,8 +60,8 @@ const NADayGrid = styled.td`
   border: 1px solid rgb(228, 231, 231);
   text-align: center;
   color: rgb(216, 216, 216);
-  width: 42px;
-  height: 42px;
+  width: 38px;
+  height: 38px;
   text-decoration: line-through;
 `;
 
@@ -95,8 +95,8 @@ const DayGrid = styled.td`
     }
     return 'auto';
   }};
-  width: 42px;
-  height: 42px;
+  width: 38px;
+  height: 38px;
 
   &:hover {
     background: ${props => (props.select.hover ? 'rgb(180, 241, 235)' : 'rgb(228, 231, 231)')};
