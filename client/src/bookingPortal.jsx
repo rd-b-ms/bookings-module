@@ -21,10 +21,13 @@ class BookingPortal extends React.Component {
     this.state = {
       currentListing: {},
       currentAvailability: [],
+      inputClick: 0,
     };
     this.createPriceDiv = this.createPriceDiv.bind(this);
     this.createReviewDiv = this.createReviewDiv.bind(this);
     this.createDateSection = this.createDateSection.bind(this);
+    this.handleInputDateClick = this.handleInputDateClick.bind(this);
+    this.showCalendar = this.showCalendar.bind(this);
   }
 
   componentDidMount() {
@@ -46,6 +49,28 @@ class BookingPortal extends React.Component {
       .catch(err => (
         console.error(err)
       ));
+  }
+
+  handleInputDateClick() {
+    const { inputClick } = this.state;
+    if (inputClick === 0) {
+      this.setState({
+        inputClick: 1,
+      });
+    }
+    if (inputClick === 1) {
+      this.setState({
+        inputClick: 0,
+      });
+    }
+  }
+
+  showCalendar() {
+    const { inputClick, currentAvailability } = this.state;
+    if (inputClick === 1) {
+      return <Calendar availability={currentAvailability} />;
+    }
+    return null;
   }
 
   createPriceDiv() {
@@ -87,9 +112,9 @@ class BookingPortal extends React.Component {
         <div>
           <LabelName>Dates</LabelName>
           <DatesSection>
-            <InputDate>Check-in</InputDate>
+            <InputDate onClick={this.handleInputDateClick}>Check-in</InputDate>
             <RightArrow width="28px" fill="rgb(72, 72, 72)" />
-            <InputDate>Checkout</InputDate>
+            <InputDate onClick={this.handleInputDateClick}>Checkout</InputDate>
           </DatesSection>
         </div>
       );
@@ -98,7 +123,7 @@ class BookingPortal extends React.Component {
   }
 
   render() {
-    const { currentAvailability } = this.state;
+    // const { currentAvailability } = this.state;
     return (
       <AppContainer>
         <TopSection>
@@ -108,9 +133,8 @@ class BookingPortal extends React.Component {
         <form>
           {this.createDateSection()}
         </form>
-        <div>
-          <Calendar availability={currentAvailability} />
-        </div>
+        {this.showCalendar()}
+        {/* <Calendar availability={currentAvailability} /> */}
       </AppContainer>
     );
   }
