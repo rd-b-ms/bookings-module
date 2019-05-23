@@ -21,7 +21,7 @@ class BookingPortal extends React.Component {
     this.state = {
       currentListing: {},
       currentAvailability: [],
-      inputClick: 0,
+      inputClick: false,
     };
     this.createPriceDiv = this.createPriceDiv.bind(this);
     this.createReviewDiv = this.createReviewDiv.bind(this);
@@ -53,21 +53,21 @@ class BookingPortal extends React.Component {
 
   handleInputDateClick() {
     const { inputClick } = this.state;
-    if (inputClick === 0) {
+    if (inputClick) {
       this.setState({
-        inputClick: 1,
+        inputClick: false,
       });
     }
-    if (inputClick === 1) {
+    if (!inputClick) {
       this.setState({
-        inputClick: 0,
+        inputClick: true,
       });
     }
   }
 
   showCalendar() {
     const { inputClick, currentAvailability } = this.state;
-    if (inputClick === 1) {
+    if (inputClick) {
       return <Calendar availability={currentAvailability} />;
     }
     return null;
