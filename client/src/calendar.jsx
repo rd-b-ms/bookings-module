@@ -89,25 +89,39 @@ class Calendar extends React.Component {
 
   handleSelectedDay(id) {
     const { fromDate, toDate } = this.state;
-    if (fromDate !== null && +fromDate.format('D') === id) {
-      return {
-        color: 1,
-        hover: 0,
-      };
+
+    if (fromDate !== null) {
+      const date = `${this.getYear()}-${this.getMonthNum()}-${id}`;
+      const fdate = fromDate.format('Y-MM-D');
+      if (date === fdate) {
+        return {
+          color: 1,
+          hover: 0,
+        };
+      }
     }
 
-    if (fromDate !== null && toDate === null && +fromDate.format('D') < id) {
-      return {
-        color: 0,
-        hover: 1,
-      };
+    if (fromDate !== null && toDate === null) {
+      const date = `${this.getYear()}-${this.getMonthNum()}-${id}`;
+      const fdate = fromDate.format('Y-MM-D');
+      if (date > fdate) {
+        return {
+          color: 0,
+          hover: 1,
+        };
+      }
     }
 
-    if (toDate !== null && +fromDate.format('D') < id && +toDate.format('D') >= id) {
-      return {
-        color: 1,
-        hover: 0,
-      };
+    if (toDate !== null) {
+      const date = `${this.getYear()}-${this.getMonthNum()}-${id}`;
+      const fdate = fromDate.format('Y-MM-D');
+      const tdate = toDate.format('Y-MM-D');
+      if (fdate < date && tdate >= date) {
+        return {
+          color: 1,
+          hover: 0,
+        };
+      }
     }
 
     return 0;
