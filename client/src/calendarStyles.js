@@ -118,7 +118,8 @@ const ClearDatesButton = styled.button`
   font-family: Roboto, sans-serif;
   font-size: 14px;
   color: #008489;
-  cursor: pointer
+  cursor: pointer;
+  outline: none;
 
   &:hover {
     text-decoration: underline;
