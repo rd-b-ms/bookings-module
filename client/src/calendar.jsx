@@ -9,6 +9,8 @@ import {
   DayGrid,
   NADayGrid,
   CalendarContainer,
+  ClearDatesDiv,
+  ClearDatesButton,
 } from './calendarStyles';
 import {
   RightArrow,
@@ -31,6 +33,7 @@ class Calendar extends React.Component {
     this.handleDayClick = this.handleDayClick.bind(this);
     this.handleSelectedDay = this.handleSelectedDay.bind(this);
     this.checkBookings = this.checkBookings.bind(this);
+    this.handleClearDatesClick = this.handleClearDatesClick.bind(this);
   }
 
   getYear() {
@@ -139,6 +142,25 @@ class Calendar extends React.Component {
     });
   }
 
+  handleClearDatesClick() {
+    this.setState({
+      fromDate: null,
+      toDate: null,
+    });
+  }
+
+  clearDates() {
+    const { fromDate, toDate } = this.state;
+    if (fromDate || toDate) {
+      return (
+        <ClearDatesDiv>
+          <ClearDatesButton onClick={this.handleClearDatesClick}>Clear dates</ClearDatesButton>
+        </ClearDatesDiv>
+      );
+    }
+    return null;
+  }
+
   createMonthYearHeader() {
     return (
       <MonthYearHeader colSpan="5">
@@ -236,6 +258,7 @@ class Calendar extends React.Component {
             {this.createBody()}
           </tbody>
         </CalendarTable>
+        {this.clearDates()}
       </CalendarContainer>
     );
   }
