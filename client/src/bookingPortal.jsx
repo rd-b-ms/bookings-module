@@ -123,7 +123,6 @@ class BookingPortal extends React.Component {
   }
 
   render() {
-    // const { currentAvailability } = this.state;
     return (
       <AppContainer>
         <TopSection>
@@ -134,7 +133,6 @@ class BookingPortal extends React.Component {
           {this.createDateSection()}
         </form>
         {this.showCalendar()}
-        {/* <Calendar availability={currentAvailability} /> */}
       </AppContainer>
     );
   }
