@@ -29,6 +29,7 @@ const NumReviews = styled.div`
   font-size: 12px
   color: rgb(72, 72, 72);
   cursor: pointer;
+  padding-left: 3px;
 `;
 
 const TopSection = styled.div`
@@ -57,6 +58,14 @@ const DatesSection = styled.div`
   border-radius: 2px;
 `;
 
+const ReviewsSection = styled.div`
+  padding-top: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+`;
+
 const InputDate = styled.input`
   border: none;
   font-family: Roboto, sans-serif;
@@ -76,6 +85,7 @@ const StarOuter = styled.span`
   display: block;
   width: 50px;
   position: relative;
+  margin: 0;
 `;
 
 const StarInner = styled.span`
@@ -86,6 +96,7 @@ const StarInner = styled.span`
   bottom: 0;
   overflow: hidden;
   width: ${props => props.width};
+  margin: 0;
 `;
 
 export {
@@ -99,4 +110,5 @@ export {
   InputDate,
   StarOuter,
   StarInner,
+  ReviewsSection,
 };
