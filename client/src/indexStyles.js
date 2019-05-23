@@ -79,10 +79,7 @@ const InputDate = styled.div`
   cursor: text;
   display: flex;
   align-items: center;
-
-  &:focus {
-    outline: none;
-  }
+  outline: none;
 `;
 
 const StarOuter = styled.span`

@@ -87,9 +87,9 @@ class BookingPortal extends React.Component {
         <div>
           <LabelName>Dates</LabelName>
           <DatesSection>
-            <InputDate id="check-in">Check-in</InputDate>
+            <InputDate>Check-in</InputDate>
             <RightArrow width="28px" fill="rgb(72, 72, 72)" />
-            <InputDate id="check-out">Checkout</InputDate>
+            <InputDate>Checkout</InputDate>
           </DatesSection>
         </div>
       );
