@@ -86,7 +86,7 @@ const InputDate = styled.div`
     return 'transparent';
   }};
   padding-left: 14px;
-  cursor: text;
+  cursor: pointer;
   display: flex;
   align-items: center;
   outline: none;
