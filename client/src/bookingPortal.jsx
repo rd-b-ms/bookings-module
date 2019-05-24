@@ -23,12 +23,15 @@ class BookingPortal extends React.Component {
       currentAvailability: [],
       checkInClick: 'none',
       checkOutClick: 'none',
+      checkInDate: null,
+      checkOutDate: null,
     };
     this.createPriceDiv = this.createPriceDiv.bind(this);
     this.createReviewDiv = this.createReviewDiv.bind(this);
     this.createDateSection = this.createDateSection.bind(this);
     this.handleCheckInClick = this.handleCheckInClick.bind(this);
     this.handleCheckOutClick = this.handleCheckOutClick.bind(this);
+    this.handleDateSelect = this.handleDateSelect.bind(this);
   }
 
   componentDidMount() {
@@ -50,6 +53,13 @@ class BookingPortal extends React.Component {
       .catch(err => (
         console.error(err)
       ));
+  }
+
+  handleDateSelect(checkInDate, checkOutDate) {
+    this.setState({
+      checkInDate,
+      checkOutDate,
+    });
   }
 
   handleCheckInClick() {
@@ -125,15 +135,21 @@ class BookingPortal extends React.Component {
   }
 
   createDateSection() {
-    const { currentListing, checkInClick, checkOutClick } = this.state;
+    const {
+      currentListing,
+      checkInClick,
+      checkOutClick,
+      checkInDate,
+      checkOutDate,
+    } = this.state;
     if (Object.keys(currentListing).length > 0) {
       return (
         <div>
           <LabelName>Dates</LabelName>
           <DatesSection>
-            <InputDate click={checkInClick} onClick={this.handleCheckInClick}>Check-in</InputDate>
+            <InputDate click={checkInClick} onClick={this.handleCheckInClick}>{checkInDate || 'Check-in'}</InputDate>
             <RightArrow width="28px" fill="rgb(72, 72, 72)" />
-            <InputDate click={checkOutClick} onClick={this.handleCheckOutClick}>Checkout</InputDate>
+            <InputDate click={checkOutClick} onClick={this.handleCheckOutClick}>{checkOutDate || 'Checkout'}</InputDate>
           </DatesSection>
         </div>
       );
@@ -154,7 +170,7 @@ class BookingPortal extends React.Component {
           {this.createDateSection()}
         </form>
         <div style={{ display: inputClick }}>
-          <Calendar availability={currentAvailability} />
+          <Calendar availability={currentAvailability} dateSelect={this.handleDateSelect} />
         </div>
       </AppContainer>
     );

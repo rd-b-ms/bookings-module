@@ -74,18 +74,25 @@ class Calendar extends React.Component {
 
   handleDayClick(id) {
     const { fromDate, toDate } = this.state;
+    const { dateSelect } = this.props;
+    let day = id;
+    if (id < 10) {
+      day = `0${id}`;
+    }
+    const date = moment(`${this.getYear()}-${this.getMonthNum()}-${day}`);
     if (fromDate === null) {
       this.setState({
-        fromDate: moment(`${this.getYear()}-${this.getMonth()}-${id}`),
+        fromDate: date,
       });
+      dateSelect(date.format('MM/DD/Y'), null);
       return;
     }
     if (fromDate !== null && toDate === null) {
-      const date = moment(`${this.getYear()}-${this.getMonth()}-${id}`);
       if (date > fromDate) {
         this.setState({
           toDate: date,
         });
+        dateSelect(fromDate.format('MM/DD/Y'), date.format('MM/DD/Y'));
       }
     }
   }
@@ -143,10 +150,12 @@ class Calendar extends React.Component {
   }
 
   handleClearDatesClick() {
+    const { dateSelect } = this.props;
     this.setState({
       fromDate: null,
       toDate: null,
     });
+    dateSelect(null, null);
   }
 
   clearDates() {
@@ -266,6 +275,7 @@ class Calendar extends React.Component {
 
 Calendar.propTypes = {
   availability: PropTypes.instanceOf(Array).isRequired,
+  dateSelect: PropTypes.instanceOf(Function).isRequired,
 };
 
 export default Calendar;
