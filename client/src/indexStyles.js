@@ -68,13 +68,23 @@ const ReviewsSection = styled.div`
 
 const InputDate = styled.div`
   border: none;
-  color: rgb(117, 117, 117);
+  color: ${(props) => {
+    if (props.click === 'block') {
+      return '#008489';
+    }
+    return 'rgb(117, 117, 117)';
+  }};
   font-family: Roboto, sans-serif;
   font-size: 17px;
   font-weight: 300;
   height: 100%;
   width: 40%;
-  background: transparent;
+  background: ${(props) => {
+    if (props.click === 'block') {
+      return 'rgb(180, 241, 235)';
+    }
+    return 'transparent';
+  }};
   padding-left: 14px;
   cursor: text;
   display: flex;

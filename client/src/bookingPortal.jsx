@@ -21,13 +21,14 @@ class BookingPortal extends React.Component {
     this.state = {
       currentListing: {},
       currentAvailability: [],
-      inputClick: false,
+      checkInClick: 'none',
+      checkOutClick: 'none',
     };
     this.createPriceDiv = this.createPriceDiv.bind(this);
     this.createReviewDiv = this.createReviewDiv.bind(this);
     this.createDateSection = this.createDateSection.bind(this);
-    this.handleInputDateClick = this.handleInputDateClick.bind(this);
-    this.showCalendar = this.showCalendar.bind(this);
+    this.handleCheckInClick = this.handleCheckInClick.bind(this);
+    this.handleCheckOutClick = this.handleCheckOutClick.bind(this);
   }
 
   componentDidMount() {
@@ -51,26 +52,44 @@ class BookingPortal extends React.Component {
       ));
   }
 
-  handleInputDateClick() {
-    const { inputClick } = this.state;
-    if (inputClick) {
+  handleCheckInClick() {
+    const { checkInClick, checkOutClick } = this.state;
+    if (checkInClick === 'none' && checkOutClick === 'none') {
       this.setState({
-        inputClick: false,
+        checkInClick: 'block',
       });
     }
-    if (!inputClick) {
+    if (checkInClick === 'none' && checkOutClick === 'block') {
       this.setState({
-        inputClick: true,
+        checkInClick: 'block',
+        checkOutClick: 'none',
+      });
+    }
+    if (checkInClick === 'block' && checkOutClick === 'none') {
+      this.setState({
+        checkInClick: 'none',
       });
     }
   }
 
-  showCalendar() {
-    const { inputClick, currentAvailability } = this.state;
-    if (inputClick) {
-      return <Calendar availability={currentAvailability} />;
+  handleCheckOutClick() {
+    const { checkInClick, checkOutClick } = this.state;
+    if (checkOutClick === 'none' && checkInClick === 'none') {
+      this.setState({
+        checkOutClick: 'block',
+      });
     }
-    return null;
+    if (checkOutClick === 'none' && checkInClick === 'block') {
+      this.setState({
+        checkOutClick: 'block',
+        checkInClick: 'none',
+      });
+    }
+    if (checkOutClick === 'block' && checkInClick === 'none') {
+      this.setState({
+        checkOutClick: 'none',
+      });
+    }
   }
 
   createPriceDiv() {
@@ -106,15 +125,15 @@ class BookingPortal extends React.Component {
   }
 
   createDateSection() {
-    const { currentListing } = this.state;
+    const { currentListing, checkInClick, checkOutClick } = this.state;
     if (Object.keys(currentListing).length > 0) {
       return (
         <div>
           <LabelName>Dates</LabelName>
           <DatesSection>
-            <InputDate onClick={this.handleInputDateClick}>Check-in</InputDate>
+            <InputDate click={checkInClick} onClick={this.handleCheckInClick}>Check-in</InputDate>
             <RightArrow width="28px" fill="rgb(72, 72, 72)" />
-            <InputDate onClick={this.handleInputDateClick}>Checkout</InputDate>
+            <InputDate click={checkOutClick} onClick={this.handleCheckOutClick}>Checkout</InputDate>
           </DatesSection>
         </div>
       );
@@ -123,6 +142,8 @@ class BookingPortal extends React.Component {
   }
 
   render() {
+    const { currentAvailability, checkInClick, checkOutClick } = this.state;
+    const inputClick = checkInClick === 'block' || checkOutClick === 'block' ? 'block' : 'none';
     return (
       <AppContainer>
         <TopSection>
@@ -132,7 +153,9 @@ class BookingPortal extends React.Component {
         <form>
           {this.createDateSection()}
         </form>
-        {this.showCalendar()}
+        <div style={{ display: inputClick }}>
+          <Calendar availability={currentAvailability} />
+        </div>
       </AppContainer>
     );
   }
