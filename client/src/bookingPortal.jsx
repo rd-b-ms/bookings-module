@@ -32,6 +32,7 @@ class BookingPortal extends React.Component {
     this.handleCheckInClick = this.handleCheckInClick.bind(this);
     this.handleCheckOutClick = this.handleCheckOutClick.bind(this);
     this.handleDateSelect = this.handleDateSelect.bind(this);
+    this.customHandleCheckInClick = this.customHandleCheckInClick.bind(this);
   }
 
   componentDidMount() {
@@ -59,6 +60,13 @@ class BookingPortal extends React.Component {
     this.setState({
       checkInDate,
       checkOutDate,
+    });
+  }
+
+  customHandleCheckInClick(checkInClick, checkOutClick) {
+    this.setState({
+      checkInClick,
+      checkOutClick,
     });
   }
 
@@ -149,7 +157,7 @@ class BookingPortal extends React.Component {
           <DatesSection>
             <InputDate click={checkInClick} onClick={this.handleCheckInClick}>{checkInDate || 'Check-in'}</InputDate>
             <RightArrow width="28px" fill="rgb(72, 72, 72)" />
-            <InputDate click={checkOutClick} onClick={this.handleCheckOutClick}>{checkOutDate || 'Checkout'}</InputDate>
+            <InputDate disableButton={checkInDate} click={checkOutClick} onClick={this.handleCheckOutClick}>{checkOutDate || 'Checkout'}</InputDate>
           </DatesSection>
         </div>
       );
@@ -170,7 +178,11 @@ class BookingPortal extends React.Component {
           {this.createDateSection()}
         </form>
         <div style={{ display: inputClick }}>
-          <Calendar availability={currentAvailability} dateSelect={this.handleDateSelect} />
+          <Calendar
+            availability={currentAvailability}
+            dateSelect={this.handleDateSelect}
+            checkSelect={this.customHandleCheckInClick}
+          />
         </div>
       </AppContainer>
     );

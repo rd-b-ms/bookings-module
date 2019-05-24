@@ -90,6 +90,15 @@ const InputDate = styled.div`
   display: flex;
   align-items: center;
   outline: none;
+  pointer-events: ${(props) => {
+    if (props.disableButton === null) {
+      return 'none';
+    }
+    if (props.disableButton) {
+      return 'auto';
+    }
+    return 'auto';
+  }};
 `;
 
 const StarOuter = styled.span`

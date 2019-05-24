@@ -74,7 +74,7 @@ class Calendar extends React.Component {
 
   handleDayClick(id) {
     const { fromDate, toDate } = this.state;
-    const { dateSelect } = this.props;
+    const { dateSelect, checkSelect } = this.props;
     let day = id;
     if (id < 10) {
       day = `0${id}`;
@@ -85,6 +85,7 @@ class Calendar extends React.Component {
         fromDate: date,
       });
       dateSelect(date.format('MM/DD/Y'), null);
+      checkSelect('none', 'block');
       return;
     }
     if (fromDate !== null && toDate === null) {
@@ -93,15 +94,20 @@ class Calendar extends React.Component {
           toDate: date,
         });
         dateSelect(fromDate.format('MM/DD/Y'), date.format('MM/DD/Y'));
+        checkSelect('none', 'none');
       }
     }
   }
 
   handleSelectedDay(id) {
     const { fromDate, toDate } = this.state;
-    const date = `${this.getYear()}-${this.getMonthNum()}-${id}`;
-    const fdate = fromDate ? fromDate.format('Y-MM-D') : null;
-    const tdate = toDate ? toDate.format('Y-MM-D') : null;
+    let day = id;
+    if (id < 10) {
+      day = `0${id}`;
+    }
+    const date = `${this.getYear()}-${this.getMonthNum()}-${day}`;
+    const fdate = fromDate ? fromDate.format('Y-MM-DD') : null;
+    const tdate = toDate ? toDate.format('Y-MM-DD') : null;
 
     if (fdate !== null) {
       if (date === fdate) {
@@ -129,7 +135,6 @@ class Calendar extends React.Component {
         };
       }
     }
-
     return 0;
   }
 
@@ -150,12 +155,13 @@ class Calendar extends React.Component {
   }
 
   handleClearDatesClick() {
-    const { dateSelect } = this.props;
+    const { dateSelect, checkSelect } = this.props;
     this.setState({
       fromDate: null,
       toDate: null,
     });
     dateSelect(null, null);
+    checkSelect('none', 'none');
   }
 
   clearDates() {
@@ -276,6 +282,7 @@ class Calendar extends React.Component {
 Calendar.propTypes = {
   availability: PropTypes.instanceOf(Array).isRequired,
   dateSelect: PropTypes.instanceOf(Function).isRequired,
+  checkSelect: PropTypes.instanceOf(Function).isRequired,
 };
 
 export default Calendar;
