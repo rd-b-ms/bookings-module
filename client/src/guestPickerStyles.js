@@ -45,10 +45,30 @@ const CloseGuestButton = styled.button`
   }
 `;
 
+const ButtonContainer = styled.button`
+  cursor: pointer;
+  background: transparent;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: ${props => `1px solid rgba(0, 132, 137, ${props.opacity})`};
+
+  &:focus {
+    outline: none;
+  }
+
+  &:active {
+    border-color: rgb(0, 132, 137);
+    -webkit-box-shadow: 0 0 1px rgb(0, 132, 137);
+    box-shadow: 0 0 3px rgb(0, 132, 137);
+  }
+`;
+
 export {
   GuestPickerContainer,
   CloseGuestDiv,
   CloseGuestButton,
   GuestSubText,
   GuestCategoryDiv,
+  ButtonContainer,
 };
