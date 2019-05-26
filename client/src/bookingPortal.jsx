@@ -1,5 +1,6 @@
 import React from 'react';
 import Calendar from './calendar';
+import GuestPicker from './guestPicker';
 import {
   AppContainer,
   Price,
@@ -182,7 +183,7 @@ class BookingPortal extends React.Component {
         </div>
         {this.createGuestSection()}
         <div style={{ display: guestClick }}>
-          <span>hello</span>
+          <GuestPicker />
         </div>
       </AppContainer>
     );
