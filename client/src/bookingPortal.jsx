@@ -183,7 +183,10 @@ class BookingPortal extends React.Component {
         </div>
         {this.createGuestSection()}
         <div style={{ display: guestClick }}>
-          <GuestPicker closeClick={() => this.handleGuestClick(guestClick)} />
+          <GuestPicker
+            closeClick={() => this.handleGuestClick(guestClick)}
+            maxGuests={currentListing.max_guests}
+          />
         </div>
       </AppContainer>
     );

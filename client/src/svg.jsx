@@ -36,6 +36,39 @@ function Arrowhead(props) {
   );
 }
 
+function PlusSign(props) {
+  const { opacity } = props;
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      style={{
+        height: '16px',
+        width: '16px',
+        fill: `rgba(0, 132, 137, ${opacity})`,
+      }}
+    >
+      <rect height="2" rx="1" width="12" x="6" y="11" />
+      <rect height="12" rx="1" width="2" x="11" y="6" />
+    </svg>
+  );
+}
+
+function MinusSign(props) {
+  const { opacity } = props;
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      style={{
+        height: '16px',
+        width: '16px',
+        fill: `rgba(0, 132, 137, ${opacity})`,
+      }}
+    >
+      <rect height="2" rx="1" width="12" x="6" y="11" />
+    </svg>
+  );
+}
+
 RightArrow.propTypes = {
   width: PropTypes.string.isRequired,
   fill: PropTypes.string.isRequired,
@@ -50,8 +83,18 @@ Arrowhead.propTypes = {
   transform: PropTypes.string.isRequired,
 };
 
+PlusSign.propTypes = {
+  opacity: PropTypes.number.isRequired,
+};
+
+MinusSign.propTypes = {
+  opacity: PropTypes.number.isRequired,
+};
+
 export {
   RightArrow,
   LeftArrow,
   Arrowhead,
+  PlusSign,
+  MinusSign,
 };

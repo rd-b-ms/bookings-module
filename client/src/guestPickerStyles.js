@@ -11,16 +11,16 @@ const GuestPickerContainer = styled.div`
 const GuestCategoryDiv = styled.div`
   width: 100%;
   display: flex;
-  margin-bottom: 25px;
+  margin-bottom: 28px;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
 `;
 
 const GuestSubText = styled.div`
   font-size: 14px;
   font-weight: 300;
   color: #484848;
-  margin-top: 5px;
 `;
 
 const CloseGuestDiv = styled.div`
@@ -52,7 +52,10 @@ const ButtonContainer = styled.button`
   height: 32px;
   border-radius: 50%;
   border: ${props => `1px solid rgba(0, 132, 137, ${props.opacity})`};
-
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
   &:focus {
     outline: none;
   }
