@@ -20,6 +20,54 @@ class GuestPicker extends React.Component {
     };
     this.checkMaxGuests = this.checkMaxGuests.bind(this);
     this.checkMinGuests = this.checkMinGuests.bind(this);
+    this.handleMinusClick = this.handleMinusClick.bind(this);
+    this.handlePlusClick = this.handlePlusClick.bind(this);
+  }
+
+  handleMinusClick(guestType) {
+    const { numAdults, numChildren, numInfants } = this.state;
+    if (guestType === 'Adults') {
+      if (!this.checkMinGuests(guestType)) {
+        this.setState({
+          numAdults: numAdults - 1,
+        });
+      }
+    } else if (guestType === 'Children') {
+      if (!this.checkMinGuests(guestType)) {
+        this.setState({
+          numChildren: numChildren - 1,
+        });
+      }
+    } else if (guestType === 'Infants') {
+      if (!this.checkMinGuests(guestType)) {
+        this.setState({
+          numInfants: numInfants - 1,
+        });
+      }
+    }
+  }
+
+  handlePlusClick(guestType) {
+    const { numAdults, numChildren, numInfants } = this.state;
+    if (guestType === 'Adults') {
+      if (!this.checkMaxGuests(guestType)) {
+        this.setState({
+          numAdults: numAdults + 1,
+        });
+      }
+    } else if (guestType === 'Children') {
+      if (!this.checkMaxGuests(guestType)) {
+        this.setState({
+          numChildren: numChildren + 1,
+        });
+      }
+    } else if (guestType === 'Infants') {
+      if (!this.checkMaxGuests(guestType)) {
+        this.setState({
+          numInfants: numInfants + 1,
+        });
+      }
+    }
   }
 
   checkMinGuests(guestType) {
@@ -65,13 +113,19 @@ class GuestPicker extends React.Component {
             {subtext}
           </GuestSubText>
         </div>
-        <ButtonContainer opacity={this.checkMinGuests(guestType) ? 0.3 : 1}>
+        <ButtonContainer
+          onClick={() => this.handleMinusClick(guestType)}
+          opacity={this.checkMinGuests(guestType) ? 0.3 : 1}
+        >
           <MinusSign opacity={this.checkMinGuests(guestType) ? 0.3 : 1} />
         </ButtonContainer>
         <div style={{ width: '15%', textAlign: 'center' }}>
           {numGuests}
         </div>
-        <ButtonContainer opacity={this.checkMaxGuests(guestType) ? 0.3 : 1}>
+        <ButtonContainer
+          onClick={() => this.handlePlusClick(guestType)}
+          opacity={this.checkMaxGuests(guestType) ? 0.3 : 1}
+        >
           <PlusSign opacity={this.checkMaxGuests(guestType) ? 0.3 : 1} />
         </ButtonContainer>
       </GuestCategoryDiv>
