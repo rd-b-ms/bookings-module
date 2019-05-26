@@ -129,28 +129,43 @@ class BookingPortal extends React.Component {
       checkOutClick,
       checkInDate,
       checkOutDate,
+      currentAvailability,
     } = this.state;
+    const calClick = checkInClick === 'block' || checkOutClick === 'block' ? 'block' : 'none';
     return (
-      <div>
+      <div style={{ position: 'relative' }}>
         <LabelName>Dates</LabelName>
         <DatesSection>
           <InputDate click={checkInClick} onClick={this.handleCheckInClick}>{checkInDate || 'Check-in'}</InputDate>
           <RightArrow width="28px" fill="rgb(72, 72, 72)" />
           <InputDate disableButton={checkInDate} click={checkOutClick} onClick={this.handleCheckOutClick}>{checkOutDate || 'Checkout'}</InputDate>
         </DatesSection>
+        <div style={{ display: calClick }}>
+          <Calendar
+            availability={currentAvailability}
+            dateSelect={this.handleDateSelect}
+            checkSelect={this.customHandleCheckInClick}
+          />
+        </div>
       </div>
     );
   }
 
   createGuestSection() {
-    const { guestClick } = this.state;
+    const { guestClick, currentListing } = this.state;
     return (
-      <div>
+      <div style={{ position: 'relative' }}>
         <LabelName>Guests</LabelName>
         <GuestButton onClick={() => this.handleGuestClick(guestClick)}>
           <div style={{ width: '95%' }}>1 guest</div>
           <Arrowhead transform="none" />
         </GuestButton>
+        <div style={{ display: guestClick }}>
+          <GuestPicker
+            closeClick={() => this.handleGuestClick(guestClick)}
+            maxGuests={currentListing.max_guests}
+          />
+        </div>
       </div>
     );
   }
@@ -158,12 +173,7 @@ class BookingPortal extends React.Component {
   render() {
     const {
       currentListing,
-      currentAvailability,
-      checkInClick,
-      checkOutClick,
-      guestClick,
     } = this.state;
-    const calClick = checkInClick === 'block' || checkOutClick === 'block' ? 'block' : 'none';
     if (Object.keys(currentListing).length === 0) {
       return null;
     }
@@ -174,20 +184,7 @@ class BookingPortal extends React.Component {
           {this.createReviewDiv()}
         </TopSection>
         {this.createDateSection()}
-        <div style={{ display: calClick }}>
-          <Calendar
-            availability={currentAvailability}
-            dateSelect={this.handleDateSelect}
-            checkSelect={this.customHandleCheckInClick}
-          />
-        </div>
         {this.createGuestSection()}
-        <div style={{ display: guestClick }}>
-          <GuestPicker
-            closeClick={() => this.handleGuestClick(guestClick)}
-            maxGuests={currentListing.max_guests}
-          />
-        </div>
       </AppContainer>
     );
   }

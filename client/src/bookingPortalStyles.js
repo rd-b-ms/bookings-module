@@ -137,6 +137,7 @@ const GuestButton = styled.button`
   display: flex;
   align-items: center;
   cursor: pointer;
+  border-radius: 2px;
 `;
 
 export {

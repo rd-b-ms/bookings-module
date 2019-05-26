@@ -1,11 +1,17 @@
 import styled from 'styled-components';
 
 const GuestPickerContainer = styled.div`
+  z-index: 1;
+  position: absolute;
+  top: 58px;
+  left: 0px;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 6px, rgba(0, 0, 0, 0.07) 0px 0px 0px 1px;
+  border-top: 3px solid rgb(0, 132, 137);
+  width: 91%;
   padding: 25px 16px;
-  border-radius: 3px;
   background: rgb(255, 255, 255);
   color: #484848;
+  border-radius: 2px;
 `;
 
 const GuestCategoryDiv = styled.div`
