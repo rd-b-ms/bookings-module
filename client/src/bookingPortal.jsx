@@ -12,7 +12,7 @@ import {
   StarOuter,
   StarInner,
   ReviewsSection,
-} from './indexStyles';
+} from './bookingPortalStyles';
 import { RightArrow } from './svg';
 
 class BookingPortal extends React.Component {
@@ -71,43 +71,19 @@ class BookingPortal extends React.Component {
   }
 
   handleCheckInClick() {
-    const { checkInClick, checkOutClick } = this.state;
-    if (checkInClick === 'none' && checkOutClick === 'none') {
-      this.setState({
-        checkInClick: 'block',
-      });
-    }
-    if (checkInClick === 'none' && checkOutClick === 'block') {
-      this.setState({
-        checkInClick: 'block',
-        checkOutClick: 'none',
-      });
-    }
-    if (checkInClick === 'block' && checkOutClick === 'none') {
-      this.setState({
-        checkInClick: 'none',
-      });
-    }
+    const { checkInClick } = this.state;
+    this.setState({
+      checkInClick: checkInClick === 'none' ? 'block' : 'none',
+      checkOutClick: 'none',
+    });
   }
 
   handleCheckOutClick() {
-    const { checkInClick, checkOutClick } = this.state;
-    if (checkOutClick === 'none' && checkInClick === 'none') {
-      this.setState({
-        checkOutClick: 'block',
-      });
-    }
-    if (checkOutClick === 'none' && checkInClick === 'block') {
-      this.setState({
-        checkOutClick: 'block',
-        checkInClick: 'none',
-      });
-    }
-    if (checkOutClick === 'block' && checkInClick === 'none') {
-      this.setState({
-        checkOutClick: 'none',
-      });
-    }
+    const { checkOutClick } = this.state;
+    this.setState({
+      checkInClick: 'none',
+      checkOutClick: checkOutClick === 'none' ? 'block' : 'none',
+    });
   }
 
   createPriceDiv() {
