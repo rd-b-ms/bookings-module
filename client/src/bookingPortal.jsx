@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import Calendar from './calendar';
 import GuestPicker from './guestPicker';
 import {
@@ -14,6 +15,8 @@ import {
   StarInner,
   ReviewsSection,
   GuestButton,
+  BookButton,
+  FootNote,
 } from './bookingPortalStyles';
 import { RightArrow, Arrowhead } from './svg';
 
@@ -38,6 +41,7 @@ class BookingPortal extends React.Component {
     this.customHandleCheckInClick = this.customHandleCheckInClick.bind(this);
     this.createGuestSection = this.createGuestSection.bind(this);
     this.handleGuestClick = this.handleGuestClick.bind(this);
+    this.handleBookClick = this.handleBookClick.bind(this);
   }
 
   componentDidMount() {
@@ -66,6 +70,44 @@ class BookingPortal extends React.Component {
       checkInDate,
       checkOutDate,
     });
+  }
+
+  handleBookClick() {
+    const {
+      checkInDate,
+      checkOutDate,
+      currentListing,
+      currentAvailability,
+    } = this.state;
+    if (checkInDate && checkOutDate) {
+      fetch('/booking', {
+        method: 'POST',
+        body: JSON.stringify({
+          listingId: currentListing.listing_id,
+          fromDate: new Date(checkInDate.valueOf()),
+          toDate: new Date(checkOutDate.valueOf()),
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+        .then(res => res.json())
+        .then((data) => {
+          this.handleDateSelect(null, null);
+          currentAvailability.push(data);
+          this.setState({
+            currentAvailability,
+          });
+          const fromDate = moment(data.from_date);
+          const toDate = moment(data.to_date);
+          console.log(`Listing ${data.listing_id} has been booked from ${fromDate.format('MM/DD/Y')} to ${toDate.format('MM/DD/Y')}`);
+        })
+        .catch(err => console.error(err));
+    } else if (checkInDate) {
+      this.customHandleCheckInClick('none', 'block');
+    } else {
+      this.customHandleCheckInClick('block', 'none');
+    }
   }
 
   handleGuestClick(guestClick) {
@@ -136,9 +178,9 @@ class BookingPortal extends React.Component {
       <div style={{ position: 'relative' }}>
         <LabelName>Dates</LabelName>
         <DatesSection>
-          <InputDate click={checkInClick} onClick={this.handleCheckInClick}>{checkInDate || 'Check-in'}</InputDate>
+          <InputDate click={checkInClick} onClick={this.handleCheckInClick}>{checkInDate ? checkInDate.format('MM/DD/Y') : 'Check-in'}</InputDate>
           <RightArrow width="28px" fill="rgb(72, 72, 72)" />
-          <InputDate disableButton={checkInDate} click={checkOutClick} onClick={this.handleCheckOutClick}>{checkOutDate || 'Checkout'}</InputDate>
+          <InputDate disableButton={checkInDate} click={checkOutClick} onClick={this.handleCheckOutClick}>{checkOutDate ? checkOutDate.format('MM/DD/Y') : 'Checkout'}</InputDate>
         </DatesSection>
         <div style={{ display: calClick }}>
           <Calendar
@@ -185,6 +227,8 @@ class BookingPortal extends React.Component {
         </TopSection>
         {this.createDateSection()}
         {this.createGuestSection()}
+        <BookButton onClick={this.handleBookClick}>Book</BookButton>
+        <FootNote>You won’t be charged yet</FootNote>
       </AppContainer>
     );
   }

@@ -84,7 +84,7 @@ class Calendar extends React.Component {
       this.setState({
         fromDate: date,
       });
-      dateSelect(date.format('MM/DD/Y'), null);
+      dateSelect(date, null);
       checkSelect('none', 'block');
       return;
     }
@@ -93,7 +93,7 @@ class Calendar extends React.Component {
         this.setState({
           toDate: date,
         });
-        dateSelect(fromDate.format('MM/DD/Y'), date.format('MM/DD/Y'));
+        dateSelect(fromDate, date);
         checkSelect('none', 'none');
       }
     }

@@ -19,7 +19,7 @@ const Price = styled.span`
 const PriceText = styled.span`
   font-family: Roboto, sans-serif;
   font-weight: 500;
-  font-size: 12px
+  font-size: 13px
   color: rgb(72, 72, 72);
 `;
 
@@ -40,7 +40,7 @@ const TopSection = styled.div`
 const LabelName = styled.p`
   font-family: Roboto, sans-serif;
   font-weight: 500;
-  font-size: 12px
+  font-size: 13px
   color: rgb(72, 72, 72);
   margin-top: 20px;
   margin-bottom: 0px;
@@ -140,6 +140,28 @@ const GuestButton = styled.button`
   border-radius: 2px;
 `;
 
+const BookButton = styled.button`
+  text-align: center;
+  background: rgb(255, 90, 95);
+  border-color: transparent;
+  color: rgb(255, 255, 255);
+  border-radius: 4px;
+  font-family: Roboto, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 15px;
+  width: 100%;
+  margin-top: 25px;
+  cursor: pointer;
+`;
+
+const FootNote = styled.p`
+  color: #484848;
+  font-size: 13px
+  font-weight: 500;
+  text-align: center;
+`;
+
 export {
   AppContainer,
   Price,
@@ -153,4 +175,6 @@ export {
   StarInner,
   ReviewsSection,
   GuestButton,
+  BookButton,
+  FootNote,
 };
