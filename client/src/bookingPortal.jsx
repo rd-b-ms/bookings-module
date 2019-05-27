@@ -46,9 +46,11 @@ class BookingPortal extends React.Component {
     this.handleBookClick = this.handleBookClick.bind(this);
     this.handleNumGuestsClick = this.handleNumGuestsClick.bind(this);
     this.printTotalGuests = this.printTotalGuests.bind(this);
+    this.handleOutsideClick = this.handleOutsideClick.bind(this);
   }
 
   componentDidMount() {
+    document.addEventListener('click', this.handleOutsideClick, false);
     const params = new URLSearchParams(window.location.search);
     if (!params.has('listingid')) {
       window.location.assign('/error');
@@ -67,6 +69,17 @@ class BookingPortal extends React.Component {
       .catch(err => (
         console.error(err)
       ));
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleOutsideClick, false);
+  }
+
+  handleOutsideClick(e) {
+    if (this.calNode.contains(e.target)) {
+      return;
+    }
+    this.customHandleCheckInClick('none', 'none');
   }
 
   handleDateSelect(checkInDate, checkOutDate) {
@@ -195,7 +208,7 @@ class BookingPortal extends React.Component {
     } = this.state;
     const calClick = checkInClick === 'block' || checkOutClick === 'block' ? 'block' : 'none';
     return (
-      <div style={{ position: 'relative' }}>
+      <div style={{ position: 'relative' }} ref={(calNode) => { this.calNode = calNode; }}>
         <LabelName>Dates</LabelName>
         <DatesSection>
           <InputDate click={checkInClick} onClick={this.handleCheckInClick}>{checkInDate ? checkInDate.format('MM/DD/Y') : 'Check-in'}</InputDate>
