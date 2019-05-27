@@ -35,6 +35,8 @@ for (let j = 0; j < 5; j += 1) {
     listing_id: faker.random.number({ min: 1, max: 101 }),
     from_date: fromDate,
     to_date: toDate,
+    num_guests: faker.random.number({ min: 1, max: 10 }),
+    num_infants: faker.random.number({ min: 0, max: 5 }),
   };
   availabilityData.push(booking);
 }

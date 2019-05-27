@@ -23,8 +23,20 @@ app.get('/booking', (req, res) => {
 });
 
 app.post('/booking', (req, res) => {
-  const { listingId, fromDate, toDate } = req.body;
-  db.Availability.create({ listing_id: listingId, from_date: fromDate, to_date: toDate })
+  const {
+    listingId,
+    fromDate,
+    toDate,
+    numGuests,
+    numInfants,
+  } = req.body;
+  db.Availability.create({
+    listing_id: listingId,
+    from_date: fromDate,
+    to_date: toDate,
+    num_guests: numGuests,
+    num_infants: numInfants,
+  })
     .then(newBooking => (
       res.json(newBooking)
     ))

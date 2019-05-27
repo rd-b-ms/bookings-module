@@ -31,6 +31,8 @@ const Availability = sequelize.define('availability', {
   },
   from_date: Sequelize.DATE,
   to_date: Sequelize.DATE,
+  num_guests: Sequelize.INTEGER,
+  num_infants: Sequelize.INTEGER,
 });
 
 Listing.hasMany(Availability);

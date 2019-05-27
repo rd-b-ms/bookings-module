@@ -91,6 +91,8 @@ class BookingPortal extends React.Component {
 
   handleBookClick() {
     const {
+      numGuests,
+      numInfants,
       checkInDate,
       checkOutDate,
       currentListing,
@@ -103,6 +105,8 @@ class BookingPortal extends React.Component {
           listingId: currentListing.listing_id,
           fromDate: new Date(checkInDate.valueOf()),
           toDate: new Date(checkOutDate.valueOf()),
+          numGuests,
+          numInfants,
         }),
         headers: {
           'Content-Type': 'application/json',
@@ -114,6 +118,8 @@ class BookingPortal extends React.Component {
           currentAvailability.push(data);
           this.setState({
             currentAvailability,
+            numGuests: 1,
+            numInfants: 0,
           });
           const fromDate = moment(data.from_date);
           const toDate = moment(data.to_date);
