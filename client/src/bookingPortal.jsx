@@ -31,6 +31,8 @@ class BookingPortal extends React.Component {
       checkInDate: null,
       checkOutDate: null,
       guestClick: 'none',
+      numGuests: 1,
+      numInfants: 0,
     };
     this.createPriceDiv = this.createPriceDiv.bind(this);
     this.createReviewDiv = this.createReviewDiv.bind(this);
@@ -42,6 +44,8 @@ class BookingPortal extends React.Component {
     this.createGuestSection = this.createGuestSection.bind(this);
     this.handleGuestClick = this.handleGuestClick.bind(this);
     this.handleBookClick = this.handleBookClick.bind(this);
+    this.handleNumGuestsClick = this.handleNumGuestsClick.bind(this);
+    this.printTotalGuests = this.printTotalGuests.bind(this);
   }
 
   componentDidMount() {
@@ -114,6 +118,20 @@ class BookingPortal extends React.Component {
     this.setState({
       guestClick: guestClick === 'none' ? 'block' : 'none',
     });
+  }
+
+  handleNumGuestsClick(numGuests, numInfants) {
+    this.setState({
+      numGuests,
+      numInfants,
+    });
+  }
+
+  printTotalGuests() {
+    const { numGuests, numInfants } = this.state;
+    const guestsMessage = `${numGuests} guest${numGuests > 1 ? 's' : ''}`;
+    const infantsMessage = numInfants > 0 ? `, ${numInfants} infant${numInfants > 1 ? 's' : ''}` : '';
+    return guestsMessage + infantsMessage;
   }
 
   customHandleCheckInClick(checkInClick, checkOutClick) {
@@ -199,12 +217,13 @@ class BookingPortal extends React.Component {
       <div style={{ position: 'relative' }}>
         <LabelName>Guests</LabelName>
         <GuestButton onClick={() => this.handleGuestClick(guestClick)}>
-          <div style={{ width: '95%' }}>1 guest</div>
+          <div style={{ width: '95%' }}>{this.printTotalGuests()}</div>
           <Arrowhead transform="none" />
         </GuestButton>
         <div style={{ display: guestClick }}>
           <GuestPicker
             closeClick={() => this.handleGuestClick(guestClick)}
+            numGuestsClick={this.handleNumGuestsClick}
             maxGuests={currentListing.max_guests}
           />
         </div>

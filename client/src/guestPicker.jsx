@@ -26,46 +26,56 @@ class GuestPicker extends React.Component {
 
   handleMinusClick(guestType) {
     const { numAdults, numChildren, numInfants } = this.state;
+    const { numGuestsClick } = this.props;
+    const totalGuests = numAdults + numChildren;
     if (guestType === 'Adults') {
       if (!this.checkMinGuests(guestType)) {
         this.setState({
           numAdults: numAdults - 1,
         });
+        numGuestsClick(totalGuests - 1, numInfants);
       }
     } else if (guestType === 'Children') {
       if (!this.checkMinGuests(guestType)) {
         this.setState({
           numChildren: numChildren - 1,
         });
+        numGuestsClick(totalGuests - 1, numInfants);
       }
     } else if (guestType === 'Infants') {
       if (!this.checkMinGuests(guestType)) {
         this.setState({
           numInfants: numInfants - 1,
         });
+        numGuestsClick(totalGuests, numInfants - 1);
       }
     }
   }
 
   handlePlusClick(guestType) {
     const { numAdults, numChildren, numInfants } = this.state;
+    const { numGuestsClick } = this.props;
+    const totalGuests = numAdults + numChildren;
     if (guestType === 'Adults') {
       if (!this.checkMaxGuests(guestType)) {
         this.setState({
           numAdults: numAdults + 1,
         });
+        numGuestsClick(totalGuests + 1, numInfants);
       }
     } else if (guestType === 'Children') {
       if (!this.checkMaxGuests(guestType)) {
         this.setState({
           numChildren: numChildren + 1,
         });
+        numGuestsClick(totalGuests + 1, numInfants);
       }
     } else if (guestType === 'Infants') {
       if (!this.checkMaxGuests(guestType)) {
         this.setState({
           numInfants: numInfants + 1,
         });
+        numGuestsClick(totalGuests, numInfants + 1);
       }
     }
   }
@@ -155,6 +165,7 @@ class GuestPicker extends React.Component {
 
 GuestPicker.propTypes = {
   closeClick: PropTypes.instanceOf(Function).isRequired,
+  numGuestsClick: PropTypes.instanceOf(Function).isRequired,
   maxGuests: PropTypes.number.isRequired,
 };
 
