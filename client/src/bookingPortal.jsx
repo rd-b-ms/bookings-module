@@ -1,5 +1,6 @@
 import React from 'react';
 import Calendar from './calendar';
+import GuestPicker from './guestPicker';
 import {
   AppContainer,
   Price,
@@ -12,8 +13,9 @@ import {
   StarOuter,
   StarInner,
   ReviewsSection,
-} from './indexStyles';
-import { RightArrow } from './svg';
+  GuestButton,
+} from './bookingPortalStyles';
+import { RightArrow, Arrowhead } from './svg';
 
 class BookingPortal extends React.Component {
   constructor(props) {
@@ -25,6 +27,7 @@ class BookingPortal extends React.Component {
       checkOutClick: 'none',
       checkInDate: null,
       checkOutDate: null,
+      guestClick: 'none',
     };
     this.createPriceDiv = this.createPriceDiv.bind(this);
     this.createReviewDiv = this.createReviewDiv.bind(this);
@@ -33,6 +36,8 @@ class BookingPortal extends React.Component {
     this.handleCheckOutClick = this.handleCheckOutClick.bind(this);
     this.handleDateSelect = this.handleDateSelect.bind(this);
     this.customHandleCheckInClick = this.customHandleCheckInClick.bind(this);
+    this.createGuestSection = this.createGuestSection.bind(this);
+    this.handleGuestClick = this.handleGuestClick.bind(this);
   }
 
   componentDidMount() {
@@ -63,6 +68,12 @@ class BookingPortal extends React.Component {
     });
   }
 
+  handleGuestClick(guestClick) {
+    this.setState({
+      guestClick: guestClick === 'none' ? 'block' : 'none',
+    });
+  }
+
   customHandleCheckInClick(checkInClick, checkOutClick) {
     this.setState({
       checkInClick,
@@ -71,117 +82,110 @@ class BookingPortal extends React.Component {
   }
 
   handleCheckInClick() {
-    const { checkInClick, checkOutClick } = this.state;
-    if (checkInClick === 'none' && checkOutClick === 'none') {
-      this.setState({
-        checkInClick: 'block',
-      });
-    }
-    if (checkInClick === 'none' && checkOutClick === 'block') {
-      this.setState({
-        checkInClick: 'block',
-        checkOutClick: 'none',
-      });
-    }
-    if (checkInClick === 'block' && checkOutClick === 'none') {
-      this.setState({
-        checkInClick: 'none',
-      });
-    }
+    const { checkInClick } = this.state;
+    this.setState({
+      checkInClick: checkInClick === 'none' ? 'block' : 'none',
+      checkOutClick: 'none',
+    });
   }
 
   handleCheckOutClick() {
-    const { checkInClick, checkOutClick } = this.state;
-    if (checkOutClick === 'none' && checkInClick === 'none') {
-      this.setState({
-        checkOutClick: 'block',
-      });
-    }
-    if (checkOutClick === 'none' && checkInClick === 'block') {
-      this.setState({
-        checkOutClick: 'block',
-        checkInClick: 'none',
-      });
-    }
-    if (checkOutClick === 'block' && checkInClick === 'none') {
-      this.setState({
-        checkOutClick: 'none',
-      });
-    }
+    const { checkOutClick } = this.state;
+    this.setState({
+      checkInClick: 'none',
+      checkOutClick: checkOutClick === 'none' ? 'block' : 'none',
+    });
   }
 
   createPriceDiv() {
     const { currentListing } = this.state;
-    if (currentListing.price) {
-      return (
-        <div className="price-component">
-          <Price>{`$${currentListing.price}`}</Price>
-          <PriceText> per night</PriceText>
-        </div>
-      );
-    }
-    return null;
+    return (
+      <div className="price-component">
+        <Price>{`$${currentListing.price}`}</Price>
+        <PriceText> per night</PriceText>
+      </div>
+    );
   }
 
   createReviewDiv() {
     const { currentListing } = this.state;
     const pct = currentListing.avg_rating_pct;
     const starsWidth = pct ? Math.round(pct / 100 * 50) : 0;
-    if (currentListing.num_reviews) {
-      return (
-        <ReviewsSection>
-          <StarOuter color="rgb(228, 231, 231)">
-            <StarInner width={`${starsWidth}px`}>
-              <StarOuter color="rgb(18, 132, 136)" />
-            </StarInner>
-          </StarOuter>
-          <NumReviews>{currentListing.num_reviews}</NumReviews>
-        </ReviewsSection>
-      );
-    }
-    return null;
+    return (
+      <ReviewsSection>
+        <StarOuter color="rgb(228, 231, 231)">
+          <StarInner width={`${starsWidth}px`}>
+            <StarOuter color="rgb(18, 132, 136)" />
+          </StarInner>
+        </StarOuter>
+        <NumReviews>{currentListing.num_reviews}</NumReviews>
+      </ReviewsSection>
+    );
   }
 
   createDateSection() {
     const {
-      currentListing,
       checkInClick,
       checkOutClick,
       checkInDate,
       checkOutDate,
     } = this.state;
-    if (Object.keys(currentListing).length > 0) {
-      return (
-        <div>
-          <LabelName>Dates</LabelName>
-          <DatesSection>
-            <InputDate click={checkInClick} onClick={this.handleCheckInClick}>{checkInDate || 'Check-in'}</InputDate>
-            <RightArrow width="28px" fill="rgb(72, 72, 72)" />
-            <InputDate disableButton={checkInDate} click={checkOutClick} onClick={this.handleCheckOutClick}>{checkOutDate || 'Checkout'}</InputDate>
-          </DatesSection>
-        </div>
-      );
-    }
-    return null;
+    return (
+      <div>
+        <LabelName>Dates</LabelName>
+        <DatesSection>
+          <InputDate click={checkInClick} onClick={this.handleCheckInClick}>{checkInDate || 'Check-in'}</InputDate>
+          <RightArrow width="28px" fill="rgb(72, 72, 72)" />
+          <InputDate disableButton={checkInDate} click={checkOutClick} onClick={this.handleCheckOutClick}>{checkOutDate || 'Checkout'}</InputDate>
+        </DatesSection>
+      </div>
+    );
+  }
+
+  createGuestSection() {
+    const { guestClick } = this.state;
+    return (
+      <div>
+        <LabelName>Guests</LabelName>
+        <GuestButton onClick={() => this.handleGuestClick(guestClick)}>
+          <div style={{ width: '95%' }}>1 guest</div>
+          <Arrowhead transform="none" />
+        </GuestButton>
+      </div>
+    );
   }
 
   render() {
-    const { currentAvailability, checkInClick, checkOutClick } = this.state;
-    const inputClick = checkInClick === 'block' || checkOutClick === 'block' ? 'block' : 'none';
+    const {
+      currentListing,
+      currentAvailability,
+      checkInClick,
+      checkOutClick,
+      guestClick,
+    } = this.state;
+    const calClick = checkInClick === 'block' || checkOutClick === 'block' ? 'block' : 'none';
+    if (Object.keys(currentListing).length === 0) {
+      return null;
+    }
     return (
       <AppContainer>
         <TopSection>
           {this.createPriceDiv()}
           {this.createReviewDiv()}
         </TopSection>
-        <form>
-          {this.createDateSection()}
-        </form>
-        <div style={{ display: inputClick }}>
+        {this.createDateSection()}
+        <div style={{ display: calClick }}>
           <Calendar
             availability={currentAvailability}
             dateSelect={this.handleDateSelect}
             checkSelect={this.customHandleCheckInClick}
+          />
+        </div>
+        {this.createGuestSection()}
+        <div style={{ display: guestClick }}>
+          <GuestPicker
+            closeClick={() => this.handleGuestClick(guestClick)}
+            maxGuests={currentListing.max_guests}
           />
         </div>
       </AppContainer>

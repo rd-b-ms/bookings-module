@@ -19,6 +19,56 @@ function LeftArrow(props) {
   );
 }
 
+function Arrowhead(props) {
+  const { transform } = props;
+  return (
+    <svg
+      viewBox="0 0 18 18"
+      style={{
+        height: '16px',
+        width: '16px',
+        fill: '#484848',
+        transform,
+      }}
+    >
+      <path d="m16.29 4.3a1 1 0 1 1 1.41 1.42l-8 8a1 1 0 0 1 -1.41 0l-8-8a1 1 0 1 1 1.41-1.42l7.29 7.29z" fillRule="evenodd" />
+    </svg>
+  );
+}
+
+function PlusSign(props) {
+  const { opacity } = props;
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      style={{
+        height: '16px',
+        width: '16px',
+        fill: `rgba(0, 132, 137, ${opacity})`,
+      }}
+    >
+      <rect height="2" rx="1" width="12" x="6" y="11" />
+      <rect height="12" rx="1" width="2" x="11" y="6" />
+    </svg>
+  );
+}
+
+function MinusSign(props) {
+  const { opacity } = props;
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      style={{
+        height: '16px',
+        width: '16px',
+        fill: `rgba(0, 132, 137, ${opacity})`,
+      }}
+    >
+      <rect height="2" rx="1" width="12" x="6" y="11" />
+    </svg>
+  );
+}
+
 RightArrow.propTypes = {
   width: PropTypes.string.isRequired,
   fill: PropTypes.string.isRequired,
@@ -29,7 +79,22 @@ LeftArrow.propTypes = {
   fill: PropTypes.string.isRequired,
 };
 
+Arrowhead.propTypes = {
+  transform: PropTypes.string.isRequired,
+};
+
+PlusSign.propTypes = {
+  opacity: PropTypes.number.isRequired,
+};
+
+MinusSign.propTypes = {
+  opacity: PropTypes.number.isRequired,
+};
+
 export {
   RightArrow,
   LeftArrow,
+  Arrowhead,
+  PlusSign,
+  MinusSign,
 };

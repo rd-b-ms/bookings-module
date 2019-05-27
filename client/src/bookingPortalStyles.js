@@ -124,6 +124,21 @@ const StarInner = styled.span`
   margin: 0;
 `;
 
+const GuestButton = styled.button`
+  border: 1px solid rgb(228, 231, 231);
+  font-family: Roboto, sans-serif;
+  font-size: 17px;
+  font-weight: 300;
+  text-align: left;
+  width: 100%;
+  height: 44px;
+  padding: 8px 14px;
+  color: #484848;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+`;
+
 export {
   AppContainer,
   Price,
@@ -136,4 +151,5 @@ export {
   StarOuter,
   StarInner,
   ReviewsSection,
+  GuestButton,
 };
