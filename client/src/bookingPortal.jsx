@@ -146,6 +146,7 @@ class BookingPortal extends React.Component {
     this.setState({
       checkInClick: checkInClick === 'none' ? 'block' : 'none',
       checkOutClick: 'none',
+      guestClick: 'none',
     });
   }
 
@@ -154,6 +155,7 @@ class BookingPortal extends React.Component {
     this.setState({
       checkInClick: 'none',
       checkOutClick: checkOutClick === 'none' ? 'block' : 'none',
+      guestClick: 'none',
     });
   }
 
