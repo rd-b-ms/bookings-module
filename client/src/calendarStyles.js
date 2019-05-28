@@ -1,9 +1,13 @@
 import styled from 'styled-components';
 
 const CalendarContainer = styled.div`
+  z-index: 1;
+  position: absolute;
+  top: 58px;
+  left: 0px;
   border: 1px solid rgb(228, 231, 231);
   background: rgb(255, 255, 255);
-  padding: 30px 0px;
+  padding: 30px 30px;
   display: flex;
   flex-direction: column;
   align-items: center;

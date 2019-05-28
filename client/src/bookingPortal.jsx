@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import Calendar from './calendar';
 import GuestPicker from './guestPicker';
 import {
@@ -14,6 +15,8 @@ import {
   StarInner,
   ReviewsSection,
   GuestButton,
+  BookButton,
+  FootNote,
 } from './bookingPortalStyles';
 import { RightArrow, Arrowhead } from './svg';
 
@@ -28,6 +31,8 @@ class BookingPortal extends React.Component {
       checkInDate: null,
       checkOutDate: null,
       guestClick: 'none',
+      numGuests: 1,
+      numInfants: 0,
     };
     this.createPriceDiv = this.createPriceDiv.bind(this);
     this.createReviewDiv = this.createReviewDiv.bind(this);
@@ -38,9 +43,14 @@ class BookingPortal extends React.Component {
     this.customHandleCheckInClick = this.customHandleCheckInClick.bind(this);
     this.createGuestSection = this.createGuestSection.bind(this);
     this.handleGuestClick = this.handleGuestClick.bind(this);
+    this.handleBookClick = this.handleBookClick.bind(this);
+    this.handleNumGuestsClick = this.handleNumGuestsClick.bind(this);
+    this.printTotalGuests = this.printTotalGuests.bind(this);
+    this.handleOutsideClick = this.handleOutsideClick.bind(this);
   }
 
   componentDidMount() {
+    document.addEventListener('click', this.handleOutsideClick, false);
     const params = new URLSearchParams(window.location.search);
     if (!params.has('listingid')) {
       window.location.assign('/error');
@@ -61,6 +71,17 @@ class BookingPortal extends React.Component {
       ));
   }
 
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleOutsideClick, false);
+  }
+
+  handleOutsideClick(e) {
+    if (this.calNode.contains(e.target)) {
+      return;
+    }
+    this.customHandleCheckInClick('none', 'none');
+  }
+
   handleDateSelect(checkInDate, checkOutDate) {
     this.setState({
       checkInDate,
@@ -68,10 +89,68 @@ class BookingPortal extends React.Component {
     });
   }
 
+  handleBookClick() {
+    const {
+      numGuests,
+      numInfants,
+      checkInDate,
+      checkOutDate,
+      currentListing,
+      currentAvailability,
+    } = this.state;
+    if (checkInDate && checkOutDate) {
+      fetch('/booking', {
+        method: 'POST',
+        body: JSON.stringify({
+          listingId: currentListing.listing_id,
+          fromDate: new Date(checkInDate.valueOf()),
+          toDate: new Date(checkOutDate.valueOf()),
+          numGuests,
+          numInfants,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+        .then(res => res.json())
+        .then((data) => {
+          this.handleDateSelect(null, null);
+          currentAvailability.push(data);
+          this.setState({
+            currentAvailability,
+            numGuests: 1,
+            numInfants: 0,
+          });
+          const fromDate = moment(data.from_date);
+          const toDate = moment(data.to_date);
+          console.log(`Listing ${data.listing_id} has been booked from ${fromDate.format('MM/DD/Y')} to ${toDate.format('MM/DD/Y')}`);
+        })
+        .catch(err => console.error(err));
+    } else if (checkInDate) {
+      this.customHandleCheckInClick('none', 'block');
+    } else {
+      this.customHandleCheckInClick('block', 'none');
+    }
+  }
+
   handleGuestClick(guestClick) {
     this.setState({
       guestClick: guestClick === 'none' ? 'block' : 'none',
     });
+  }
+
+  handleNumGuestsClick(numGuests, numInfants) {
+    this.setState({
+      numGuests,
+      numInfants,
+    });
+  }
+
+  printTotalGuests() {
+    const { numGuests, numInfants } = this.state;
+    const guestsMessage = `${numGuests} guest${numGuests > 1 ? 's' : ''}`;
+    const infantsMessage = numInfants > 0 ? `, ${numInfants} infant${numInfants > 1 ? 's' : ''}` : '';
+    return guestsMessage + infantsMessage;
   }
 
   customHandleCheckInClick(checkInClick, checkOutClick) {
@@ -86,6 +165,7 @@ class BookingPortal extends React.Component {
     this.setState({
       checkInClick: checkInClick === 'none' ? 'block' : 'none',
       checkOutClick: 'none',
+      guestClick: 'none',
     });
   }
 
@@ -94,6 +174,7 @@ class BookingPortal extends React.Component {
     this.setState({
       checkInClick: 'none',
       checkOutClick: checkOutClick === 'none' ? 'block' : 'none',
+      guestClick: 'none',
     });
   }
 
@@ -129,28 +210,44 @@ class BookingPortal extends React.Component {
       checkOutClick,
       checkInDate,
       checkOutDate,
+      currentAvailability,
     } = this.state;
+    const calClick = checkInClick === 'block' || checkOutClick === 'block' ? 'block' : 'none';
     return (
-      <div>
+      <div style={{ position: 'relative' }} ref={(calNode) => { this.calNode = calNode; }}>
         <LabelName>Dates</LabelName>
         <DatesSection>
-          <InputDate click={checkInClick} onClick={this.handleCheckInClick}>{checkInDate || 'Check-in'}</InputDate>
+          <InputDate click={checkInClick} onClick={this.handleCheckInClick}>{checkInDate ? checkInDate.format('MM/DD/Y') : 'Check-in'}</InputDate>
           <RightArrow width="28px" fill="rgb(72, 72, 72)" />
-          <InputDate disableButton={checkInDate} click={checkOutClick} onClick={this.handleCheckOutClick}>{checkOutDate || 'Checkout'}</InputDate>
+          <InputDate disableButton={checkInDate} click={checkOutClick} onClick={this.handleCheckOutClick}>{checkOutDate ? checkOutDate.format('MM/DD/Y') : 'Checkout'}</InputDate>
         </DatesSection>
+        <div style={{ display: calClick }}>
+          <Calendar
+            availability={currentAvailability}
+            dateSelect={this.handleDateSelect}
+            checkSelect={this.customHandleCheckInClick}
+          />
+        </div>
       </div>
     );
   }
 
   createGuestSection() {
-    const { guestClick } = this.state;
+    const { guestClick, currentListing } = this.state;
     return (
-      <div>
+      <div style={{ position: 'relative' }}>
         <LabelName>Guests</LabelName>
         <GuestButton onClick={() => this.handleGuestClick(guestClick)}>
-          <div style={{ width: '95%' }}>1 guest</div>
+          <div style={{ width: '95%' }}>{this.printTotalGuests()}</div>
           <Arrowhead transform="none" />
         </GuestButton>
+        <div style={{ display: guestClick }}>
+          <GuestPicker
+            closeClick={() => this.handleGuestClick(guestClick)}
+            numGuestsClick={this.handleNumGuestsClick}
+            maxGuests={currentListing.max_guests}
+          />
+        </div>
       </div>
     );
   }
@@ -158,12 +255,7 @@ class BookingPortal extends React.Component {
   render() {
     const {
       currentListing,
-      currentAvailability,
-      checkInClick,
-      checkOutClick,
-      guestClick,
     } = this.state;
-    const calClick = checkInClick === 'block' || checkOutClick === 'block' ? 'block' : 'none';
     if (Object.keys(currentListing).length === 0) {
       return null;
     }
@@ -174,20 +266,9 @@ class BookingPortal extends React.Component {
           {this.createReviewDiv()}
         </TopSection>
         {this.createDateSection()}
-        <div style={{ display: calClick }}>
-          <Calendar
-            availability={currentAvailability}
-            dateSelect={this.handleDateSelect}
-            checkSelect={this.customHandleCheckInClick}
-          />
-        </div>
         {this.createGuestSection()}
-        <div style={{ display: guestClick }}>
-          <GuestPicker
-            closeClick={() => this.handleGuestClick(guestClick)}
-            maxGuests={currentListing.max_guests}
-          />
-        </div>
+        <BookButton onClick={this.handleBookClick}>Book</BookButton>
+        <FootNote>You won’t be charged yet</FootNote>
       </AppContainer>
     );
   }
