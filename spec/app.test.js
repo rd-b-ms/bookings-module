@@ -8,6 +8,7 @@ describe('<BookingPortal />', () => {
     wrapper.setState({
       currentListing: {
         price: 100,
+        max_guests: 5,
       },
     });
     expect(wrapper.find('.price-component').length).toBe(1);
