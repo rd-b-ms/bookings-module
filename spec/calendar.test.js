@@ -33,8 +33,14 @@ describe('Calendar', () => {
   it('Check today on Calendar can be selected', () => {
     const wrapper = initializeCalendar();
     const today = moment().format('MMDY');
-    const beforeToday = moment().subtract(1, 'days').format('MMDY');
     wrapper.find(`td#date${today}`).simulate('click');
+    expect(wrapper.update().state().fromDate).toBeTruthy();
+  });
+
+  it('Check day after today on Calendar can be selected', () => {
+    const wrapper = initializeCalendar();
+    const afterToday = moment().add(1, 'days').format('MMDY');
+    wrapper.find(`td#date${afterToday}`).simulate('click');
     expect(wrapper.update().state().fromDate).toBeTruthy();
   });
 
