@@ -62,4 +62,21 @@ describe('Calendar', () => {
     expect(wrapper.update().state().fromDate).toBeTruthy();
   });
 
+  it('Check left button goes to previous month when clicked', () => {
+    const wrapper = initializeCalendar();
+    wrapper.setState({
+      today: moment(),
+    });
+    wrapper.find('svg#leftArrow').simulate('click');
+    expect(wrapper.update().state().dateContext.format('MM')).toEqual(moment().subtract(1, 'M').format('MM'));
+  });
+
+  it('Check right button goes to next month when clicked', () => {
+    const wrapper = initializeCalendar();
+    wrapper.setState({
+      today: moment(),
+    });
+    wrapper.find('svg#rightArrow').simulate('click');
+    expect(wrapper.update().state().dateContext.format('MM')).toEqual(moment().add(1, 'M').format('MM'));
+  });
 });

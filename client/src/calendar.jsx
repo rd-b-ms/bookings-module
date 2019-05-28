@@ -268,13 +268,13 @@ class Calendar extends React.Component {
             <tr className="calendar-header">
               <td>
                 <HeaderButton onClick={this.handleLeftButtonClick}>
-                  <LeftArrow id="leftArrow" width="19px" fill="rgb(130, 136, 138)" />
+                  <LeftArrow width="19px" fill="rgb(130, 136, 138)" />
                 </HeaderButton>
               </td>
               {this.createMonthYearHeader()}
               <td>
                 <HeaderButton onClick={this.handleRightButtonClick}>
-                  <RightArrow id="rightArrow" width="19px" fill="rgb(130, 136, 138)" />
+                  <RightArrow width="19px" fill="rgb(130, 136, 138)" />
                 </HeaderButton>
               </td>
             </tr>
