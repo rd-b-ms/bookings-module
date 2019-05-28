@@ -217,11 +217,11 @@ class BookingPortal extends React.Component {
       <div style={{ position: 'relative' }} ref={(calNode) => { this.calNode = calNode; }}>
         <LabelName>Dates</LabelName>
         <DatesSection>
-          <InputDate click={checkInClick} onClick={this.handleCheckInClick}>{checkInDate ? checkInDate.format('MM/DD/Y') : 'Check-in'}</InputDate>
+          <InputDate id="checkin" click={checkInClick} onClick={this.handleCheckInClick}>{checkInDate ? checkInDate.format('MM/DD/Y') : 'Check-in'}</InputDate>
           <RightArrow width="28px" fill="rgb(72, 72, 72)" />
-          <InputDate disableButton={checkInDate} click={checkOutClick} onClick={this.handleCheckOutClick}>{checkOutDate ? checkOutDate.format('MM/DD/Y') : 'Checkout'}</InputDate>
+          <InputDate id="checkout" disableButton={checkInDate} click={checkOutClick} onClick={this.handleCheckOutClick}>{checkOutDate ? checkOutDate.format('MM/DD/Y') : 'Checkout'}</InputDate>
         </DatesSection>
-        <div style={{ display: calClick }}>
+        <div id="calendar-container" style={{ display: calClick }}>
           <Calendar
             availability={currentAvailability}
             dateSelect={this.handleDateSelect}

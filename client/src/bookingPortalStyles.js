@@ -70,7 +70,7 @@ const InputDate = styled.div`
   border: none;
   color: ${(props) => {
     if (props.click === 'block') {
-      return '#008489';
+      return 'rgb(0, 132, 137)';
     }
     return 'rgb(117, 117, 117)';
   }};

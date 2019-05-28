@@ -200,13 +200,13 @@ class Calendar extends React.Component {
       newDay = `0${day}`;
     }
     const date = moment(`${this.getYear()}-${this.getMonthNum()}-${newDay}`);
-    if (date.valueOf() < today.valueOf()) {
+    if (date.isBefore(today, 'day')) {
       return false;
     }
     for (let i = 0; i < availability.length; i += 1) {
       const fromDate = moment(availability[i].from_date);
       const toDate = moment(availability[i].to_date);
-      if (!(fromDate.valueOf() > date.valueOf() || toDate.valueOf() < date.valueOf())) {
+      if (!(date.isBefore(fromDate, 'day') || toDate.isBefore(date, 'day'))) {
         return false;
       }
     }
@@ -224,9 +224,9 @@ class Calendar extends React.Component {
 
     for (let j = 1; j <= this.getDaysInMonth(); j += 1) {
       if (this.checkBookings(j)) {
-        bodyArr.push(<DayGrid select={this.handleSelectedDay(j)} onClick={() => (this.handleDayClick(j))} className="day" key={`day-${j}`}><span>{j}</span></DayGrid>);
+        bodyArr.push(<DayGrid select={this.handleSelectedDay(j)} onClick={() => (this.handleDayClick(j))} id={`date${this.getMonthNum()}${j}${this.getYear()}`} className="day" key={`day-${j}`}><span>{j}</span></DayGrid>);
       } else {
-        bodyArr.push(<NADayGrid className="booked-day" key={`booked-day-${j}`}><span>{j}</span></NADayGrid>);
+        bodyArr.push(<NADayGrid id={`date${this.getMonthNum()}${j}${this.getYear()}`} className="booked-day" key={`booked-day-${j}`}><span>{j}</span></NADayGrid>);
       }
     }
 
