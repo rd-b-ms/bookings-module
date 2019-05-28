@@ -40,6 +40,8 @@ class Calendar extends React.Component {
     if (props.resetDate) {
       return {
         dateContext: moment(),
+        fromDate: null,
+        toDate: null,
       };
     }
     return null;
