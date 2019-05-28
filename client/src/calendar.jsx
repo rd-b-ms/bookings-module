@@ -36,6 +36,15 @@ class Calendar extends React.Component {
     this.handleClearDatesClick = this.handleClearDatesClick.bind(this);
   }
 
+  static getDerivedStateFromProps(props) {
+    if (props.resetDate) {
+      return {
+        dateContext: moment(),
+      };
+    }
+    return null;
+  }
+
   getYear() {
     const { dateContext } = this.state;
     return dateContext.format('Y');
@@ -178,8 +187,8 @@ class Calendar extends React.Component {
 
   createMonthYearHeader() {
     return (
-      <MonthYearHeader colSpan="5">
-        <span>{`${this.getMonth()} ${this.getYear()}`}</span>
+      <MonthYearHeader id="monthYearHeader" colSpan="5">
+        {`${this.getMonth()} ${this.getYear()}`}
       </MonthYearHeader>
     );
   }
@@ -257,13 +266,13 @@ class Calendar extends React.Component {
             <tr className="calendar-header">
               <td>
                 <HeaderButton onClick={this.handleLeftButtonClick}>
-                  <LeftArrow width="19px" fill="rgb(130, 136, 138)" />
+                  <LeftArrow id="leftArrow" width="19px" fill="rgb(130, 136, 138)" />
                 </HeaderButton>
               </td>
               {this.createMonthYearHeader()}
               <td>
                 <HeaderButton onClick={this.handleRightButtonClick}>
-                  <RightArrow width="19px" fill="rgb(130, 136, 138)" />
+                  <RightArrow id="rightArrow" width="19px" fill="rgb(130, 136, 138)" />
                 </HeaderButton>
               </td>
             </tr>

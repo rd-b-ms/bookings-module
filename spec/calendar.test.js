@@ -1,12 +1,11 @@
 import React from 'react';
-import jest from 'jest-mock';
 import { shallow, mount } from 'enzyme';
 import moment from 'moment';
 import Calendar from '../client/src/calendar';
 
-function initializeCalendar(dateSelect = () => {}, checkSelect = () => {}) {
+function initializeCalendar(availability = [], dateSelect = () => {}, checkSelect = () => {}) {
   const wrapper = mount(<Calendar
-    availability={[]}
+    availability={availability}
     dateSelect={dateSelect}
     checkSelect={checkSelect}
   />);
@@ -50,4 +49,17 @@ describe('Calendar', () => {
     wrapper.find(`td#date${beforeToday}`).simulate('click');
     expect(wrapper.update().state().fromDate).toBeNull();
   });
+
+  it('Check booked day can not be selected', () => {
+    const wrapper = initializeCalendar([{ from_date: new Date('2019-05-01'), to_date: new Date('2019-05-03') }]);
+    wrapper.setState({
+      dateContext: moment('2019-05-15'),
+      today: moment('2019-04-01'),
+    });
+    wrapper.find(`td#date${'0512019'}`).simulate('click');
+    expect(wrapper.update().state().fromDate).toBeNull();
+    wrapper.find(`td#date${'05112019'}`).simulate('click');
+    expect(wrapper.update().state().fromDate).toBeTruthy();
+  });
+
 });

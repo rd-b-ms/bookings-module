@@ -33,6 +33,7 @@ class BookingPortal extends React.Component {
       guestClick: 'none',
       numGuests: 1,
       numInfants: 0,
+      resetDate: false,
     };
     this.createPriceDiv = this.createPriceDiv.bind(this);
     this.createReviewDiv = this.createReviewDiv.bind(this);
@@ -120,6 +121,7 @@ class BookingPortal extends React.Component {
             currentAvailability,
             numGuests: 1,
             numInfants: 0,
+            resetDate: true,
           });
           const fromDate = moment(data.from_date);
           const toDate = moment(data.to_date);
@@ -166,6 +168,7 @@ class BookingPortal extends React.Component {
       checkInClick: checkInClick === 'none' ? 'block' : 'none',
       checkOutClick: 'none',
       guestClick: 'none',
+      resetDate: false,
     });
   }
 
@@ -211,6 +214,7 @@ class BookingPortal extends React.Component {
       checkInDate,
       checkOutDate,
       currentAvailability,
+      resetDate,
     } = this.state;
     const calClick = checkInClick === 'block' || checkOutClick === 'block' ? 'block' : 'none';
     return (
@@ -226,6 +230,7 @@ class BookingPortal extends React.Component {
             availability={currentAvailability}
             dateSelect={this.handleDateSelect}
             checkSelect={this.customHandleCheckInClick}
+            resetDate={resetDate}
           />
         </div>
       </div>
