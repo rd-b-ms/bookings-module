@@ -33,6 +33,7 @@ class BookingPortal extends React.Component {
       guestClick: 'none',
       numGuests: 1,
       numInfants: 0,
+      resetDate: false,
     };
     this.createPriceDiv = this.createPriceDiv.bind(this);
     this.createReviewDiv = this.createReviewDiv.bind(this);
@@ -120,6 +121,7 @@ class BookingPortal extends React.Component {
             currentAvailability,
             numGuests: 1,
             numInfants: 0,
+            resetDate: true,
           });
           const fromDate = moment(data.from_date);
           const toDate = moment(data.to_date);
@@ -166,6 +168,7 @@ class BookingPortal extends React.Component {
       checkInClick: checkInClick === 'none' ? 'block' : 'none',
       checkOutClick: 'none',
       guestClick: 'none',
+      resetDate: false,
     });
   }
 
@@ -211,21 +214,23 @@ class BookingPortal extends React.Component {
       checkInDate,
       checkOutDate,
       currentAvailability,
+      resetDate,
     } = this.state;
     const calClick = checkInClick === 'block' || checkOutClick === 'block' ? 'block' : 'none';
     return (
       <div style={{ position: 'relative' }} ref={(calNode) => { this.calNode = calNode; }}>
         <LabelName>Dates</LabelName>
         <DatesSection>
-          <InputDate click={checkInClick} onClick={this.handleCheckInClick}>{checkInDate ? checkInDate.format('MM/DD/Y') : 'Check-in'}</InputDate>
+          <InputDate id="checkin" click={checkInClick} onClick={this.handleCheckInClick}>{checkInDate ? checkInDate.format('MM/DD/Y') : 'Check-in'}</InputDate>
           <RightArrow width="28px" fill="rgb(72, 72, 72)" />
-          <InputDate disableButton={checkInDate} click={checkOutClick} onClick={this.handleCheckOutClick}>{checkOutDate ? checkOutDate.format('MM/DD/Y') : 'Checkout'}</InputDate>
+          <InputDate id="checkout" disableButton={checkInDate} click={checkOutClick} onClick={this.handleCheckOutClick}>{checkOutDate ? checkOutDate.format('MM/DD/Y') : 'Checkout'}</InputDate>
         </DatesSection>
-        <div style={{ display: calClick }}>
+        <div id="calendar-container" style={{ display: calClick }}>
           <Calendar
             availability={currentAvailability}
             dateSelect={this.handleDateSelect}
             checkSelect={this.customHandleCheckInClick}
+            resetDate={resetDate}
           />
         </div>
       </div>

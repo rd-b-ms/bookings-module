@@ -36,6 +36,15 @@ class Calendar extends React.Component {
     this.handleClearDatesClick = this.handleClearDatesClick.bind(this);
   }
 
+  static getDerivedStateFromProps(props) {
+    if (props.resetDate) {
+      return {
+        dateContext: moment(),
+      };
+    }
+    return null;
+  }
+
   getYear() {
     const { dateContext } = this.state;
     return dateContext.format('Y');
@@ -178,8 +187,8 @@ class Calendar extends React.Component {
 
   createMonthYearHeader() {
     return (
-      <MonthYearHeader colSpan="5">
-        <span>{`${this.getMonth()} ${this.getYear()}`}</span>
+      <MonthYearHeader id="monthYearHeader" colSpan="5">
+        {`${this.getMonth()} ${this.getYear()}`}
       </MonthYearHeader>
     );
   }
@@ -200,13 +209,13 @@ class Calendar extends React.Component {
       newDay = `0${day}`;
     }
     const date = moment(`${this.getYear()}-${this.getMonthNum()}-${newDay}`);
-    if (date.valueOf() < today.valueOf()) {
+    if (date.isBefore(today, 'day')) {
       return false;
     }
     for (let i = 0; i < availability.length; i += 1) {
       const fromDate = moment(availability[i].from_date);
       const toDate = moment(availability[i].to_date);
-      if (!(fromDate.valueOf() > date.valueOf() || toDate.valueOf() < date.valueOf())) {
+      if (!(date.isBefore(fromDate, 'day') || toDate.isBefore(date, 'day'))) {
         return false;
       }
     }
@@ -224,9 +233,9 @@ class Calendar extends React.Component {
 
     for (let j = 1; j <= this.getDaysInMonth(); j += 1) {
       if (this.checkBookings(j)) {
-        bodyArr.push(<DayGrid select={this.handleSelectedDay(j)} onClick={() => (this.handleDayClick(j))} className="day" key={`day-${j}`}><span>{j}</span></DayGrid>);
+        bodyArr.push(<DayGrid select={this.handleSelectedDay(j)} onClick={() => (this.handleDayClick(j))} id={`date${this.getMonthNum()}${j}${this.getYear()}`} className="day" key={`day-${j}`}><span>{j}</span></DayGrid>);
       } else {
-        bodyArr.push(<NADayGrid className="booked-day" key={`booked-day-${j}`}><span>{j}</span></NADayGrid>);
+        bodyArr.push(<NADayGrid id={`date${this.getMonthNum()}${j}${this.getYear()}`} className="booked-day" key={`booked-day-${j}`}><span>{j}</span></NADayGrid>);
       }
     }
 
@@ -257,13 +266,13 @@ class Calendar extends React.Component {
             <tr className="calendar-header">
               <td>
                 <HeaderButton onClick={this.handleLeftButtonClick}>
-                  <LeftArrow width="19px" fill="rgb(130, 136, 138)" />
+                  <LeftArrow id="leftArrow" width="19px" fill="rgb(130, 136, 138)" />
                 </HeaderButton>
               </td>
               {this.createMonthYearHeader()}
               <td>
                 <HeaderButton onClick={this.handleRightButtonClick}>
-                  <RightArrow width="19px" fill="rgb(130, 136, 138)" />
+                  <RightArrow id="rightArrow" width="19px" fill="rgb(130, 136, 138)" />
                 </HeaderButton>
               </td>
             </tr>

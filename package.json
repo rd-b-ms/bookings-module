@@ -10,7 +10,9 @@
     "build-prod": "webpack --mode production"
   },
   "jest": {
-    "setupFilesAfterEnv": ["./setupTests.js"]
+    "setupFilesAfterEnv": [
+      "./setupTests.js"
+    ]
   },
   "lint-staged": {
     "*.js": "eslint",
@@ -37,6 +39,7 @@
     "body-parser": "^1.19.0",
     "express": "^4.16.4",
     "faker": "^4.1.0",
+    "jest-mock": "^24.8.0",
     "moment": "^2.24.0",
     "mysql2": "^1.6.5",
     "nodemon": "^1.19.0",
