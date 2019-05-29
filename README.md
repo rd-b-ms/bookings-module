@@ -1,4 +1,4 @@
-# photodisplay-module
+# booking-portal-module
 Repository for a mock of the Airbnb booking portal component.
 
 ## Stack
