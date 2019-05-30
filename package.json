@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest spec",
     "start": "nodemon ./server/index.js",
-    "data": "node db/fake_data.js",
+    "data": "/usr/local/mysql/bin/mysql -u root < database.sql && node db/fake_data.js",
     "build": "webpack --mode development --watch",
     "build-prod": "webpack --mode production"
   },
