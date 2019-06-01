@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest spec",
-    "start": "nodemon ./server/index.js",
+    "start": "node db/fake_data.js && nodemon ./server/index.js",
+    "data": "node db/fake_data.js",
     "build": "webpack --mode development --watch",
     "build-prod": "webpack --mode production"
   },
