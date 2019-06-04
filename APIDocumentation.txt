@@ -19,7 +19,7 @@ API DOCUMENTATION (6/4/19):
 
   EXAMPLE ENCODED URL:
 
-    '/booking/?listingid=${id}/'
+    '/booking/?listingid=1/'
 
   EXAMPLE RESPONSE:
 
