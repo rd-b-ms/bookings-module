@@ -14,3 +14,7 @@ Repository for a mock of the Airbnb booking portal component.
 5. Seed database with fake data by running `npm run data`
 6. Bundle code with webpack by running `npm run build`
 7. Run server with `npm start`
+
+Reminders:
+—Change 'nodemon' to 'node' for the start script in package.json;
+—Implement a holding pattern in API for bookings;

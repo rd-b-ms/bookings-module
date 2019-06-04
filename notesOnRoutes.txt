@@ -1,0 +1,46 @@
+
+THE /GET ROUTE:
+
+  /GET is sent to /bookings;
+
+  /GET is triggered in the componentDidMount() function of the bookingPortal.jsx file, which is
+in client/src
+
+THE /POST ROUTE:
+
+  /POST is sent to /bookings;
+  
+  /POST is triggered from the handleBookClick() function of the bookingPortal.jsx file
+
+  /POST is sent as a stringified object;
+  
+  /POST accepts back a json object, so the 'Content-Type' properties of its 'headers' property is
+  'application/json'
+
+  Example /POST request:
+
+  {
+    listingId: 1,
+    fromDate: '2019-06-05T07:00:00.000Z',
+    toDate: '2019-06-06T07:00:00.000Z',
+    numGuests: 2,
+    numInfants: 0
+  }
+
+  Example /POST response:
+
+  {
+    "id": 9,
+    "updatedAt": "2019-06-04T02:11:23.481Z",
+    "createdAt": "2019-06-04T02:11:23.481Z"
+  }
+
+/DELETE
+
+  Example /DELETE Request:
+
+  {
+  "listingId": "98"
+  }
+
+/UPDATE:

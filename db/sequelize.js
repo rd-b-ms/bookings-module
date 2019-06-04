@@ -1,8 +1,9 @@
 const Sequelize = require('sequelize');
 
 const sequelize = new Sequelize('booking_portal', 'root', '', {
-  host: '172.17.0.2',
+  host: 'localhost', // 172.17.0.2
   dialect: 'mysql',
+  password: 'yourpassword',
 });
 
 const Listing = sequelize.define('listing', {
@@ -35,6 +36,8 @@ const Availability = sequelize.define('availability', {
   num_infants: Sequelize.INTEGER,
 });
 
+// CREATES A ONE TO MANY RELATIONSHIP;
+// CREATED THE LISTINGLISTINGID COLUMN IN AVAILABILITY:
 Listing.hasMany(Availability);
 
 module.exports = { sequelize, Listing, Availability };
