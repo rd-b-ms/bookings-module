@@ -17,6 +17,8 @@ API DOCUMENTATION (6/4/19):
 
     '/booking/?listingid=${id}/'
 
+    const { listingid } = req.query;
+
   EXAMPLE ENCODED URL:
 
     '/booking/?listingid=1/'
@@ -43,12 +45,14 @@ API DOCUMENTATION (6/4/19):
 
   ENDPOINT: 
 
-    '/bookings/availabilities'
+    '/booking/availabilities/?listingid=${id}'
 
-  REQUEST BODY 'SCHEMA':
+      const { listingid } = req.query;
+
+  REQUEST BODY SCHEMA:
 
     {
-      "listingId": INTEGER, ***AUTO-GENERATED PRIMARY KEY,
+      "listingId": INTEGER (PRIMARY KEY),
       "fromDate": DATE & TIME (YYYY-MM-DD HH:MM:SS),
       "toDate": DATE & TIME (YYYY-MM-DD HH:MM:SS),
       "numGuests": INTEGER,
@@ -56,6 +60,8 @@ API DOCUMENTATION (6/4/19):
     }
 
   EXAMPLE REQUEST:
+
+  '/booking/availabilities/?listingid=69'
 
     {
       "listingId": "14",
@@ -83,9 +89,11 @@ API DOCUMENTATION (6/4/19):
 /POST (for 'listings' database)
 
   ENDPOINT: 
-    '/bookings/listings'
+    '/booking/listings/?listingid=${id}'
 
-  REQUEST BODY 'SCHEMA':
+    const { listingid } = req.query;
+
+  REQUEST BODY SCHEMA:
 
     {
       "listingId": INTEGER,
@@ -98,6 +106,8 @@ API DOCUMENTATION (6/4/19):
     }
 
   EXAMPLE REQUEST:
+  
+  '/booking/availabilities/?listingid=108'
     
     {
       "listingId": "108",
@@ -111,7 +121,7 @@ API DOCUMENTATION (6/4/19):
 
   EXAMPLE RESPONSE:
 
-   <IF SUCCESSFUL (SENDS BACK ORIGINAL REQUEST:)>
+   <IF SUCCESSFUL, IT SENDS BACK ORIGINAL REQUEST WITH A TIME STAMP:>
 
     {
       "listing_id": "108",
@@ -131,9 +141,11 @@ API DOCUMENTATION (6/4/19):
 
   ENDPOINT: 
     
-    '/bookings/availabilities'
+    '/booking/availabilities/${id}'
 
-  REQUEST BODY 'SCHEMA':
+    const listingId = req.params.id;
+
+  REQUEST BODY SCHEMA:
 
     {
       "listingId": <INTEGER OF AVAILIBILITIES ID TO BE DELETED>;
@@ -141,8 +153,10 @@ API DOCUMENTATION (6/4/19):
 
   EXAMPLE REQUEST:
 
+  '/booking/availabilities/69'
+
     {
-      "listingId": "12"
+      "listingId": "69"
     }
 
   EXAMPLE RESPONSE:
@@ -160,15 +174,19 @@ API DOCUMENTATION (6/4/19):
 /DELETE (for 'listings' database):
 
   ENDPOINT: 
-    '/bookings/listings'
+    '/booking/listings/${id}'
 
-  REQUEST BODY 'SCHEMA':
+    const listingId = req.params.id;
+
+  REQUEST BODY SCHEMA:
 
     {
      "listingId": <INTEGER OF AVAILIBILITIES ID TO BE DELETED>;
     }
 
   EXAMPLE REQUEST:
+
+  '/booking/availabilities/92'
 
     {
       "listingId": "92"
@@ -178,7 +196,7 @@ API DOCUMENTATION (6/4/19):
 
     <IF THE RECORD DELETION IS SUCCESSFUL>:
 
-      1
+      Successfully deleted listing!
     
     <IF THE RECORD DELETION IS A FAILURE>:
     
@@ -189,9 +207,11 @@ API DOCUMENTATION (6/4/19):
 /PUT (for 'availabilities' database);
 
   ENDPOINT: 
-    '/bookings/availabilities'
+    '/booking/availabilities/${id}'
 
-  REQUEST BODY 'SCHEMA':
+    const listingId = req.params.id;
+
+  REQUEST BODY SCHEMA:
 
     {
       "listingId": <INTEGER-OF-LISTING-ID-TO-BE-UPDATED>,
@@ -200,8 +220,9 @@ API DOCUMENTATION (6/4/19):
 
   EXAMPLE REQUEST:
 
+  '/booking/availabilities/69'
+
     {
-      "listingId": "46",
       "numGuests": "6"
     }
 
@@ -221,9 +242,11 @@ API DOCUMENTATION (6/4/19):
 
   ENDPOINT: 
 
-    '/bookings/listings'
+    '/booking/listings/${id}'
 
-  REQUEST BODY 'SCHEMA':
+    const listingId = req.params.id;
+
+  REQUEST BODY SCHEMA:
 
     {
       "listingId": <INTEGER-OF-LISTING-ID-TO-BE-UPDATED>,
@@ -232,8 +255,9 @@ API DOCUMENTATION (6/4/19):
 
   EXAMPLE REQUEST:
 
+    '/booking/listings/78'
+
     {
-      "listingId": "99",
       "maxGuests": "4"
     }
 

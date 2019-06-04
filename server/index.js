@@ -23,8 +23,8 @@ app.get('/booking', (req, res) => {
 });
 
 app.post('/booking/availabilities', (req, res) => {
+  const { listingId } = req.query;
   const {
-    listingId,
     fromDate,
     toDate,
     numGuests,
@@ -46,8 +46,8 @@ app.post('/booking/availabilities', (req, res) => {
 });
 
 app.post('/booking/listings', (req, res) => {
+  const { listingId } = req.query;
   const {
-    listingId,
     price,
     numReviews,
     avgRatingPct,
@@ -72,63 +72,49 @@ app.post('/booking/listings', (req, res) => {
     ));
 });
 
-app.delete('/booking', (req, res) => {
-  const {
-    listingId,
-  } = req.body;
-  console.log(req.body);
-  db.Listing.destroy({
-    where: {
-      listing_id: listingId,
-    },
-  })
-    .then(reply => (
-      res.json(reply)
-    ))
-    .catch(() => (
-      res.sendStatus(500)
-    ));
-});
-
-app.delete('/booking/listings', (req, res) => {
-  const {
-    listingId,
-  } = req.body;
-  db.Listing.destroy({
-    where: {
-      listing_id: listingId,
-    },
-  })
-    .then(reply => (
-      res.json(reply)
-    ))
-    .catch(() => (
-      res.sendStatus(500)
-    ));
-});
-
-app.delete('/booking/availabilities', (req, res) => {
-  const {
-    listingId,
-  } = req.body;
+app.delete('/booking/availabilities/:id', (req, res) => {
+  // req.body = { listingId };
+  // const {
+  //   listingId,
+  // } = req.body;
+  const listingId = req.params.id;
+  console.log(listingId);
   db.Availability.destroy({
     where: {
       listing_id: listingId,
     },
   })
-    .then(reply => (
-      res.json(reply)
+    .then(() => (
+      res.send('Successfully deleted availability!')
     ))
     .catch(() => (
       res.sendStatus(500)
     ));
 });
 
-app.put('/booking/availabilities', (req, res) => {
+app.delete('/booking/listings/:id', (req, res) => {
+  // const {
+  //   listingId,
+  // } = req.body;
+  const listingId = req.params.id;
+  db.Listing.destroy({
+    where: {
+      listing_id: listingId,
+    },
+  })
+    .then(() => (
+      res.end('Successfully deleted listing!')
+    ))
+    .catch(() => (
+      res.sendStatus(500)
+    ));
+});
+
+app.put('/booking/availabilities/:id', (req, res) => {
   const {
-    listingId,
     numGuests,
   } = req.body;
+  const listingId = req.params.id;
   db.Availability.update(
     { num_guests: numGuests },
     { returning: true, where: { listing_id: listingId } },
@@ -141,11 +127,11 @@ app.put('/booking/availabilities', (req, res) => {
     ));
 });
 
-app.put('/booking/listings', (req, res) => {
+app.put('/booking/listings/:id', (req, res) => {
   const {
-    listingId,
     maxGuests,
   } = req.body;
+  const listingId = req.params.id;
   db.Listing.update(
     { max_guests: maxGuests },
     { returning: true, where: { listing_id: listingId } },
