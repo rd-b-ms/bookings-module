@@ -22,7 +22,7 @@ app.get('/booking', (req, res) => {
     ));
 });
 
-app.post('/booking', (req, res) => {
+app.post('/booking/availabilities', (req, res) => {
   const {
     listingId,
     fromDate,
@@ -45,4 +45,117 @@ app.post('/booking', (req, res) => {
     ));
 });
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.post('/booking/listings', (req, res) => {
+  const {
+    listingId,
+    price,
+    numReviews,
+    avgRatingPct,
+    serviceFeePct,
+    minNights,
+    maxGuests,
+  } = req.body;
+  db.Listing.create({
+    listing_id: listingId,
+    price,
+    num_reviews: numReviews,
+    avg_rating_pct: avgRatingPct,
+    service_fee_pct: serviceFeePct,
+    min_nights: minNights,
+    max_guests: maxGuests,
+  })
+    .then(newBooking => (
+      res.json(newBooking)
+    ))
+    .catch(() => (
+      res.sendStatus(500)
+    ));
+});
+
+app.delete('/booking', (req, res) => {
+  const {
+    listingId,
+  } = req.body;
+  console.log(req.body);
+  db.Listing.destroy({
+    where: {
+      listing_id: listingId,
+    },
+  })
+    .then(reply => (
+      res.json(reply)
+    ))
+    .catch(() => (
+      res.sendStatus(500)
+    ));
+});
+
+app.delete('/booking/listings', (req, res) => {
+  const {
+    listingId,
+  } = req.body;
+  db.Listing.destroy({
+    where: {
+      listing_id: listingId,
+    },
+  })
+    .then(reply => (
+      res.json(reply)
+    ))
+    .catch(() => (
+      res.sendStatus(500)
+    ));
+});
+
+app.delete('/booking/availabilities', (req, res) => {
+  const {
+    listingId,
+  } = req.body;
+  db.Availability.destroy({
+    where: {
+      listing_id: listingId,
+    },
+  })
+    .then(reply => (
+      res.json(reply)
+    ))
+    .catch(() => (
+      res.sendStatus(500)
+    ));
+});
+
+app.put('/booking/availabilities', (req, res) => {
+  const {
+    listingId,
+    numGuests,
+  } = req.body;
+  db.Availability.update(
+    { num_guests: numGuests },
+    { returning: true, where: { listing_id: listingId } },
+  )
+    .then(reply => (
+      res.json(reply).end('Success!')
+    ))
+    .catch(() => (
+      res.sendStatus(500)
+    ));
+});
+
+app.put('/booking/listings', (req, res) => {
+  const {
+    listingId,
+    maxGuests,
+  } = req.body;
+  db.Listing.update(
+    { max_guests: maxGuests },
+    { returning: true, where: { listing_id: listingId } },
+  )
+    .then(reply => (
+      res.json(reply).end('Success!')
+    ))
+    .catch(() => (
+      res.sendStatus(500)
+    ));
+});
+
+app.listen(port, () => console.log(`Booking's module server listening on port ${port}!`));
