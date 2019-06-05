@@ -1,6 +1,6 @@
 API DOCUMENTATION (6/4/19):
-  -by Martin Connor
-  -for Michelle Huang's Bookings Module (Air BnB);
+  —by Martin Connor
+  —for Michelle Huang's Bookings Module (Air BnB);
   —Martin's fork of Michelle's Repo: 
   
   https://github.com/rd-b-ms/bookings-module
@@ -214,7 +214,7 @@ API DOCUMENTATION (6/4/19):
   REQUEST BODY SCHEMA:
 
     {
-      "listingId": <INTEGER-OF-LISTING-ID-TO-BE-UPDATED>,
+      "listingId": <INTEGER OF LISTING ID TO BE UPDATED>,
       <RECORD PROPERTY TO BE UPDATED>: <NEW VALUE OF UPDATED INFO>
     }
 
@@ -249,7 +249,7 @@ API DOCUMENTATION (6/4/19):
   REQUEST BODY SCHEMA:
 
     {
-      "listingId": <INTEGER-OF-LISTING-ID-TO-BE-UPDATED>,
+      "listingId": <INTEGER OF LISTING ID TO-BE UPDATED>,
       <RECORD PROPERTY TO BE UPDATED>: <NEW VALUE OF UPDATED INFO>
     }
 
