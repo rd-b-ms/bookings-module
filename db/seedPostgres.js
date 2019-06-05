@@ -46,7 +46,7 @@ const insertBookingRecords = function () {
   }
 };
 
-insertListingRecords();
+// insertListingRecords();
 insertBookingRecords();
 
 
