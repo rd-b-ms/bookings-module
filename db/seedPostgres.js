@@ -7,6 +7,9 @@ const csvWriter = require('csv-write-stream');
 
 const writer = csvWriter();
 
+// CHANGE THE NAME OF THE DATABASE YOU'RE SEEDING SO THAT YOU DON'T
+// OVERWRITE YOUR CURRENTLY SEEDED DATABASE
+
 const connection = 'postgres://martinconnor:yourpassword@localhost:5432/booking_portal';
 const db = pgp(connection);
 const seededData = require('./generateData');
@@ -16,7 +19,7 @@ const insertListingRecords = function () {
 
   const dataGen = () => {
     writer.pipe(fs.createWriteStream('listings_data.csv'));
-    for (let i = 0; i < 5000000; i += 1) {
+    for (let i = 0; i < 100; i += 1) {
       writer.write(listingRecords[i]);
       if (i % 10000 === 0) {
         console.log(`Finished # ${i}`);
@@ -30,7 +33,7 @@ const insertListingRecords = function () {
 };
 
 const insertBookingRecords = function () {
-  const bookingRecords = seededData.generateBookings();
+  const bookingRecords = seededData.generateListBookings();
 
   for (let i = 0; i < 500000; i += 1) {
     const value = bookingRecords[i];
@@ -46,22 +49,5 @@ const insertBookingRecords = function () {
   }
 };
 
-// insertListingRecords();
+insertListingRecords();
 insertBookingRecords();
-
-
-// Increase memory:
-// node --max-old-space-size=32768 listings_data.csv
-// 16384
-
-// Copy listings table:
-// COPY listings(price,num_reviews,avg_rating_pct,max_guests) FROM '/Users/martinconnor/Desktop/booking-portal-module/db/listings_data.csv' DELIMITERS ',' CSV;
-
-// Copy bookings table:
-// COPY bookings(listing_id,from_date,to_date,num_guests,num_infants) FROM '/Users/martinconnor/Desktop/booking-portal-module/db/bookings_data.csv' DELIMITERS ',' CSV;
-
-// Create 'listings' Table:
-// CREATE TABLE listings (listing_id SERIAL PRIMARY KEY, price INT NOT NULL, num_reviews INT NOT NULL, avg_rating_pct INT NOT NULL, max_guests INT NOT NULL);
-
-// Create 'bookings' Table:
-// CREATE TABLE bookings (booking_id SERIAL PRIMARY KEY, listing_id INTEGER REFERENCES listings(listing_id), from_date TIMESTAMP NOT NULL, to_date TIMESTAMP NOT NULL, num_guests INT NOT NULL, num_infants INT NOT NULL);

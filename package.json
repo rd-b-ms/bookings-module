@@ -42,6 +42,7 @@
     "faker": "^4.1.0",
     "jest-mock": "^24.8.0",
     "moment": "^2.24.0",
+    "mongodb": "^3.2.7",
     "mysql2": "^1.6.5",
     "nodemon": "^1.19.0",
     "prop-types": "^15.7.2",
