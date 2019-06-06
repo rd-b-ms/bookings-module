@@ -15,29 +15,46 @@ API DOCUMENTATION (6/4/19):
 
   ENDPOINT: 
 
-    '/booking/?listingid=${id}/'
+    '/booking/:id'
 
     const { listingid } = req.query;
 
   EXAMPLE ENCODED URL:
 
-    '/booking/?listingid=1/'
+    '/booking/68/'
 
   EXAMPLE RESPONSE:
 
-    [
-      {
-        "listing_id": 1,
-        "price": 716,
-        "num_reviews": 164,
-        "avg_rating_pct": 34,
-        "service_fee_pct": 106,
-        "min_nights": 17,
-        "max_guests": 6,
-        "createdAt": "2019-06-04T16:50:07.000Z",
-        "updatedAt": "2019-06-04T16:50:07.000Z"
-      },
-    ]
+    <IF SUCCESSFUL:>
+
+      [
+        {
+          "listing_id": 68,
+          "price": 716,
+          "num_reviews": 164,
+          "avg_rating_pct": 34,
+          "service_fee_pct": 106,
+          "min_nights": 17,
+          "max_guests": 6,
+          "createdAt": "2019-06-04T16:50:07.000Z",
+          "updatedAt": "2019-06-04T16:50:07.000Z"
+        },
+      ]
+
+      (Status Code: 200)
+
+    <IF RECORD NOT FOUND>
+
+      [{}]
+
+      (Status Code: 404)
+
+    <IF /GET REQUEST NOT AUTHORIZED>
+
+      [{}]
+
+      (Status Code: 401)
+
 
 ***************************************************************
 
@@ -45,7 +62,7 @@ API DOCUMENTATION (6/4/19):
 
   ENDPOINT: 
 
-    '/booking/availabilities/?listingid=${id}'
+    '/booking/availabilities/:id'
 
       const { listingid } = req.query;
 
@@ -61,10 +78,10 @@ API DOCUMENTATION (6/4/19):
 
   EXAMPLE REQUEST:
 
-  '/booking/availabilities/?listingid=69'
+  '/booking/availabilities/:68'
 
     {
-      "listingId": "14",
+      "listingId": "68",
       "fromDate": "2019-12-28 09:45:23",
       "toDate": "2019-11-06 09:45:23",
       "numGuests": "1",
@@ -73,67 +90,32 @@ API DOCUMENTATION (6/4/19):
 
   EXAMPLE RESPONSE:
 
-    {
-      "id": 6,
-      "listing_id": "14",
-      "from_date": "2019-12-28T17:45:23.000Z",
-      "to_date": "2019-11-06T17:45:23.000Z",
-      "num_guests": "1",
-      "num_infants": "0",
-      "updatedAt": "2019-06-04T16:51:37.126Z",
-      "createdAt": "2019-06-04T16:51:37.126Z"
-    }
+    <IF SUCCESSFUL:> 
 
-***************************************************************
+      {
+        "listing_id": "68",
+        "from_date": "2019-12-28T17:45:23.000Z",
+        "to_date": "2019-11-06T17:45:23.000Z",
+        "num_guests": "1",
+        "num_infants": "0",
+        "updatedAt": "2019-06-04T16:51:37.126Z",
+        "createdAt": "2019-06-04T16:51:37.126Z"
+      }
 
-/POST (for 'listings' database)
+      (Status Code: 200)
 
-  ENDPOINT: 
-    '/booking/listings/?listingid=${id}'
-
-    const { listingid } = req.query;
-
-  REQUEST BODY SCHEMA:
-
-    {
-      "listingId": INTEGER,
-      "price": INTEGER,
-      "numReviews": INTEGER,
-      "avgRatingPct": INTEGER,
-      "serviceFeePct": INTEGER,
-      "minNights": INTEGER,
-      "maxGuests": INTEGER
-    }
-
-  EXAMPLE REQUEST:
-  
-  '/booking/availabilities/?listingid=108'
+    <IF THE RECORD UPDATE IS NOT FOUND>:
     
-    {
-      "listingId": "108",
-      "price": "820",
-      "numReviews": "33",
-      "avgRatingPct": "33",
-      "serviceFeePct": "333",
-      "minNights": "3",
-      "maxGuests": "3"
-    }
+      0
 
-  EXAMPLE RESPONSE:
+      (Status Code: 404);
 
-   <IF SUCCESSFUL, IT SENDS BACK ORIGINAL REQUEST WITH A TIME STAMP:>
+    <IF THE RECORD UPDATE IS NOT AUTHORIZED>:
 
-    {
-      "listing_id": "108",
-      "price": "820",
-      "num_reviews": "33",
-      "avg_rating_pct": "33",
-      "service_fee_pct": "333",
-      "min_nights": "3",
-      "max_guests": "3",
-      "updatedAt": "2019-06-04T16:50:53.222Z",
-      "createdAt": "2019-06-04T16:50:53.222Z"
-    }
+      0
+
+      (Status Code: 401);
+
 
 ***************************************************************    
 
@@ -141,7 +123,7 @@ API DOCUMENTATION (6/4/19):
 
   ENDPOINT: 
     
-    '/booking/availabilities/${id}'
+    '/booking/availabilities/:id'
 
     const listingId = req.params.id;
 
@@ -153,10 +135,10 @@ API DOCUMENTATION (6/4/19):
 
   EXAMPLE REQUEST:
 
-  '/booking/availabilities/69'
+  '/booking/availabilities/68'
 
     {
-      "listingId": "69"
+      "listingId": "68"
     }
 
   EXAMPLE RESPONSE:
@@ -164,50 +146,27 @@ API DOCUMENTATION (6/4/19):
     <IF THE RECORD DELETION IS SUCCESSFUL>:
 
       1
+
+      (Status Code: 200)
     
-    <IF THE RECORD DELETION IS A FAILURE>:
-    
-      0
-
-***************************************************************
-
-/DELETE (for 'listings' database):
-
-  ENDPOINT: 
-    '/booking/listings/${id}'
-
-    const listingId = req.params.id;
-
-  REQUEST BODY SCHEMA:
-
-    {
-     "listingId": <INTEGER OF AVAILIBILITIES ID TO BE DELETED>;
-    }
-
-  EXAMPLE REQUEST:
-
-  '/booking/availabilities/92'
-
-    {
-      "listingId": "92"
-    }
-
-  EXAMPLE RESPONSE:
-
-    <IF THE RECORD DELETION IS SUCCESSFUL>:
-
-      Successfully deleted listing!
-    
-    <IF THE RECORD DELETION IS A FAILURE>:
+    <IF THE RECORD DELETE IS NOT FOUND>:
     
       0
+
+      (Status Code: 404);
+
+    <IF THE RECORD DELETE IS NOT AUTHORIZED>:
+
+      0
+
+      (Status Code: 401);
 
 ***************************************************************
 
 /PUT (for 'availabilities' database);
 
   ENDPOINT: 
-    '/booking/availabilities/${id}'
+    '/booking/availabilities/:id'
 
     const listingId = req.params.id;
 
@@ -220,7 +179,7 @@ API DOCUMENTATION (6/4/19):
 
   EXAMPLE REQUEST:
 
-  '/booking/availabilities/69'
+  '/booking/availabilities/68'
 
     {
       "numGuests": "6"
@@ -231,47 +190,23 @@ API DOCUMENTATION (6/4/19):
     <IF THE RECORD UPDATE IS SUCCESSFUL>:
 
       [ null, 1 ]
+
+      (Status Code: 200)
     
-    <IF THE RECORD UPDATE IS A FAILURE>:
-    
-      [ null, 0 ]
-
-***************************************************************
-
-/PUT (for 'listings' database)
-
-  ENDPOINT: 
-
-    '/booking/listings/${id}'
-
-    const listingId = req.params.id;
-
-  REQUEST BODY SCHEMA:
-
-    {
-      "listingId": <INTEGER OF LISTING ID TO-BE UPDATED>,
-      <RECORD PROPERTY TO BE UPDATED>: <NEW VALUE OF UPDATED INFO>
-    }
-
-  EXAMPLE REQUEST:
-
-    '/booking/listings/78'
-
-    {
-      "maxGuests": "4"
-    }
-
-  EXAMPLE RESPONSE:
-
-    <IF THE RECORD UPDATE IS SUCCESSFUL>:
-
-      [ null, 1 ]
-    
-    <IF THE RECORD UPDATE IS A FAILURE>:
+    <IF THE RECORD UPDATE IS NOT FOUND>:
     
       [ null, 0 ]
 
+    (Status Code: 404);
+
+    <IF THE RECORD UPDATE IS NOT AUTHORIZED>:
+
+    (Status Code: 401);
+
 ***************************************************************
 
-HOUSEKEEPING:
-1.) Delete serviceFeePct and minNights, because Michelle never used them.
+To-Do:
+1.) Add status codes to API docs - DONE
+2.) Make the small changes around :id. - DONE
+3.) Add a schema.sql file.
+4.) DM Sang with my new files.
