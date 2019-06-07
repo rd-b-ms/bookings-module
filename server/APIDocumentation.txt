@@ -1,0 +1,212 @@
+API DOCUMENTATION (6/4/19):
+  —by Martin Connor
+  —for Michelle Huang's Bookings Module (Air BnB);
+  —Martin's fork of Michelle's Repo: 
+  
+  https://github.com/rd-b-ms/bookings-module
+  
+  -Postman Collection with Working Requests for all 7 Routes: 
+  
+  https://www.getpostman.com/collections/a83e7558c1aeacc19845
+
+***************************************************************
+
+/GET (for 'listings' database)
+
+  ENDPOINT: 
+
+    '/booking/:id'
+
+    const { listingid } = req.query;
+
+  EXAMPLE ENCODED URL:
+
+    '/booking/68/'
+
+  EXAMPLE RESPONSE:
+
+    <IF SUCCESSFUL:>
+
+      [
+        {
+          "listing_id": 68,
+          "price": 716,
+          "num_reviews": 164,
+          "avg_rating_pct": 34,
+          "service_fee_pct": 106,
+          "min_nights": 17,
+          "max_guests": 6,
+          "createdAt": "2019-06-04T16:50:07.000Z",
+          "updatedAt": "2019-06-04T16:50:07.000Z"
+        },
+      ]
+
+      (Status Code: 200)
+
+    <IF RECORD NOT FOUND>
+
+      [{}]
+
+      (Status Code: 404)
+
+    <IF /GET REQUEST NOT AUTHORIZED>
+
+      [{}]
+
+      (Status Code: 401)
+
+
+***************************************************************
+
+/POST (for 'availabilities' database)
+
+  ENDPOINT: 
+
+    '/booking/availabilities/:id'
+
+      const { listingid } = req.query;
+
+  REQUEST BODY SCHEMA:
+
+    {
+      "listingId": INTEGER (PRIMARY KEY),
+      "fromDate": DATE & TIME (YYYY-MM-DD HH:MM:SS),
+      "toDate": DATE & TIME (YYYY-MM-DD HH:MM:SS),
+      "numGuests": INTEGER,
+      "numInfants": INTEGER,
+    }
+
+  EXAMPLE REQUEST:
+
+  '/booking/availabilities/:68'
+
+    {
+      "listingId": "68",
+      "fromDate": "2019-12-28 09:45:23",
+      "toDate": "2019-11-06 09:45:23",
+      "numGuests": "1",
+      "numInfants": "0"
+    }
+
+  EXAMPLE RESPONSE:
+
+    <IF SUCCESSFUL:> 
+
+      {
+        "listing_id": "68",
+        "from_date": "2019-12-28T17:45:23.000Z",
+        "to_date": "2019-11-06T17:45:23.000Z",
+        "num_guests": "1",
+        "num_infants": "0",
+        "updatedAt": "2019-06-04T16:51:37.126Z",
+        "createdAt": "2019-06-04T16:51:37.126Z"
+      }
+
+      (Status Code: 200)
+
+    <IF THE RECORD UPDATE IS NOT FOUND>:
+    
+      0
+
+      (Status Code: 404);
+
+    <IF THE RECORD UPDATE IS NOT AUTHORIZED>:
+
+      0
+
+      (Status Code: 401);
+
+
+***************************************************************    
+
+/DELETE (for 'availabilities' database)
+
+  ENDPOINT: 
+    
+    '/booking/availabilities/:id'
+
+    const listingId = req.params.id;
+
+  REQUEST BODY SCHEMA:
+
+    {
+      "listingId": <INTEGER OF AVAILIBILITIES ID TO BE DELETED>;
+    }
+
+  EXAMPLE REQUEST:
+
+  '/booking/availabilities/68'
+
+    {
+      "listingId": "68"
+    }
+
+  EXAMPLE RESPONSE:
+
+    <IF THE RECORD DELETION IS SUCCESSFUL>:
+
+      1
+
+      (Status Code: 200)
+    
+    <IF THE RECORD DELETE IS NOT FOUND>:
+    
+      0
+
+      (Status Code: 404);
+
+    <IF THE RECORD DELETE IS NOT AUTHORIZED>:
+
+      0
+
+      (Status Code: 401);
+
+***************************************************************
+
+/PUT (for 'availabilities' database);
+
+  ENDPOINT: 
+    '/booking/availabilities/:id'
+
+    const listingId = req.params.id;
+
+  REQUEST BODY SCHEMA:
+
+    {
+      "listingId": <INTEGER OF LISTING ID TO BE UPDATED>,
+      <RECORD PROPERTY TO BE UPDATED>: <NEW VALUE OF UPDATED INFO>
+    }
+
+  EXAMPLE REQUEST:
+
+  '/booking/availabilities/68'
+
+    {
+      "numGuests": "6"
+    }
+
+  EXAMPLE RESPONSE:
+
+    <IF THE RECORD UPDATE IS SUCCESSFUL>:
+
+      [ null, 1 ]
+
+      (Status Code: 200)
+    
+    <IF THE RECORD UPDATE IS NOT FOUND>:
+    
+      [ null, 0 ]
+
+    (Status Code: 404);
+
+    <IF THE RECORD UPDATE IS NOT AUTHORIZED>:
+
+    (Status Code: 401);
+
+***************************************************************
+
+To-Do:
+1.) Add status codes to API docs - DONE
+2.) Make the small changes around :id. - DONE
+3.) Add a schema.sql file.
+4.) DM Sang with my new files.

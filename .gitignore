@@ -3,3 +3,4 @@ client/dist/listing/bundle.js
 db/bookings_data5.csv
 db/listings_data.csv
 db/listingBookings_data.json
+db/bookings_data.csv
