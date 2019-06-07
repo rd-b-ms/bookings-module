@@ -4,14 +4,21 @@
 
 # GIVE MORE SPACE TO FILE:
 node --max-old-space-size=16384 seedCsvs.js
-node --max-old-space-size=16384 seedNonRelationalFile.js
+node --max-old-space-size=32768 seedNonRelationalFile.js
 
 # INSERT .SQL FILE FROM TERMINAL COMMAND LINE:
 psql postgres < postgresSchema.sql
 
 
 # INSERT .CSV FILE INTO MONGODB FROM TERMINAL COMMAND LINE:
-mongoimport -d bookings_portals -c listingBookings --type csv --file listingBookings_data.json --headerline
+
+mongoimport -d booking_test -c listingBookings --type json --file listingBookings_data.json
+
+# TESTING POSTGRES RETRIEVAL TIME:
+
+\timing
+
+EXPLAIN (ANALYZE) select * from listings where listing_id=10000000;
 
 
 # Refactored MongoDB Database that was seeded from JSON file:
@@ -41,7 +48,7 @@ mongoimport -d bookings_portals -c listingBookings --type csv --file listingBook
 
   Tables:
 
-    Name: 'bookings'
+    Name: 'listings'
 
         File Name:
 
@@ -49,73 +56,15 @@ mongoimport -d bookings_portals -c listingBookings --type csv --file listingBook
 
         Test Command: 
             
-            select * from bookings where booking_id=100000000;
-
-    Name: 'listings'
-
-        File Name:
-
-            bookings_data5.csv
-
-        Test Command: 
-        
             select * from listings where listing_id=10000000;
-
-
-
-
-
-
-
-
-
-
-
-# NO LONGER IMPORTANT?
-
-
-# MongoDB that was Seeded First:
-  
-  Name:
-
-    bookings_portal
-
-  Test: db.bookings_portal.find({listing_id:10000000})
-
-
-# Name of PostGres database that was Seeded First:
-
-  booking_portal
-
-  Tables:
 
     Name: 'bookings'
 
-        Test Command: 
-        
-            select * from bookings where booking_id=2000000;
+        File Name:
 
-    Name: 'listings'
+            bookings_data.csv
 
         Test Command: 
         
-            select * from listings where listing_id=10000000;
-
-# Name of .sql file that originally Seeded my Postgres and MongoDB databases so that they now have 10 million records:
-
-    postgresSchema1.sql;
-
-# Name of .csv file that is populated with 40,000,000 million bookings records:
-
-    bookings_data3.csv
-
-
-# Name of .csv file for testing the correct way to define date types in Postgres:
-
-    bookings_data4.csv
-
-
-# Name of GitHub branch that worked with my hacky scripts:
-
-  db6
-    —done on 6/5, at 7:21 PM PST
+            select * from bookings where booking_id=100000000;
+            
