@@ -1,20 +1,16 @@
-
 const url = 'mongodb://localhost:27017/';
 const { MongoClient } = require('mongodb');
-const seededData = require('./generateNonRelationalData2');
-
-// CHANGE THE NAME OF THE DATABASE YOU'RE SEEDING SO THAT YOU DON'T
-// OVERWRITE YOUR CURRENTLY SEEDED DATABASE
+const seededData = require('./generateNonRelationalData');
 
 MongoClient.connect(url, (err, db) => {
   const listingRecords = seededData.generateListings();
-  const dbo = db.db('bookings_portal');
+  const dbo = db.db('bookings_portals');
 
   if (err) {
     throw err;
   }
 
-  dbo.collection('bookings_portal').insertMany(listingRecords, (err, res) => {
+  dbo.collection('bookings_portals').insertMany(listingRecords, (err, res) => {
     if (err) {
       throw err;
     }

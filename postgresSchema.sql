@@ -1,16 +1,8 @@
-DROP DATABASE IF EXISTS booking_portal
+DROP DATABASE IF EXISTS bookings_portals;
 
-CREATE DATABASE booking_portal
+CREATE DATABASE bookings_portals;
 
-\connect booking_portal
-
-CREATE TABLE bookings 
-  (booking_id SERIAL PRIMARY KEY, 
-  listing_id INTEGER REFERENCES listings(listing_id), 
-  from_date TIMESTAMP NOT NULL, 
-  to_date TIMESTAMP NOT NULL, 
-  num_guests INT NOT NULL, 
-  num_infants INT NOT NULL);
+\c bookings_portals;
 
 CREATE TABLE listings 
   (listing_id SERIAL PRIMARY KEY, 
@@ -19,5 +11,14 @@ CREATE TABLE listings
   avg_rating_pct INT NOT NULL, 
   max_guests INT NOT NULL);
 
-COPY bookings(listing_id,from_date,to_date,num_guests,num_infants) FROM '/Users/martinconnor/Desktop/booking-portal-module/db/bookings_data.csv' DELIMITERS ',' CSV;
-COPY listings(price,num_reviews,avg_rating_pct,max_guests) FROM '/Users/martinconnor/Desktop/booking-portal-module/db/listings_data.csv' DELIMITERS ',' CSV;
+CREATE TABLE bookings 
+  (booking_id SERIAL PRIMARY KEY, 
+  listing_id INTEGER REFERENCES listings(listing_id), 
+  from_date TIMESTAMP WITH TIME ZONE NOT NULL, 
+  to_date TIMESTAMP WITH TIME ZONE NOT NULL, 
+  num_guests INT NOT NULL, 
+  num_infants INT NOT NULL);
+
+COPY listings(price,num_reviews,avg_rating_pct,max_guests) FROM '/Users/martinconnor/Desktop/bookings-module/db/listings_data.csv' DELIMITERS ',' CSV HEADER;
+
+COPY bookings(from_date,to_date,num_guests,num_infants) FROM '/Users/martinconnor/Desktop/bookings-module/db/bookings_data5.csv' DELIMITERS ',' CSV HEADER;
