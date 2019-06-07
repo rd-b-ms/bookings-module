@@ -1,3 +1,4 @@
+/* eslint-disable object-shorthand */
 /* eslint-disable func-names */
 /* eslint-disable no-undef */
 const faker = require('faker');
@@ -14,29 +15,51 @@ function formatDate(date) {
 
 const generateListingBookings = function () {
   const listingBookings = [];
-  const fromDate = faker.date.between('2019-06-01', '2019-12-29');
-  const fromDateTemp = new Date(fromDate.toDateString());
-  fromDateTemp.setDate(fromDateTemp.getDate() + 1);
-  const toDate = faker.date.between(formatDate(fromDateTemp), '2019-12-31');
+  let bookingGroup = [];
+  const fromDates = [];
+  const toDates = [];
+  const bookingGroups = [];
 
-  for (let i = 1; i < 10000001; i += 1) {
+  for (let j = 1; j < 42; j += 1) {
+    for (let k = 1; k < 11; k += 1) {
+      let fromDate = faker.date.between('2019-06-01', '2019-12-29');
+      const fromDateTemp = new Date(fromDate.toDateString());
+      fromDateTemp.setDate(fromDateTemp.getDate() + 1);
+      let toDate = faker.date.between(formatDate(fromDateTemp), '2019-12-31');
+
+      fromDate = fromDate.toISOString();
+      toDate = toDate.toISOString();
+      fromDates.push(fromDate);
+      toDates.push(toDate);
+
+      const booking = {
+        booking_id: k,
+        from_date: fromDate,
+        to_date: toDate,
+        num_guests: Math.round(Math.random() * 10),
+        num_infants: Math.round(Math.random() * 2),
+      };
+      bookingGroup.push(booking);
+    }
+    bookingGroup = [];
+    bookingGroups.push(bookingGroup);
+  }
+
+  for (let i = 1; i < 10000005; i += 1) {
     const listingBooking = {
-      listingBooking_id: i,
-      price: faker.random.number({ min: 30, max: 1000 }),
-      num_reviews: faker.random.number({ min: 0, max: 300 }),
-      avg_rating_pct: faker.random.number({ min: 0, max: 100 }),
-      max_guests: faker.random.number({ min: 2, max: 10 }),
-      from_date: fromDate,
-      to_date: toDate,
-      num_guests: faker.random.number({ min: 0, max: 100 }),
-      num_infants: faker.random.number({ min: 2, max: 10 }),
+      listing_id: i,
+      price: Math.round(Math.random() * 1000) + 30,
+      num_reviews: Math.round(Math.random() * 300),
+      avg_rating_pct: Math.round(Math.random() * 100),
+      max_guests: Math.round(Math.random() * 10) + 2,
+      bookings: JSON.stringify(bookingGroups[Math.round(Math.random() * 40) + 1]),
     };
+
     listingBookings.push(listingBooking);
   }
+
   return listingBookings;
 };
-
-generateListingBookings();
 
 module.exports = {
   generateListingBookings,
