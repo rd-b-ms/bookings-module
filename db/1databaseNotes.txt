@@ -8,12 +8,12 @@ TESTING:
 
 # SAVE A QUERY PLAN TO A FILE:
 
-psql -d bookings_portals -qAt -f explain.sql > .txt
+```psql -d bookings_portals -qAt -f explain.sql > .txt```
 
 
 # TEST 'INNER JOIN' QUERY:
 
-EXPLAIN ANALYZE SELECT bookings.from_date,bookings.to_date FROM bookings INNER JOIN listings ON bookings.listing_id=listings.listing_id WHERE bookings.listing_id=3000000;
+```EXPLAIN ANALYZE SELECT bookings.from_date,bookings.to_date FROM bookings INNER JOIN listings ON bookings.listing_id=listings.listing_id WHERE bookings.listing_id=3000000;```
 
 
 **********************************************************************
@@ -21,17 +21,17 @@ EXPLAIN ANALYZE SELECT bookings.from_date,bookings.to_date FROM bookings INNER J
 SEEDING:
 
 # GIVE MORE SPACE TO FILE:
-node --max-old-space-size=16384 seedCSVs.js
-node --max-old-space-size=32768 seedNonRelationalFile.js
+```node --max-old-space-size=16384 seedCSVs.js```
+```node --max-old-space-size=32768 seedNonRelationalFile.js```
 
 
 # INSERT <--ACTUAL!--> .SQL FILE FROM TERMINAL COMMAND LINE:
-psql postgres < postgresSchema.sql
+```psql postgres < postgresSchema.sql```
 
 
 # INSERT .CSV FILE INTO MONGODB FROM TERMINAL COMMAND LINE:
 
-mongoimport -d bookings_portals -c listingBookings --type json --file listingBookings_data.json
+```mongoimport -d bookings_portals -c listingBookings --type json --file listingBookings_data.json```
 
 
 # Refactored MongoDB Database that was seeded from JSON file:
@@ -50,7 +50,7 @@ mongoimport -d bookings_portals -c listingBookings --type json --file listingBoo
 
   Test Command: 
   
-    db.listingBookings.find({listing_id:10000000})
+    ```db.listingBookings.find({listing_id:10000000})```
 
 
 # Refactored Postgres Database:
@@ -69,7 +69,7 @@ mongoimport -d bookings_portals -c listingBookings --type json --file listingBoo
 
         Test Command: 
             
-            select * from listings where listing_id=10000000;
+            ```select * from listings where listing_id=10000000;```
 
     Name: 'bookings'
 
@@ -79,5 +79,5 @@ mongoimport -d bookings_portals -c listingBookings --type json --file listingBoo
 
         Test Command: 
         
-            select * from bookings where booking_id=100000000;
+            ```select * from bookings where booking_id=100000000;```
             
