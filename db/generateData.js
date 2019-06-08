@@ -14,8 +14,9 @@ function formatDate(date) {
 
 const generateListings = function () {
   const listings = [];
+  const recordsNumber = 10000005;
 
-  for (let i = 1; i < 10000005; i += 1) {
+  for (let i = 1; i < recordsNumber; i += 1) {
     const listing = {
       price: Math.round(Math.random() * 1000) + 30,
       num_reviews: Math.round(Math.random() * 300),
@@ -31,6 +32,7 @@ const generateBookings = function () {
   const bookings = [];
   const fromDates = [];
   const toDates = [];
+  const recordsNumber = 10000005;
 
   for (let i = 0; i < 105; i += 1) {
     let fromDate = faker.date.between('2019-06-01', '2019-12-29');
@@ -44,7 +46,7 @@ const generateBookings = function () {
     toDates.push(toDate);
   }
 
-  for (let i = 0; i < 100000005; i += 1) {
+  for (let i = 0; i < recordsNumber; i += 1) {
     const randomIndex = Math.round(Math.random() * 35);
     const booking = {
       listing_id: Math.round(Math.random() * 9999999) + 1,
