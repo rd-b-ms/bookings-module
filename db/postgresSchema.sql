@@ -13,7 +13,7 @@ CREATE TABLE listings
 
 CREATE TABLE bookings 
   (booking_id SERIAL PRIMARY KEY, 
-  listing_id INTEGER REFERENCES listings(listing_id), 
+  listing_id INT NOT NULL REFERENCES listings(listing_id), 
   from_date TIMESTAMP WITH TIME ZONE NOT NULL, 
   to_date TIMESTAMP WITH TIME ZONE NOT NULL, 
   num_guests INT NOT NULL, 
@@ -21,4 +21,4 @@ CREATE TABLE bookings
 
 COPY listings(price,num_reviews,avg_rating_pct,max_guests) FROM '/Users/martinconnor/Desktop/bookings-module/db/listings_data.csv' DELIMITERS ',' CSV HEADER;
 
-COPY bookings(from_date,to_date,num_guests,num_infants) FROM '/Users/martinconnor/Desktop/bookings-module/db/bookings_data5.csv' DELIMITERS ',' CSV HEADER;
+COPY bookings(listing_id, from_date,to_date,num_guests,num_infants) FROM '/Users/martinconnor/Desktop/bookings-module/db/bookings_data.csv' DELIMITERS ',' CSV HEADER;
