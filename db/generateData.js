@@ -32,7 +32,7 @@ const generateBookings = function () {
   const fromDates = [];
   const toDates = [];
 
-  for (let i = 0; i < 10000002; i += 1) {
+  for (let i = 0; i < 105; i += 1) {
     let fromDate = faker.date.between('2019-06-01', '2019-12-29');
     const fromDateTemp = new Date(fromDate.toDateString());
     fromDateTemp.setDate(fromDateTemp.getDate() + 1);
@@ -44,9 +44,10 @@ const generateBookings = function () {
     toDates.push(toDate);
   }
 
-  for (let i = 0; i < 100000002; i += 1) {
+  for (let i = 0; i < 100000005; i += 1) {
     const randomIndex = Math.round(Math.random() * 35);
     const booking = {
+      listing_id: Math.round(Math.random() * 9999999) + 1,
       from_date: fromDates[randomIndex],
       to_date: toDates[randomIndex],
       num_guests: Math.round(Math.random() * 10),

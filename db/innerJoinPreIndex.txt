@@ -1,0 +1,12 @@
+Nested Loop  (cost=1000.43..1257137.67 rows=8 width=16) (actual time=629.988..3804.121 rows=11 loops=1)
+  ->  Index Only Scan using listings_pkey on listings  (cost=0.43..8.45 rows=1 width=4) (actual time=1.973..1.976 rows=1 loops=1)
+        Index Cond: (listing_id = 9100000)
+        Heap Fetches: 1
+  ->  Gather  (cost=1000.00..1257129.13 rows=8 width=20) (actual time=628.012..3803.317 rows=11 loops=1)
+        Workers Planned: 2
+        Workers Launched: 2
+        ->  Parallel Seq Scan on bookings  (cost=0.00..1256128.33 rows=3 width=20) (actual time=407.445..3795.716 rows=4 loops=3)
+              Filter: (listing_id = 9100000)
+              Rows Removed by Filter: 33333330
+Planning Time: 0.805 ms
+Execution Time: 3805.405 ms
