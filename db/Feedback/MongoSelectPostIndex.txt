@@ -1,0 +1,102 @@
+{
+  "queryPlanner" : {
+          "plannerVersion" : 1,
+          "namespace" : "bookings_portals.listingBookings",
+          "indexFilterSet" : false,
+          "parsedQuery" : {
+                  "listing_id" : {
+                          "$eq" : 10000000
+                  }
+          },
+          "winningPlan" : {
+                  "stage" : "FETCH",
+                  "inputStage" : {
+                          "stage" : "IXSCAN",
+                          "keyPattern" : {
+                                  "listing_id" : 1
+                          },
+                          "indexName" : "listing_id_1",
+                          "isMultiKey" : false,
+                          "multiKeyPaths" : {
+                                  "listing_id" : [ ]
+                          },
+                          "isUnique" : false,
+                          "isSparse" : false,
+                          "isPartial" : false,
+                          "indexVersion" : 2,
+                          "direction" : "forward",
+                          "indexBounds" : {
+                                  "listing_id" : [
+                                          "[10000000.0, 10000000.0]"
+                                  ]
+                          }
+                  }
+          },
+          "rejectedPlans" : [ ]
+  },
+  "executionStats" : {
+          "executionSuccess" : true,
+          "nReturned" : 1,
+          "executionTimeMillis" : 9,
+          "totalKeysExamined" : 1,
+          "totalDocsExamined" : 1,
+          "executionStages" : {
+                  "stage" : "FETCH",
+                  "nReturned" : 1,
+                  "executionTimeMillisEstimate" : 0,
+                  "works" : 2,
+                  "advanced" : 1,
+                  "needTime" : 0,
+                  "needYield" : 0,
+                  "saveState" : 0,
+                  "restoreState" : 0,
+                  "isEOF" : 1,
+                  "invalidates" : 0,
+                  "docsExamined" : 1,
+                  "alreadyHasObj" : 0,
+                  "inputStage" : {
+                          "stage" : "IXSCAN",
+                          "nReturned" : 1,
+                          "executionTimeMillisEstimate" : 0,
+                          "works" : 2,
+                          "advanced" : 1,
+                          "needTime" : 0,
+                          "needYield" : 0,
+                          "saveState" : 0,
+                          "restoreState" : 0,
+                          "isEOF" : 1,
+                          "invalidates" : 0,
+                          "keyPattern" : {
+                                  "listing_id" : 1
+                          },
+                          "indexName" : "listing_id_1",
+                          "isMultiKey" : false,
+                          "multiKeyPaths" : {
+                                  "listing_id" : [ ]
+                          },
+                          "isUnique" : false,
+                          "isSparse" : false,
+                          "isPartial" : false,
+                          "indexVersion" : 2,
+                          "direction" : "forward",
+                          "indexBounds" : {
+                                  "listing_id" : [
+                                          "[10000000.0, 10000000.0]"
+                                  ]
+                          },
+                          "keysExamined" : 1,
+                          "seeks" : 1,
+                          "dupsTested" : 0,
+                          "dupsDropped" : 0,
+                          "seenInvalidated" : 0
+                  }
+          }
+  },
+  "serverInfo" : {
+          "host" : "Martins-MacBook-Pro-3.local",
+          "port" : 27017,
+          "version" : "4.0.3",
+          "gitVersion" : "7ea530946fa7880364d88c8d8b6026bbc9ffa48c"
+  },
+  "ok" : 1
+}
