@@ -2,6 +2,8 @@ import React from 'react';
 import moment from 'moment';
 import Calendar from './calendar';
 import GuestPicker from './guestPicker';
+import axios from 'axios';
+
 import {
   AppContainer,
   Price,
@@ -57,16 +59,25 @@ class BookingPortal extends React.Component {
       window.location.assign('/error');
       return;
     }
-    fetch(`/booking?listingid=${params.get('listingid')}`, { method: 'GET' })
-      .then(response => (
-        response.json()
-      ))
-      .then(data => (
+
+    axios.get(`booking?listingid=${params.get('listingid')}`)
+      .then((data) => {
+
+        const newListing = {
+          avg_rating_pct: data.data.avg_rating_pct,
+          listing_id: data.data.listing_id,
+          max_guests: data.data.max_guests,
+          min_nights: data.data.min_nights,
+          num_reviews: data.data.num_reviews,
+          price: data.data.price,
+          service_fee_pct: data.data.service_fee_pct,
+        };
+
         this.setState({
-          currentListing: data[0],
-          currentAvailability: data[1],
-        })
-      ))
+          currentListing: newListing,
+          // currentAvailability: data[1],
+        });
+      })
       .catch(err => (
         console.error(err)
       ));

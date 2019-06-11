@@ -1,6 +1,11 @@
+/* eslint-disable no-console */
+require('newrelic');
 const express = require('express');
 const bodyParser = require('body-parser');
-const db = require('../db/sequelize');
+// const db = require('../db/sequelize');
+const db = require('../db/mongoDB');
+
+const url = 'mongodb://localhost:27017/bookings_portals';
 
 const port = process.env.PORT || 3003;
 
@@ -12,14 +17,17 @@ app.use(bodyParser.json());
 
 app.get('/booking', (req, res) => {
   const { listingid } = req.query;
-  Promise.all([db.Listing.findOne({ where: { listing_id: listingid } }),
-    db.Availability.findAll({ where: { listing_id: listingid } })])
-    .then(result => (
-      res.json(result)
-    ))
-    .catch(() => (
-      res.sendStatus(500)
-    ));
+
+  db.getDocuments((error, result) => {
+    if (error) {
+      throw error;
+    } else {
+      // console.log('RESULT,', result[0]);
+      // const stringified = JSON.stringify(result);
+      res.send(JSON.stringify(result[0]));
+      // res.json(result);
+    }
+  }, listingid);
 });
 
 app.post('/booking/availabilities', (req, res) => {

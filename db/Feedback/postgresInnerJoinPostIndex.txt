@@ -1,8 +1,0 @@
-Nested Loop  (cost=1.00..45.24 rows=8 width=16) (actual time=1.459..3.771 rows=11 loops=1)
-  ->  Index Only Scan using listings_pkey on listings  (cost=0.43..8.45 rows=1 width=4) (actual time=0.059..0.059 rows=1 loops=1)
-        Index Cond: (listing_id = 9100000)
-        Heap Fetches: 1
-  ->  Index Scan using listing_id_bookings on bookings  (cost=0.57..36.71 rows=8 width=20) (actual time=1.395..3.693 rows=11 loops=1)
-        Index Cond: (listing_id = 9100000)
-Planning Time: 5.390 ms
-Execution Time: 3.854 ms
