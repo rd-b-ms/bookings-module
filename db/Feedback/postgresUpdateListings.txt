@@ -1,4 +1,0 @@
-Insert on listings  (cost=0.00..0.01 rows=1 width=20) (actual time=9.011..9.011 rows=0 loops=1)
-  ->  Result  (cost=0.00..0.01 rows=1 width=20) (actual time=3.629..3.630 rows=1 loops=1)
-Planning Time: 0.141 ms
-Execution Time: 9.149 ms

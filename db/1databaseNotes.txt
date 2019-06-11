@@ -19,21 +19,20 @@ POSTGRES TESTING:
 
 
 
-
 **********************************************************************
 
 MONGO TESTING:
 
 # TEST COMMAND:
 
-```db.listingBookings.find({listing_id:10000000}).explain("executionStats")```
+```db.listingBookings.find({listing_id:10000000},{booking_id:10}).explain("executionStats")```
 
 **********************************************************************
 
 SEEDING:
 
 # GIVE MORE SPACE TO FILE:
-```node --max-old-space-size=16384 seedCSVs.js```
+```node --max-old-space-size=32768 seedCSVs.js```
 ```node --max-old-space-size=32768 seedNonRelationalFile.js```
 
 

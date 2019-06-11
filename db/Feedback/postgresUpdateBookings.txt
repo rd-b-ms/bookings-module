@@ -1,5 +1,0 @@
-Insert on bookings  (cost=0.00..0.01 rows=1 width=32) (actual time=20.173..20.173 rows=0 loops=1)
-  ->  Result  (cost=0.00..0.01 rows=1 width=32) (actual time=8.312..8.313 rows=1 loops=1)
-Planning Time: 2.854 ms
-Trigger for constraint bookings_listing_id_fkey: time=4.120 calls=1
-Execution Time: 24.913 ms

@@ -5,7 +5,7 @@ const fs = require('fs');
 const csvWriter = require('csv-write-stream');
 
 const writer1 = csvWriter();
-const writer2 = csvWriter();
+// const writer2 = csvWriter();
 const seededData = require('./generateData');
 
 const insertListingRecords = function () {
@@ -23,20 +23,20 @@ const insertListingRecords = function () {
   dataGen();
 };
 
-const insertBookingRecords = function () {
-  const bookingRecords = seededData.generateBookings();
+// const insertBookingRecords = function () {
+//   const bookingRecords = seededData.generateBookings();
 
-  const dataGen = () => {
-    writer2.pipe(fs.createWriteStream('bookings_data.csv'));
-    for (let i = 0; i < 100000002; i += 1) {
-      writer2.write(bookingRecords[i]);
-    }
-    writer2.end();
-    console.log('BOOKINGS done!');
-  };
+//   const dataGen = () => {
+//     writer2.pipe(fs.createWriteStream('bookings_data.csv'));
+//     for (let i = 0; i < 100000002; i += 1) {
+//       writer2.write(bookingRecords[i]);
+//     }
+//     writer2.end();
+//     console.log('BOOKINGS done!');
+//   };
 
-  dataGen();
-};
+//   dataGen();
+// };
 
 insertListingRecords();
-insertBookingRecords();
+// insertBookingRecords();
