@@ -63,6 +63,8 @@ class BookingPortal extends React.Component {
     axios.get(`booking?listingid=${params.get('listingid')}`)
       .then((data) => {
 
+        // console.log(`DATA: ${JSON.stringify(data.data.bookings)}`);
+        
         const newListing = {
           avg_rating_pct: data.data.avg_rating_pct,
           listing_id: data.data.listing_id,
@@ -73,9 +75,11 @@ class BookingPortal extends React.Component {
           service_fee_pct: data.data.service_fee_pct,
         };
 
+        const newListingBookings = data.data.bookings;
+
         this.setState({
           currentListing: newListing,
-          // currentAvailability: data[1],
+          currentAvailability: newListingBookings,
         });
       })
       .catch(err => (
