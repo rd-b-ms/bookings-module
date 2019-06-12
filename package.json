@@ -13,7 +13,7 @@
     "genp": "nodez --max-old-space-size=16384 db/seedCsvs.js",
     "seedm": "mongoimportz -d bookings_portals -c listingBookings --type csv --file db/listingBookings_data.json --headerline",
     "genm": "nodez --max-old-space-size=16384 db/seedNonRelationalFile.js",
-    "ktest": "k6 run k6Test.js"
+    "k6": "k6 run k6Test.js"
   },
   "jest": {
     "setupFilesAfterEnv": [
