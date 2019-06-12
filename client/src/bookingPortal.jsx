@@ -1,8 +1,9 @@
+/* eslint-disable camelcase */
 import React from 'react';
 import moment from 'moment';
+import axios from 'axios';
 import Calendar from './calendar';
 import GuestPicker from './guestPicker';
-import axios from 'axios';
 
 import {
   AppContainer,
@@ -62,9 +63,8 @@ class BookingPortal extends React.Component {
 
     axios.get(`booking?listingid=${params.get('listingid')}`)
       .then((data) => {
-
         // console.log(`DATA: ${JSON.stringify(data.data.bookings)}`);
-        
+
         const newListing = {
           avg_rating_pct: data.data.avg_rating_pct,
           listing_id: data.data.listing_id,
@@ -138,9 +138,13 @@ class BookingPortal extends React.Component {
             numInfants: 0,
             resetDate: true,
           });
-          const fromDate = moment(data.from_date);
-          const toDate = moment(data.to_date);
-          console.log(`Listing ${data.listing_id} has been booked from ${fromDate.format('MM/DD/Y')} to ${toDate.format('MM/DD/Y')}`);
+          const from_Date = data.bookings[data.bookings.length - 1].fromDate;
+          const to_Date = data.bookings[data.bookings.length - 1].toDate;
+          const startingDate = from_Date.split('T');
+          const endingDate = to_Date.split('T');
+
+          // console.log(`Listing ${data.listing_id} has been booked from ${startingDate[0]} until ${endingDate[0]}!`);
+          console.log(`Listing ${data.listing_id} has been booked!`);
         })
         .catch(err => console.error(err));
     } else if (checkInDate) {
