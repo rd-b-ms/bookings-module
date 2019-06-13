@@ -138,10 +138,10 @@ class BookingPortal extends React.Component {
             numInfants: 0,
             resetDate: true,
           });
-          const from_Date = data.bookings[data.bookings.length - 1].fromDate;
-          const to_Date = data.bookings[data.bookings.length - 1].toDate;
-          const startingDate = from_Date.split('T');
-          const endingDate = to_Date.split('T');
+          // const from_Date = data.bookings[data.bookings.length - 1].fromDate;
+          // const to_Date = data.bookings[data.bookings.length - 1].toDate;
+          // const startingDate = from_Date.split('T');
+          // const endingDate = to_Date.split('T');
 
           // console.log(`Listing ${data.listing_id} has been booked from ${startingDate[0]} until ${endingDate[0]}!`);
           console.log(`Listing ${data.listing_id} has been booked!`);

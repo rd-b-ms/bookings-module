@@ -6,25 +6,42 @@
 const { MongoClient } = require('mongodb');
 
 const url = 'mongodb://localhost:27017/bookings_portals';
+// ?maxPoolSize=3000
 const dbName = 'bookings_portals';
-const client = new MongoClient(url, { useNewUrlParser: true });
+const client = new MongoClient(url, { poolSize: 200, useNewUrlParser: true });
+const connexion = require('./connection');
 
 const findDocuments = function (callback, db, listingid) {
-  const session = client.startSession();
-  session.startTransaction();
+  // const session = client.startSession();
   const collection = db.collection('listingBookings');
 
-  try {
+  const session2 = client.withSession(() => {
+    // console.log('WITH SESSION!');
     collection.find({ listing_id: Number(listingid) }).toArray((err, docs) => {
-      callback(null, docs);
+      if (err) {
+        callback(err, null);
+      } else {
+        callback(null, docs);
+      }
     });
-  } catch (error) {
-    session.abortTransaction();
-    callback(error, null);
-  }
+  });
 
-  session.commitTransaction();
-  session.endSession();
+  // session.startTransaction();
+  // try {
+  //   collection.find({ listing_id: Number(listingid) }).toArray((err, docs) => {
+  //     if (err) {
+  //       callback(err, null);
+  //     } else {
+  //       callback(null, docs);
+  //     }
+  //   });
+  // } catch (error) {
+  //   session.abortTransaction();
+  //   callback(error, null);
+  // }
+
+  // session.commitTransaction();
+  // session.endSession();
 };
 
 const getDocuments = function (callback, listingid) {
