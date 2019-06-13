@@ -1,17 +1,22 @@
-const newrelic = require('newrelic');
+require('newrelic');
+/* eslint-disable import/order */
 /* eslint-disable no-unused-vars */
 /* eslint-disable max-len */
 /* eslint-disable no-console */
+// eslint-disable-next-line import/order
 const express = require('express');
 const bodyParser = require('body-parser');
-const mongo = require('mongodb');
+const path = require('path');
 const db = require('../db/mongoDB');
+const connexion = require('../db/connection');
+
+const { MongoClient } = require('mongodb');
 
 const port = process.env.PORT || 3003;
 
 const app = express();
 
-app.use(express.static('./client/dist/listing'));
+app.use(express.static(path.join(__dirname, '../client/dist/listing')));
 app.use('/error', express.static('./client/dist/error'));
 app.use(bodyParser.json());
 
@@ -39,16 +44,11 @@ app.post('/booking', (req, res) => {
     numInfants: req.body.numInfants,
   };
 
-  // console.log(JSON.stringify(nextBooking));
-
   db.addDocuments((error, result) => {
     if (error) {
       res.status(500);
       throw error;
     } else {
-    // console.log(`Sending POST response: ${JSON.stringify(result.value.bookings[result.value.bookings.length - 1].fromDate)}`);
-    // console.log(`Result: ${JSON.stringify(result)}`);
-
       res.send(JSON.stringify(result.value));
       res.status(500);
       res.end();
