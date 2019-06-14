@@ -1,98 +1,46 @@
-/* eslint-disable max-len */
-/* eslint-disable no-param-reassign */
-/* eslint-disable func-names */
-/* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
+/* eslint-disable func-names */
+/* eslint-disable no-param-reassign */
 const { MongoClient } = require('mongodb');
 
-const url = 'mongodb://localhost:27017/bookings_portals';
-// ?maxPoolSize=3000
-const dbName = 'bookings_portals';
-const client = new MongoClient(url, { poolSize: 200, useNewUrlParser: true });
-const connexion = require('./connection');
+let bookingsPortals;
+let listingBookings;
 
-const findDocuments = function (callback, db, listingid) {
-  // const session = client.startSession();
-  const collection = db.collection('listingBookings');
+const connection = MongoClient.connect('mongodb://localhost:27017/bookings_portals', { poolSize: 10 }, (err, client) => {
+  bookingsPortals = client.db('bookings_portals');
+  listingBookings = bookingsPortals.collection('listingBookings');
+});
 
-  const session2 = client.withSession(() => {
-    // console.log('WITH SESSION!');
-    collection.find({ listing_id: Number(listingid) }).toArray((err, docs) => {
-      if (err) {
-        callback(err, null);
-      } else {
-        callback(null, docs);
-      }
-    });
-  });
-
-  // session.startTransaction();
-  // try {
-  //   collection.find({ listing_id: Number(listingid) }).toArray((err, docs) => {
-  //     if (err) {
-  //       callback(err, null);
-  //     } else {
-  //       callback(null, docs);
-  //     }
-  //   });
-  // } catch (error) {
-  //   session.abortTransaction();
-  //   callback(error, null);
-  // }
-
-  // session.commitTransaction();
-  // session.endSession();
-};
-
-const getDocuments = function (callback, listingid) {
-  client.connect((error) => {
-    if (error) {
-      callback(error, null);
+const findDocuments = function (callback, listingid) {
+  listingBookings.find({ listing_id: Number(listingid) }).toArray((err, docs) => {
+    if (err) {
+      callback(err, null);
     } else {
-      const database = client.db(dbName);
-      findDocuments(callback, database, listingid);
+      callback(null, docs);
     }
   });
 };
 
-const insertDocuments = function (callback, db, listingid, newBooking) {
-  const session = client.startSession();
-  session.startTransaction();
-  const collection = db.collection('listingBookings');
-
-  try {
-    collection.find({ listing_id: Number(listingid) }).toArray((err, docs) => {
+const insertDocuments = function (callback, listingid, newBooking) {
+  listingBookings.find({ listing_id: Number(listingid) }).toArray((err, docs) => {
+    if (err) {
+      callback(err, null);
+    } else {
       newBooking.booking_id = docs[0].bookings.length + 1;
       const allBookings = docs[0].bookings;
       allBookings.push(newBooking);
-
-      collection.findOneAndUpdate({ listing_id: Number(listingid) }, { $set: { bookings: allBookings } }, { returnNewDocument: true }, (error, result) => {
-        callback(null, result);
+      listingBookings.findOneAndUpdate({ listing_id: Number(listingid) }, { $set: { bookings: allBookings } }, { returnNewDocument: true }, (error, result) => {
+        if (error) {
+          callback(error, null);
+        } else {
+          callback(null, result);
+        }
       });
-    });
-  } catch (error) {
-    session.abortTransaction();
-    callback(error, null);
-  }
-
-  session.commitTransaction();
-  session.endSession();
-};
-
-const addDocuments = function (callback, listingid, newBooking) {
-  client.connect((error) => {
-    if (error) {
-      callback(error, null);
-    } else {
-      const database = client.db(dbName);
-      insertDocuments(callback, database, listingid, newBooking);
     }
   });
 };
 
 module.exports = {
-  getDocuments,
   findDocuments,
-  addDocuments,
   insertDocuments,
 };
