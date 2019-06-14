@@ -60,6 +60,7 @@ class BookingPortal extends React.Component {
       window.location.assign('/error');
       return;
     }
+    // const listingid = window.location.pathname.split("/")[2];
 
     axios.get(`booking?listingid=${params.get('listingid')}`)
       .then((data) => {

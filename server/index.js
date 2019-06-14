@@ -8,14 +8,12 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const db = require('../db/mongoDB');
-const connexion = require('../db/connection');
-
-const { MongoClient } = require('mongodb');
+// const CORS = require('cors');
 
 const port = process.env.PORT || 3003;
-
 const app = express();
 
+// app.use(CORS());
 app.use(express.static(path.join(__dirname, '../client/dist/listing')));
 app.use('/error', express.static('./client/dist/error'));
 app.use(bodyParser.json());
@@ -23,13 +21,11 @@ app.use(bodyParser.json());
 app.get('/booking', (req, res) => {
   const { listingid } = req.query;
 
-  db.getDocuments((error, result) => {
+  db.findDocuments((error, result) => {
     if (error) {
-      throw error;
+      res.status(500).send();
     } else {
-      res.send(JSON.stringify(result[0]));
-      res.status(500);
-      res.end();
+      res.status(200).send(JSON.stringify(result[0]));
     }
   }, listingid);
 });
@@ -44,14 +40,11 @@ app.post('/booking', (req, res) => {
     numInfants: req.body.numInfants,
   };
 
-  db.addDocuments((error, result) => {
+  db.insertDocuments((error, result) => {
     if (error) {
       res.status(500);
-      throw error;
     } else {
-      res.send(JSON.stringify(result.value));
-      res.status(500);
-      res.end();
+      res.status(200).send(JSON.stringify(result.value));
     }
   }, listingid, nextBooking);
 });
