@@ -4,6 +4,12 @@ DATABASE NOTES:
 
 **********************************************************************
 
+# RUN A REASONABLE TEST ON THE DEPLOYED SERVICE:
+
+```k6 run --vus 10 --duration 30s k6Test.js```
+
+**********************************************************************
+
 POSTGRES TESTING:
 
 # SAVE A QUERY PLAN TO A FILE:
@@ -42,7 +48,7 @@ SEEDING:
 
 # INSERT .CSV FILE INTO MONGODB FROM TERMINAL COMMAND LINE:
 
-```mongoimport -d bookings_portals -c listingBookings --type json --file listingBookings_data.json```
+```mongoimport -d bookings_portals -c listingBookings --type json --file listingBookings_data3.json```
 
 
 # Refactored MongoDB Database that was seeded from JSON file:

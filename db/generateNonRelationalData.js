@@ -3011,7 +3011,7 @@ const generateListingBookings = function () {
     },
   ]];
 
-  for (let i = 8000001; i < 10000001; i += 1) {
+  for (let i = 1; i < 102; i += 1) {
     let listingBooking = {
       listing_id: i,
       price: Math.round(Math.random() * 1000) + 30,

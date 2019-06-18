@@ -8,19 +8,18 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const db = require('../db/mongoDB');
-// const CORS = require('cors');
+const cors = require('cors');
 
 const port = process.env.PORT || 3003;
 const app = express();
 
-// app.use(CORS());
+app.use(cors());
 app.use(express.static(path.join(__dirname, '../client/dist/listing')));
 app.use('/error', express.static('./client/dist/error'));
 app.use(bodyParser.json());
 
 app.get('/booking', (req, res) => {
   const { listingid } = req.query;
-
   db.findDocuments((error, result) => {
     if (error) {
       res.status(500).send();
