@@ -10,7 +10,7 @@ const insertListingBookingRecords = function () {
 
   const dataGen = () => {
     const file = fs.createWriteStream('listingBookings_data11.json');
-    for (let i = 0; i <= 1999999; i += 1) {
+    for (let i = 0; i <= 100; i += 1) {
       file.write(listingBookingRecords[i]);
     }
     file.end();
